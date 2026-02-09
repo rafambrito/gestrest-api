@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.gestrest.api.adapter.in.web.dto.request.CriarUsuarioCommand;
 import br.com.gestrest.api.adapter.in.web.dto.request.CriarUsuarioRequest;
+import br.com.gestrest.api.application.usecase.usuario.command.CriarUsuarioCommand;
 import br.com.gestrest.api.domain.model.ports.in.CriarUsuarioUseCase;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;

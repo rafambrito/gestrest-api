@@ -1,7 +1,8 @@
-package br.com.gestrest.api.domain.model.ports.in;
+package br.com.gestrest.api.application.usecase.impl.usuario;
 
-import br.com.gestrest.api.adapter.in.web.dto.request.CriarUsuarioCommand;
+import br.com.gestrest.api.application.usecase.usuario.command.CriarUsuarioCommand;
 import br.com.gestrest.api.domain.model.Usuario;
+import br.com.gestrest.api.domain.model.ports.in.CriarUsuarioUseCase;
 import br.com.gestrest.api.domain.model.ports.out.TipoUsuarioRepositoryPort;
 import br.com.gestrest.api.domain.model.ports.out.UsuarioRepositoryPort;
 

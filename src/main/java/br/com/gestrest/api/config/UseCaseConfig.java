@@ -3,11 +3,11 @@ package br.com.gestrest.api.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import br.com.gestrest.api.application.usecase.tipousuario.AtualizarTipoUsuarioUseCaseImpl;
-import br.com.gestrest.api.application.usecase.tipousuario.BuscarTipoUsuarioPorIdUseCaseImpl;
-import br.com.gestrest.api.application.usecase.tipousuario.CriarTipoUsuarioUseCaseImpl;
-import br.com.gestrest.api.application.usecase.tipousuario.ExcluirTipoUsuarioUseCaseImpl;
-import br.com.gestrest.api.application.usecase.tipousuario.ListarTipoUsuarioUseCaseImpl;
+import br.com.gestrest.api.application.usecase.impl.tipousuario.AtualizarTipoUsuarioUseCaseImpl;
+import br.com.gestrest.api.application.usecase.impl.tipousuario.BuscarTipoUsuarioPorIdUseCaseImpl;
+import br.com.gestrest.api.application.usecase.impl.tipousuario.CriarTipoUsuarioUseCaseImpl;
+import br.com.gestrest.api.application.usecase.impl.tipousuario.ExcluirTipoUsuarioUseCaseImpl;
+import br.com.gestrest.api.application.usecase.impl.tipousuario.ListarTipoUsuarioUseCaseImpl;
 import br.com.gestrest.api.domain.model.ports.in.AtualizarTipoUsuarioUseCase;
 import br.com.gestrest.api.domain.model.ports.in.BuscarTipoUsuarioPorIdUseCase;
 import br.com.gestrest.api.domain.model.ports.in.CriarTipoUsuarioUseCase;

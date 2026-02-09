@@ -10,7 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import br.com.gestrest.api.application.usecase.tipousuario.CriarTipoUsuarioUseCaseImpl;
+import br.com.gestrest.api.application.usecase.impl.tipousuario.CriarTipoUsuarioUseCaseImpl;
 import br.com.gestrest.api.domain.model.TipoUsuario;
 import br.com.gestrest.api.domain.model.ports.out.TipoUsuarioRepositoryPort;
 

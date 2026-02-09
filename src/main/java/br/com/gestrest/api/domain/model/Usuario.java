@@ -1,5 +1,7 @@
 package br.com.gestrest.api.domain.model;
 
+import java.time.LocalDateTime;
+
 public class Usuario {
 
 	private Long id;
@@ -10,6 +12,9 @@ public class Usuario {
 	private String endereco;
 
 	private TipoUsuario tipoUsuario;
+	
+    private LocalDateTime dataCriacao;
+    private LocalDateTime dataUltimaAlteracao;
 
 	private Usuario(Long id, String nome, String email, String login, String senha, String endereco,
 			TipoUsuario tipoUsuario) {
@@ -34,10 +39,15 @@ public class Usuario {
 
 		return new Usuario(id, nome, email, login, senha, endereco, tipoUsuario);
 	}
-
+    
 	public void alterarTipoUsuario(TipoUsuario tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
 	}
+	
+    public void atualizarDados(String nome) {
+        this.nome = nome;
+        this.dataUltimaAlteracao = LocalDateTime.now();
+    }
 
 	public Long getId() {
 		return id;

@@ -1,4 +1,4 @@
-package br.com.gestrest.api.adapter.in.web.dto.request;
+package br.com.gestrest.api.application.usecase.usuario.command;
 
 public record CriarUsuarioCommand(
         String nome,

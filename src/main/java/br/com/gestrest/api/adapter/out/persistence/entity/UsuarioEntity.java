@@ -34,6 +34,7 @@ public class UsuarioEntity {
     private String senha;
     private String endereco;
 
+    private LocalDateTime dataCriacao;
     private LocalDateTime dataUltimaAlteracao;
 
     @ManyToOne

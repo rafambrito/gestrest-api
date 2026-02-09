@@ -1,4 +1,4 @@
-package br.com.gestrest.api.application.usecase.tipousuario;
+package br.com.gestrest.api.application.usecase.impl.tipousuario;
 
 import br.com.gestrest.api.adapter.in.web.exception.TipoUsuarioNaoEncontradoException;
 import br.com.gestrest.api.domain.model.TipoUsuario;

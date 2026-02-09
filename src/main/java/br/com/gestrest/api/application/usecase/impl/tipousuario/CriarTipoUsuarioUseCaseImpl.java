@@ -1,4 +1,4 @@
-package br.com.gestrest.api.application.usecase.tipousuario;
+package br.com.gestrest.api.application.usecase.impl.tipousuario;
 
 import br.com.gestrest.api.domain.model.TipoUsuario;
 import br.com.gestrest.api.domain.model.ports.in.CriarTipoUsuarioUseCase;
