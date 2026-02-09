@@ -1,18 +1,17 @@
 package br.com.gestrest.api.domain.model;
 
-import java.time.LocalDateTime;
-
 public class Usuario {
+
 	private Long id;
 	private String nome;
 	private String email;
 	private String login;
 	private String senha;
 	private String endereco;
-	private LocalDateTime dataUltimaAlteracao;
+
 	private TipoUsuario tipoUsuario;
 
-	public Usuario(Long id, String nome, String email, String login, String senha, String endereco,
+	private Usuario(Long id, String nome, String email, String login, String senha, String endereco,
 			TipoUsuario tipoUsuario) {
 
 		this.id = id;
@@ -22,19 +21,30 @@ public class Usuario {
 		this.senha = senha;
 		this.endereco = endereco;
 		this.tipoUsuario = tipoUsuario;
-		this.dataUltimaAlteracao = LocalDateTime.now();
 	}
 
-	public TipoUsuario getTipoUsuario() {
-		return tipoUsuario;
+	public static Usuario criar(String nome, String email, String login, String senha, String endereco,
+			TipoUsuario tipoUsuario) {
+
+		return new Usuario(null, nome, email, login, senha, endereco, tipoUsuario);
+	}
+
+	public static Usuario existente(Long id, String nome, String email, String login, String senha, String endereco,
+			TipoUsuario tipoUsuario) {
+
+		return new Usuario(id, nome, email, login, senha, endereco, tipoUsuario);
+	}
+
+	public void alterarTipoUsuario(TipoUsuario tipoUsuario) {
+		this.tipoUsuario = tipoUsuario;
 	}
 
 	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public TipoUsuario getTipoUsuario() {
+		return tipoUsuario;
 	}
 
 	public String getNome() {
@@ -77,12 +87,8 @@ public class Usuario {
 		this.endereco = endereco;
 	}
 
-	public LocalDateTime getDataUltimaAlteracao() {
-		return dataUltimaAlteracao;
-	}
-
-	public void setDataUltimaAlteracao(LocalDateTime dataUltimaAlteracao) {
-		this.dataUltimaAlteracao = dataUltimaAlteracao;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public void setTipoUsuario(TipoUsuario tipoUsuario) {
