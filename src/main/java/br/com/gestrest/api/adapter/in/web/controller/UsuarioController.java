@@ -1,38 +1,84 @@
 package br.com.gestrest.api.adapter.in.web.controller;
 
-import org.springframework.http.HttpStatus;
+import java.net.URI;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import br.com.gestrest.api.adapter.in.web.dto.request.AtualizarUsuarioRequest;
 import br.com.gestrest.api.adapter.in.web.dto.request.CriarUsuarioRequest;
-import br.com.gestrest.api.application.usecase.usuario.command.CriarUsuarioCommand;
+import br.com.gestrest.api.adapter.in.web.dto.response.UsuarioResponse;
+import br.com.gestrest.api.adapter.in.web.mapper.UsuarioWebMapper;
+import br.com.gestrest.api.domain.model.ports.in.AtualizarUsuarioUseCase;
+import br.com.gestrest.api.domain.model.ports.in.BuscarUsuarioPorIdUseCase;
 import br.com.gestrest.api.domain.model.ports.in.CriarUsuarioUseCase;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import br.com.gestrest.api.domain.model.ports.in.ExcluirUsuarioUseCase;
+import br.com.gestrest.api.domain.model.ports.in.ListarUsuariosUseCase;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/usuarios")
 @RequiredArgsConstructor
 public class UsuarioController {
-	
+
 	private final CriarUsuarioUseCase criarUseCase;
-	
-	@PostMapping("/usuarios")
-	public ResponseEntity<?> criar(@RequestBody CriarUsuarioRequest request) {
+	private final AtualizarUsuarioUseCase atualizarUseCase;
+	private final BuscarUsuarioPorIdUseCase buscarPorIdUseCase;
+	private final ListarUsuariosUseCase listarUseCase;
+	private final ExcluirUsuarioUseCase excluirUseCase;
+	private final UsuarioWebMapper mapper;
 
-	    var command = new CriarUsuarioCommand(
-	            request.nome(),
-	            request.email(),
-	            request.login(),
-	            request.senha(),
-	            request.endereco(),
-	            request.tipoUsuarioId()
-	    );
+	@PostMapping
+	public ResponseEntity<UsuarioResponse> criar(@Valid @RequestBody CriarUsuarioRequest request) {
 
-	    var usuario = criarUseCase.criar(command);
+		var command = mapper.toDomain(request);
+		var usuario = criarUseCase.criar(command);
+		var response = mapper.toResponse(usuario);
 
-	    return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
+		return ResponseEntity.created(URI.create("/api/v1/usuarios/" + response.id())).body(response);
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<UsuarioResponse> atualizar(@PathVariable Long id,
+			@Valid @RequestBody AtualizarUsuarioRequest request) {
+
+		var usuario = atualizarUseCase.executar(mapper.toDomain(id, request));
+		var response = mapper.toResponse(usuario);
+
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<UsuarioResponse> buscarPorId(@PathVariable Long id) {
+
+		var usuario = buscarPorIdUseCase.executar(id)
+			.orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+		return ResponseEntity.ok(mapper.toResponse(usuario));
+	}
+
+	@GetMapping
+	public ResponseEntity<List<UsuarioResponse>> listar() {
+
+		var lista = listarUseCase.executar().stream().map(mapper::toResponse).toList();
+
+		return ResponseEntity.ok(lista);
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> excluir(@PathVariable Long id) {
+
+		excluirUseCase.executar(id);
+
+		return ResponseEntity.noContent().build();
 	}
 }
