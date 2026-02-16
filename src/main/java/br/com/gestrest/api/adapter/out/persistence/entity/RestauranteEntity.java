@@ -28,6 +28,12 @@ public class RestauranteEntity {
     private String nome;
     private String endereco;
 
+    @Column(name = "tipo_cozinha")
+    private String tipoCozinha;
+
+    @Column(name = "horario_funcionamento")
+    private String horarioFuncionamento;
+
     @Column(name = "dono_id")
     private Long donoId;
 

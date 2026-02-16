@@ -21,7 +21,9 @@ public class AtualizarRestauranteUseCaseImpl implements AtualizarRestauranteUseC
 
         existente.atualizar(
                 restaurante.getNome(),
-                restaurante.getEndereco()
+                restaurante.getEndereco(),
+                restaurante.getTipoCozinha(),
+                restaurante.getHorarioFuncionamento()
         );
 
         return repository.salvar(existente);
