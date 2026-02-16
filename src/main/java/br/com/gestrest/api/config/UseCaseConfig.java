@@ -13,16 +13,16 @@ import br.com.gestrest.api.application.usecase.impl.usuario.BuscarUsuarioPorIdUs
 import br.com.gestrest.api.application.usecase.impl.usuario.CriarUsuarioUseCaseImpl;
 import br.com.gestrest.api.application.usecase.impl.usuario.ExcluirUsuarioUseCaseImpl;
 import br.com.gestrest.api.application.usecase.impl.usuario.ListarUsuariosUseCaseImpl;
-import br.com.gestrest.api.domain.model.ports.in.AtualizarTipoUsuarioUseCase;
-import br.com.gestrest.api.domain.model.ports.in.AtualizarUsuarioUseCase;
-import br.com.gestrest.api.domain.model.ports.in.BuscarTipoUsuarioPorIdUseCase;
-import br.com.gestrest.api.domain.model.ports.in.BuscarUsuarioPorIdUseCase;
-import br.com.gestrest.api.domain.model.ports.in.CriarTipoUsuarioUseCase;
-import br.com.gestrest.api.domain.model.ports.in.CriarUsuarioUseCase;
-import br.com.gestrest.api.domain.model.ports.in.ExcluirTipoUsuarioUseCase;
-import br.com.gestrest.api.domain.model.ports.in.ExcluirUsuarioUseCase;
-import br.com.gestrest.api.domain.model.ports.in.ListarTipoUsuarioUseCase;
-import br.com.gestrest.api.domain.model.ports.in.ListarUsuariosUseCase;
+import br.com.gestrest.api.domain.model.ports.in.tipousuario.AtualizarTipoUsuarioUseCase;
+import br.com.gestrest.api.domain.model.ports.in.tipousuario.BuscarTipoUsuarioPorIdUseCase;
+import br.com.gestrest.api.domain.model.ports.in.tipousuario.CriarTipoUsuarioUseCase;
+import br.com.gestrest.api.domain.model.ports.in.tipousuario.ExcluirTipoUsuarioUseCase;
+import br.com.gestrest.api.domain.model.ports.in.tipousuario.ListarTipoUsuarioUseCase;
+import br.com.gestrest.api.domain.model.ports.in.usuario.AtualizarUsuarioUseCase;
+import br.com.gestrest.api.domain.model.ports.in.usuario.BuscarUsuarioPorIdUseCase;
+import br.com.gestrest.api.domain.model.ports.in.usuario.CriarUsuarioUseCase;
+import br.com.gestrest.api.domain.model.ports.in.usuario.ExcluirUsuarioUseCase;
+import br.com.gestrest.api.domain.model.ports.in.usuario.ListarUsuariosUseCase;
 import br.com.gestrest.api.domain.model.ports.out.TipoUsuarioRepositoryPort;
 import br.com.gestrest.api.domain.model.ports.out.UsuarioRepositoryPort;
 

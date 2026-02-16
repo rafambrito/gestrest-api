@@ -1,4 +1,4 @@
-package br.com.gestrest.api.domain.model.ports.in;
+package br.com.gestrest.api.domain.model.ports.in.usuario;
 
 import br.com.gestrest.api.domain.model.Usuario;
 

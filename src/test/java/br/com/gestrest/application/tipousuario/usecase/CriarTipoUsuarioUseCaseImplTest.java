@@ -31,7 +31,7 @@ class CriarTipoUsuarioUseCaseImplTest {
         when(repository.salvar(any()))
                 .thenReturn(TipoUsuario.existente(1L, "CLIENTE"));
 
-        var result = useCase.executar(tipo);
+        var result = useCase.criar(tipo);
 
         assertEquals("CLIENTE", result.getNome());
     }

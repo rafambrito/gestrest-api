@@ -1,7 +1,7 @@
 package br.com.gestrest.api.application.usecase.impl.tipousuario;
 
 import br.com.gestrest.api.domain.model.TipoUsuario;
-import br.com.gestrest.api.domain.model.ports.in.CriarTipoUsuarioUseCase;
+import br.com.gestrest.api.domain.model.ports.in.tipousuario.CriarTipoUsuarioUseCase;
 import br.com.gestrest.api.domain.model.ports.out.TipoUsuarioRepositoryPort;
 
 public class CriarTipoUsuarioUseCaseImpl implements CriarTipoUsuarioUseCase {
@@ -13,7 +13,7 @@ public class CriarTipoUsuarioUseCaseImpl implements CriarTipoUsuarioUseCase {
     }
 
     @Override
-    public TipoUsuario executar(TipoUsuario tipoUsuario) {
+    public TipoUsuario criar(TipoUsuario tipoUsuario) {
         return repository.salvar(tipoUsuario);
     }
 }

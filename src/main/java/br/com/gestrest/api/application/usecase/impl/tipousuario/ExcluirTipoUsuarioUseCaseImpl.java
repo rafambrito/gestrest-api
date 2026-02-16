@@ -1,6 +1,6 @@
 package br.com.gestrest.api.application.usecase.impl.tipousuario;
 
-import br.com.gestrest.api.domain.model.ports.in.ExcluirTipoUsuarioUseCase;
+import br.com.gestrest.api.domain.model.ports.in.tipousuario.ExcluirTipoUsuarioUseCase;
 import br.com.gestrest.api.domain.model.ports.out.TipoUsuarioRepositoryPort;
 
 public class ExcluirTipoUsuarioUseCaseImpl implements ExcluirTipoUsuarioUseCase {

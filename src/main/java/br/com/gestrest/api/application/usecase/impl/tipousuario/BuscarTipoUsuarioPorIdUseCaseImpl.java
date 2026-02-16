@@ -2,7 +2,7 @@ package br.com.gestrest.api.application.usecase.impl.tipousuario;
 
 import br.com.gestrest.api.adapter.in.web.exception.TipoUsuarioNaoEncontradoException;
 import br.com.gestrest.api.domain.model.TipoUsuario;
-import br.com.gestrest.api.domain.model.ports.in.BuscarTipoUsuarioPorIdUseCase;
+import br.com.gestrest.api.domain.model.ports.in.tipousuario.BuscarTipoUsuarioPorIdUseCase;
 import br.com.gestrest.api.domain.model.ports.out.TipoUsuarioRepositoryPort;
 
 public class BuscarTipoUsuarioPorIdUseCaseImpl implements BuscarTipoUsuarioPorIdUseCase {
@@ -14,7 +14,7 @@ public class BuscarTipoUsuarioPorIdUseCaseImpl implements BuscarTipoUsuarioPorId
 	}
 
 	@Override
-	public TipoUsuario executar(Long id) {
+	public TipoUsuario buscarPorId(Long id) {
 
 		return repository.buscarPorId(id).orElseThrow(() -> new TipoUsuarioNaoEncontradoException(id));
 	}
