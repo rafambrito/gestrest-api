@@ -17,11 +17,11 @@ import br.com.gestrest.api.adapter.in.web.dto.request.AtualizarUsuarioRequest;
 import br.com.gestrest.api.adapter.in.web.dto.request.CriarUsuarioRequest;
 import br.com.gestrest.api.adapter.in.web.dto.response.UsuarioResponse;
 import br.com.gestrest.api.adapter.in.web.mapper.UsuarioWebMapper;
-import br.com.gestrest.api.domain.model.ports.in.AtualizarUsuarioUseCase;
-import br.com.gestrest.api.domain.model.ports.in.BuscarUsuarioPorIdUseCase;
-import br.com.gestrest.api.domain.model.ports.in.CriarUsuarioUseCase;
-import br.com.gestrest.api.domain.model.ports.in.ExcluirUsuarioUseCase;
-import br.com.gestrest.api.domain.model.ports.in.ListarUsuariosUseCase;
+import br.com.gestrest.api.domain.model.ports.in.usuario.AtualizarUsuarioUseCase;
+import br.com.gestrest.api.domain.model.ports.in.usuario.BuscarUsuarioPorIdUseCase;
+import br.com.gestrest.api.domain.model.ports.in.usuario.CriarUsuarioUseCase;
+import br.com.gestrest.api.domain.model.ports.in.usuario.ExcluirUsuarioUseCase;
+import br.com.gestrest.api.domain.model.ports.in.usuario.ListarUsuariosUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -51,7 +51,7 @@ public class UsuarioController {
 	public ResponseEntity<UsuarioResponse> atualizar(@PathVariable Long id,
 			@Valid @RequestBody AtualizarUsuarioRequest request) {
 
-		var usuario = atualizarUseCase.executar(mapper.toDomain(id, request));
+		var usuario = atualizarUseCase.atualizar(mapper.toDomain(id, request));
 		var response = mapper.toResponse(usuario);
 
 		return ResponseEntity.ok(response);

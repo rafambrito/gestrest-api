@@ -14,7 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import br.com.gestrest.api.application.usecase.usuario.command.CriarUsuarioCommand;
+import br.com.gestrest.api.application.usecase.command.usuario.CriarUsuarioCommand;
 import br.com.gestrest.api.domain.model.TipoUsuario;
 import br.com.gestrest.api.domain.model.Usuario;
 import br.com.gestrest.api.domain.model.ports.out.TipoUsuarioRepositoryPort;

@@ -6,8 +6,8 @@ import br.com.gestrest.api.adapter.in.web.dto.request.AtualizarUsuarioRequest;
 import br.com.gestrest.api.adapter.in.web.dto.request.CriarUsuarioRequest;
 import br.com.gestrest.api.adapter.in.web.dto.response.TipoUsuarioResponse;
 import br.com.gestrest.api.adapter.in.web.dto.response.UsuarioResponse;
-import br.com.gestrest.api.application.usecase.usuario.command.CriarUsuarioCommand;
-import br.com.gestrest.api.application.usecase.usuario.command.AtualizarUsuarioCommand;
+import br.com.gestrest.api.application.usecase.command.usuario.AtualizarUsuarioCommand;
+import br.com.gestrest.api.application.usecase.command.usuario.CriarUsuarioCommand;
 import br.com.gestrest.api.domain.model.TipoUsuario;
 import br.com.gestrest.api.domain.model.Usuario;
 

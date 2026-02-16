@@ -3,7 +3,7 @@ package br.com.gestrest.api.application.usecase.impl.tipousuario;
 import java.util.List;
 
 import br.com.gestrest.api.domain.model.TipoUsuario;
-import br.com.gestrest.api.domain.model.ports.in.ListarTipoUsuarioUseCase;
+import br.com.gestrest.api.domain.model.ports.in.tipousuario.ListarTipoUsuarioUseCase;
 import br.com.gestrest.api.domain.model.ports.out.TipoUsuarioRepositoryPort;
 
 public class ListarTipoUsuarioUseCaseImpl implements ListarTipoUsuarioUseCase {
@@ -15,7 +15,7 @@ public class ListarTipoUsuarioUseCaseImpl implements ListarTipoUsuarioUseCase {
 	}
 
 	@Override
-	public List<TipoUsuario> executar() {
+	public List<TipoUsuario> listar() {
 		return repository.listar();
 	}
 }

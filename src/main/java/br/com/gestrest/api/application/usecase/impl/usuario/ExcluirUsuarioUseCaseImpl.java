@@ -1,6 +1,6 @@
 package br.com.gestrest.api.application.usecase.impl.usuario;
 
-import br.com.gestrest.api.domain.model.ports.in.ExcluirUsuarioUseCase;
+import br.com.gestrest.api.domain.model.ports.in.usuario.ExcluirUsuarioUseCase;
 import br.com.gestrest.api.domain.model.ports.out.UsuarioRepositoryPort;
 import lombok.RequiredArgsConstructor;
 

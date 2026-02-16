@@ -1,8 +1,8 @@
 package br.com.gestrest.api.application.usecase.impl.usuario;
 
-import br.com.gestrest.api.application.usecase.usuario.command.AtualizarUsuarioCommand;
+import br.com.gestrest.api.application.usecase.command.usuario.AtualizarUsuarioCommand;
 import br.com.gestrest.api.domain.model.Usuario;
-import br.com.gestrest.api.domain.model.ports.in.AtualizarUsuarioUseCase;
+import br.com.gestrest.api.domain.model.ports.in.usuario.AtualizarUsuarioUseCase;
 import br.com.gestrest.api.domain.model.ports.out.TipoUsuarioRepositoryPort;
 import br.com.gestrest.api.domain.model.ports.out.UsuarioRepositoryPort;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ public class AtualizarUsuarioUseCaseImpl implements AtualizarUsuarioUseCase {
     private final TipoUsuarioRepositoryPort tipoRepository;
 
     @Override
-    public Usuario executar(AtualizarUsuarioCommand command) {
+    public Usuario atualizar(AtualizarUsuarioCommand command) {
         var usuario = usuarioRepository.buscarPorId(command.id())
             .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
         

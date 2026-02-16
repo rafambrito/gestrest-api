@@ -16,11 +16,12 @@ import br.com.gestrest.api.adapter.in.web.dto.request.AtualizarTipoUsuarioReques
 import br.com.gestrest.api.adapter.in.web.dto.request.CriarTipoUsuarioRequest;
 import br.com.gestrest.api.adapter.in.web.dto.response.TipoUsuarioResponse;
 import br.com.gestrest.api.adapter.in.web.mapper.TipoUsuarioWebMapper;
-import br.com.gestrest.api.domain.model.ports.in.AtualizarTipoUsuarioUseCase;
-import br.com.gestrest.api.domain.model.ports.in.BuscarTipoUsuarioPorIdUseCase;
-import br.com.gestrest.api.domain.model.ports.in.CriarTipoUsuarioUseCase;
-import br.com.gestrest.api.domain.model.ports.in.ExcluirTipoUsuarioUseCase;
-import br.com.gestrest.api.domain.model.ports.in.ListarTipoUsuarioUseCase;
+import br.com.gestrest.api.domain.model.ports.in.tipousuario.AtualizarTipoUsuarioUseCase;
+import br.com.gestrest.api.domain.model.ports.in.tipousuario.BuscarTipoUsuarioPorIdUseCase;
+import br.com.gestrest.api.domain.model.ports.in.tipousuario.CriarTipoUsuarioUseCase;
+import br.com.gestrest.api.domain.model.ports.in.tipousuario.ExcluirTipoUsuarioUseCase;
+import br.com.gestrest.api.domain.model.ports.in.tipousuario.ListarTipoUsuarioUseCase;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +42,7 @@ public class TipoUsuarioController {
 	public ResponseEntity<TipoUsuarioResponse> criar(@Valid @RequestBody CriarTipoUsuarioRequest request) {
 
 		var domain = mapper.toDomain(request);
-		var criado = criarUseCase.executar(domain);
+		var criado = criarUseCase.criar(domain);
 
 		var response = mapper.toResponse(criado);
 
@@ -53,7 +54,7 @@ public class TipoUsuarioController {
 			@Valid @RequestBody AtualizarTipoUsuarioRequest request) {
 
 		var domain = mapper.toDomain(id, request);
-		var atualizado = atualizarUseCase.executar(domain);
+		var atualizado = atualizarUseCase.atualizar(domain);
 
 		return ResponseEntity.ok(mapper.toResponse(atualizado));
 	}
@@ -61,7 +62,7 @@ public class TipoUsuarioController {
 	@GetMapping("/{id}")
 	public ResponseEntity<TipoUsuarioResponse> buscarPorId(@PathVariable Long id) {
 
-		var tipoUsuario = buscarPorIdUseCase.executar(id);
+		var tipoUsuario = buscarPorIdUseCase.buscarPorId(id);
 
 		return ResponseEntity.ok(mapper.toResponse(tipoUsuario));
 	}
@@ -69,7 +70,7 @@ public class TipoUsuarioController {
 	@GetMapping
 	public ResponseEntity<List<TipoUsuarioResponse>> listar() {
 
-		var lista = listarUseCase.executar().stream().map(mapper::toResponse).toList();
+		var lista = listarUseCase.listar().stream().map(mapper::toResponse).toList();
 
 		return ResponseEntity.ok(lista);
 	}
