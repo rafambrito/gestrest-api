@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import br.com.gestrest.api.adapter.in.web.controller.doc.UsuarioControllerDoc;
 import br.com.gestrest.api.adapter.in.web.dto.request.AtualizarUsuarioRequest;
 import br.com.gestrest.api.adapter.in.web.dto.request.CriarUsuarioRequest;
 import br.com.gestrest.api.adapter.in.web.dto.response.UsuarioResponse;
@@ -28,7 +29,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/v1/usuarios")
 @RequiredArgsConstructor
-public class UsuarioController {
+public class UsuarioController implements UsuarioControllerDoc {
 
 	private final CriarUsuarioUseCase criarUseCase;
 	private final AtualizarUsuarioUseCase atualizarUseCase;
@@ -37,6 +38,7 @@ public class UsuarioController {
 	private final ExcluirUsuarioUseCase excluirUseCase;
 	private final UsuarioWebMapper mapper;
 
+	@Override
 	@PostMapping
 	public ResponseEntity<UsuarioResponse> criar(@Valid @RequestBody CriarUsuarioRequest request) {
 
@@ -47,6 +49,7 @@ public class UsuarioController {
 		return ResponseEntity.created(URI.create("/api/v1/usuarios/" + response.id())).body(response);
 	}
 
+	@Override
 	@PutMapping("/{id}")
 	public ResponseEntity<UsuarioResponse> atualizar(@PathVariable Long id,
 			@Valid @RequestBody AtualizarUsuarioRequest request) {
@@ -57,8 +60,9 @@ public class UsuarioController {
 		return ResponseEntity.ok(response);
 	}
 
+	@Override
 	@GetMapping("/{id}")
-	public ResponseEntity<UsuarioResponse> buscarPorId(@PathVariable Long id) {
+	public ResponseEntity<UsuarioResponse> buscar(@PathVariable Long id) {
 
 		var usuario = buscarPorIdUseCase.executar(id)
 			.orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
@@ -66,6 +70,7 @@ public class UsuarioController {
 		return ResponseEntity.ok(mapper.toResponse(usuario));
 	}
 
+	@Override
 	@GetMapping
 	public ResponseEntity<List<UsuarioResponse>> listar() {
 
@@ -74,8 +79,9 @@ public class UsuarioController {
 		return ResponseEntity.ok(lista);
 	}
 
+	@Override
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> excluir(@PathVariable Long id) {
+	public ResponseEntity<Void> deletar(@PathVariable Long id) {
 
 		excluirUseCase.executar(id);
 

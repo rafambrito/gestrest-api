@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.gestrest.api.adapter.in.web.controller.doc.ItemCardapioControllerDoc;
 import br.com.gestrest.api.adapter.in.web.dto.request.AtualizarItemCardapioRequest;
 import br.com.gestrest.api.adapter.in.web.dto.request.CriarItemCardapioRequest;
 import br.com.gestrest.api.adapter.in.web.dto.response.ItemCardapioResponse;
@@ -28,7 +29,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/v1/itens-cardapio")
 @RequiredArgsConstructor
-public class ItemCardapioController {
+public class ItemCardapioController implements ItemCardapioControllerDoc {
 
     private final CriarItemCardapioUseCase criar;
     private final AtualizarItemCardapioUseCase atualizar;
@@ -37,6 +38,7 @@ public class ItemCardapioController {
     private final ExcluirItemCardapioUseCase excluir;
     private final ItemCardapioWebMapper mapper;
 
+    @Override
     @PostMapping
     public ResponseEntity<ItemCardapioResponse> criar(
             @Valid @RequestBody CriarItemCardapioRequest request) {
@@ -48,11 +50,13 @@ public class ItemCardapioController {
                 .body(mapper.toResponse(criado));
     }
 
+    @Override
     @GetMapping("/{id}")
     public ResponseEntity<ItemCardapioResponse> buscar(@PathVariable Long id) {
         return ResponseEntity.ok(mapper.toResponse(buscar.buscarPorId(id)));
     }
 
+    @Override
     @GetMapping("/restaurante/{restauranteId}")
     public ResponseEntity<List<ItemCardapioResponse>> listarPorRestaurante(
             @PathVariable Long restauranteId) {
@@ -65,6 +69,7 @@ public class ItemCardapioController {
         );
     }
 
+    @Override
     @PutMapping("/{id}")
     public ResponseEntity<ItemCardapioResponse> atualizar(
             @PathVariable Long id,
@@ -77,8 +82,9 @@ public class ItemCardapioController {
         return ResponseEntity.ok(mapper.toResponse(atualizado));
     }
 
+    @Override
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
         excluir.deletar(id);
         return ResponseEntity.noContent().build();
     }

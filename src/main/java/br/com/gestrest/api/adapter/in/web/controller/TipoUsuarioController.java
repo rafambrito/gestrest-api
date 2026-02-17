@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.gestrest.api.adapter.in.web.controller.doc.TipoUsuarioControllerDoc;
 import br.com.gestrest.api.adapter.in.web.dto.request.AtualizarTipoUsuarioRequest;
 import br.com.gestrest.api.adapter.in.web.dto.request.CriarTipoUsuarioRequest;
 import br.com.gestrest.api.adapter.in.web.dto.response.TipoUsuarioResponse;
@@ -29,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/v1/tipos-usuarios")
 @RequiredArgsConstructor
-public class TipoUsuarioController {
+public class TipoUsuarioController implements TipoUsuarioControllerDoc {
 
 	private final CriarTipoUsuarioUseCase criarUseCase;
 	private final AtualizarTipoUsuarioUseCase atualizarUseCase;
@@ -38,6 +39,7 @@ public class TipoUsuarioController {
 	private final ExcluirTipoUsuarioUseCase excluirUseCase;
 	private final TipoUsuarioWebMapper mapper;
 
+	@Override
 	@PostMapping
 	public ResponseEntity<TipoUsuarioResponse> criar(@Valid @RequestBody CriarTipoUsuarioRequest request) {
 
@@ -49,6 +51,7 @@ public class TipoUsuarioController {
 		return ResponseEntity.created(URI.create("/api/v1/tipos-usuario/" + response.id())).body(response);
 	}
 
+	@Override
 	@PutMapping("/{id}")
 	public ResponseEntity<TipoUsuarioResponse> atualizar(@PathVariable Long id,
 			@Valid @RequestBody AtualizarTipoUsuarioRequest request) {
@@ -59,14 +62,16 @@ public class TipoUsuarioController {
 		return ResponseEntity.ok(mapper.toResponse(atualizado));
 	}
 
+	@Override
 	@GetMapping("/{id}")
-	public ResponseEntity<TipoUsuarioResponse> buscarPorId(@PathVariable Long id) {
+	public ResponseEntity<TipoUsuarioResponse> buscar(@PathVariable Long id) {
 
 		var tipoUsuario = buscarPorIdUseCase.buscarPorId(id);
 
 		return ResponseEntity.ok(mapper.toResponse(tipoUsuario));
 	}
 
+	@Override
 	@GetMapping
 	public ResponseEntity<List<TipoUsuarioResponse>> listar() {
 
@@ -75,8 +80,9 @@ public class TipoUsuarioController {
 		return ResponseEntity.ok(lista);
 	}
 
+	@Override
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> excluir(@PathVariable Long id) {
+	public ResponseEntity<Void> deletar(@PathVariable Long id) {
 
 		excluirUseCase.deletar(id);
 

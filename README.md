@@ -189,11 +189,8 @@ mvn clean install
 
 **Projeto desenvolvido como parte do Tech Challenge – Fase 02** 🎓 **Curso de Pós-Graduação – FIAP**
 
-### 👥 **Grupo**
+### 👥 **Autor**
 
-* Vithor Llaguno Veronese (RM369140)
-* Eduardo Jerônimo Bernardino (RM370093)
 * Rafael Mendonça de Brito (RM369933)
-* Rafael Colin Rios (RM369259)
 
 
