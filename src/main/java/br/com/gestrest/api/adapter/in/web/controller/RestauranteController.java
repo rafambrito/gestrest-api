@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.gestrest.api.adapter.in.web.controller.doc.RestauranteControllerDoc;
 import br.com.gestrest.api.adapter.in.web.dto.request.AtualizarRestauranteRequest;
 import br.com.gestrest.api.adapter.in.web.dto.request.CriarRestauranteRequest;
 import br.com.gestrest.api.adapter.in.web.dto.response.RestauranteResponse;
@@ -28,7 +29,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/v1/restaurantes")
 @RequiredArgsConstructor
-public class RestauranteController {
+public class RestauranteController implements RestauranteControllerDoc {
 
     private final CriarRestauranteUseCase criar;
     private final AtualizarRestauranteUseCase atualizar;
@@ -37,6 +38,7 @@ public class RestauranteController {
     private final ExcluirRestauranteUseCase excluir;
     private final RestauranteWebMapper mapper;
 
+    @Override
     @PostMapping
     public ResponseEntity<RestauranteResponse> criar(
             @Valid @RequestBody CriarRestauranteRequest request) {
@@ -48,6 +50,7 @@ public class RestauranteController {
                 .body(mapper.toResponse(criado));
     }
 
+    @Override
     @GetMapping("/{id}")
     public ResponseEntity<RestauranteResponse> buscar(@PathVariable Long id) {
         return ResponseEntity.ok(
@@ -55,6 +58,7 @@ public class RestauranteController {
         );
     }
 
+    @Override
     @GetMapping
     public ResponseEntity<List<RestauranteResponse>> listar() {
         return ResponseEntity.ok(
@@ -64,6 +68,7 @@ public class RestauranteController {
         );
     }
 
+    @Override
     @PutMapping("/{id}")
     public ResponseEntity<RestauranteResponse> atualizar(
             @PathVariable Long id,
@@ -76,8 +81,9 @@ public class RestauranteController {
         return ResponseEntity.ok(mapper.toResponse(atualizado));
     }
 
+    @Override
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
         excluir.deletar(id);
         return ResponseEntity.noContent().build();
     }

@@ -14,6 +14,8 @@ public class RestauranteWebMapper {
         return Restaurante.criar(
                 request.nome(),
                 request.endereco(),
+                request.tipoCozinha(),
+                request.horarioFuncionamento(),
                 request.donoId()
         );
     }
@@ -23,6 +25,8 @@ public class RestauranteWebMapper {
                 id,
                 request.nome(),
                 request.endereco(),
+                request.tipoCozinha(),
+                request.horarioFuncionamento(),
                 null
         );
     }
@@ -32,6 +36,8 @@ public class RestauranteWebMapper {
                 domain.getId(),
                 domain.getNome(),
                 domain.getEndereco(),
+                domain.getTipoCozinha(),
+                domain.getHorarioFuncionamento(),
                 domain.getDonoId()
         );
     }

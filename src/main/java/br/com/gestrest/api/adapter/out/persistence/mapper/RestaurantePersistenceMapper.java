@@ -13,6 +13,8 @@ public class RestaurantePersistenceMapper {
                 domain.getId(),
                 domain.getNome(),
                 domain.getEndereco(),
+                domain.getTipoCozinha(),
+                domain.getHorarioFuncionamento(),
                 domain.getDonoId(),
                 domain.getDataUltimaAlteracao()
         );
@@ -23,6 +25,8 @@ public class RestaurantePersistenceMapper {
                 entity.getId(),
                 entity.getNome(),
                 entity.getEndereco(),
+                entity.getTipoCozinha(),
+                entity.getHorarioFuncionamento(),
                 entity.getDonoId()
         );
     }
