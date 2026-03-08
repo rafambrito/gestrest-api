@@ -1,36 +1,56 @@
 {
 	"info": {
-		"_postman_id": "gestrest-api-fase2-v2",
-		"name": "GestRest API - Fase 2",
+		"_postman_id": "gestrest-api-fase2-completa",
+		"name": "GestRest API - Fase 2 (Completa)",
+		"description": "Collection completa cobrindo CRUD e Regras de Negócio para o Tech Challenge.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "1. Tipos de Usuário",
+			"name": "1. Setup Inicial (Tipos de Usuário)",
 			"item": [
 				{
-					"name": "Criar Tipo (DONO)",
+					"name": "Criar Tipo DONO",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nome\": \"Dono de Restaurante\"\n}",
+							"raw": "{\n    \"nome\": \"DONO\"\n}",
 							"options": { "raw": { "language": "json" } }
 						},
+						"url": { "raw": "{{base_url}}/api/v1/tipos-usuarios", "host": ["{{base_url}}"], "path": ["api", "v1", "tipos-usuarios"] }
+					}
+				},
+				{
+					"name": "Criar Tipo CLIENTE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"CLIENTE\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{base_url}}/api/v1/tipos-usuarios", "host": ["{{base_url}}"], "path": ["api", "v1", "tipos-usuarios"] }
+					}
+				},
+				{
+					"name": "Listar Tipos",
+					"request": {
+						"method": "GET",
 						"url": { "raw": "{{base_url}}/api/v1/tipos-usuarios", "host": ["{{base_url}}"], "path": ["api", "v1", "tipos-usuarios"] }
 					}
 				}
 			]
 		},
 		{
-			"name": "2. Usuários",
+			"name": "2. Gestão de Usuários",
 			"item": [
 				{
-					"name": "Cadastrar Usuário (Dono)",
+					"name": "Cadastrar Usuário Dono",
 					"request": {
 						"method": "POST",
-						"header": [],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"nome\": \"Rafael Brito\",\n    \"email\": \"rafael@email.com\",\n    \"login\": \"rafael.brito\",\n    \"senha\": \"senha123\",\n    \"endereco\": \"Rua da FIAP, 1000\",\n    \"tipoUsuarioId\": 1\n}",
@@ -40,95 +60,110 @@
 					}
 				},
 				{
-					"name": "Cadastrar Usuário - Email Duplicado (Negativo)",
+					"name": "Cadastrar Usuário Cliente",
 					"request": {
 						"method": "POST",
-						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nome\": \"Outro Usuário\",\n    \"email\": \"rafael@email.com\",\n    \"login\": \"outro.login\",\n    \"senha\": \"senha123\",\n    \"endereco\": \"Rua X, 1\",\n    \"tipoUsuarioId\": 1\n}",
+							"raw": "{\n    \"nome\": \"Jose Cliente\",\n    \"email\": \"jose@email.com\",\n    \"login\": \"jose.cliente\",\n    \"senha\": \"senha123\",\n    \"endereco\": \"Rua Teste, 50\",\n    \"tipoUsuarioId\": 2\n}",
 							"options": { "raw": { "language": "json" } }
 						},
 						"url": { "raw": "{{base_url}}/api/v1/usuarios", "host": ["{{base_url}}"], "path": ["api", "v1", "usuarios"] }
-					},
-					"response": [
-						{
-							"name": "409 - Email duplicado",
-							"originalRequest": {},
-							"status": "Conflict",
-							"code": 409
-						}
-					]
+					}
+				},
+				{
+					"name": "Listar Todos Usuários",
+					"request": {
+						"method": "GET",
+						"url": { "raw": "{{base_url}}/api/v1/usuarios", "host": ["{{base_url}}"], "path": ["api", "v1", "usuarios"] }
+					}
+				},
+				{
+					"name": "Buscar Usuário por ID",
+					"request": {
+						"method": "GET",
+						"url": { "raw": "{{base_url}}/api/v1/usuarios/1", "host": ["{{base_url}}"], "path": ["api", "v1", "usuarios", "1"] }
+					}
+				},
+				{
+					"name": "Atualizar Usuário",
+					"request": {
+						"method": "PUT",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Rafael Mendonça de Brito\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{base_url}}/api/v1/usuarios/1", "host": ["{{base_url}}"], "path": ["api", "v1", "usuarios", "1"] }
+					}
 				}
 			]
 		},
 		{
-			"name": "3. Restaurantes",
+			"name": "3. Gestão de Restaurantes",
 			"item": [
 				{
-					"name": "Criar Restaurante",
+					"name": "Criar Restaurante (Sucesso)",
 					"request": {
 						"method": "POST",
-						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nome\": \"Pizza House\",\n    \"endereco\": \"Av. Paulista, 1100\",\n    \"tipoCozinha\": \"Italiana\",\n    \"horarioFuncionamento\": \"11:00 - 23:00\",\n    \"donoId\": 1\n}",
+							"raw": "{\n    \"nome\": \"Fiap Gourmet\",\n    \"endereco\": \"Av. Paulista, 1100\",\n    \"tipoCozinha\": \"Italiana\",\n    \"horarioFuncionamento\": \"11:00 - 22:00\",\n    \"donoId\": 1\n}",
 							"options": { "raw": { "language": "json" } }
 						},
 						"url": { "raw": "{{base_url}}/api/v1/restaurantes", "host": ["{{base_url}}"], "path": ["api", "v1", "restaurantes"] }
 					}
 				},
 				{
-					"name": "Criar Restaurante - Deletar com itens (Negativo flow)",
+					"name": "Criar Restaurante (ERRO - Usuário não é Dono)",
 					"request": {
 						"method": "POST",
-						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nome\": \"Rest Com Itens\",\n    \"endereco\": \"Rua Teste 1\",\n    \"tipoCozinha\": \"Brasileira\",\n    \"horarioFuncionamento\": \"10:00 - 22:00\",\n    \"donoId\": 1\n}",
+							"raw": "{\n    \"nome\": \"Tentativa Inválida\",\n    \"endereco\": \"Rua Falsa, 123\",\n    \"tipoCozinha\": \"Fast Food\",\n    \"horarioFuncionamento\": \"08:00 - 18:00\",\n    \"donoId\": 2\n}",
 							"options": { "raw": { "language": "json" } }
 						},
+						"url": { "raw": "{{base_url}}/api/v1/restaurantes", "host": ["{{base_url}}"], "path": ["api", "v1", "restaurantes"] }
+					},
+					"description": "Valida a regra de negócio do UseCase: apenas usuários com perfil DONO podem criar."
+				},
+				{
+					"name": "Listar Restaurantes",
+					"request": {
+						"method": "GET",
 						"url": { "raw": "{{base_url}}/api/v1/restaurantes", "host": ["{{base_url}}"], "path": ["api", "v1", "restaurantes"] }
 					}
 				}
 			]
 		},
 		{
-			"name": "4. Itens do Cardápio",
+			"name": "4. Cardápio",
 			"item": [
 				{
 					"name": "Adicionar Item",
 					"request": {
 						"method": "POST",
-						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nome\": \"Pizza Margherita\",\n    \"descricao\": \"Molho de tomate, muzzarela e manjericão\",\n    \"preco\": 45.50,\n    \"restauranteId\": 1\n}",
+							"raw": "{\n    \"nome\": \"Lasanha à Bolonhesa\",\n    \"descricao\": \"Massa artesanal com molho rústico\",\n    \"preco\": 55.90,\n    \"restauranteId\": 1\n}",
 							"options": { "raw": { "language": "json" } }
 						},
 						"url": { "raw": "{{base_url}}/api/v1/itens-cardapio", "host": ["{{base_url}}"], "path": ["api", "v1", "itens-cardapio"] }
 					}
 				},
 				{
-					"name": "Adicionar Item - Restaurante inexistente (Negativo)",
+					"name": "Listar Itens por Restaurante",
 					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"nome\": \"Pizza Fantasma\",\n    \"descricao\": \"Não existe restaurante\",\n    \"preco\": 30.00,\n    \"restauranteId\": 999\n}",
-							"options": { "raw": { "language": "json" } }
-						},
-						"url": { "raw": "{{base_url}}/api/v1/itens-cardapio", "host": ["{{base_url}}"], "path": ["api", "v1", "itens-cardapio"] }
-					},
-					"response": [
-						{
-							"name": "404 - Restaurante não encontrado",
-							"originalRequest": {},
-							"status": "Not Found",
-							"code": 404
-						}
-					]
+						"method": "GET",
+						"url": { "raw": "{{base_url}}/api/v1/itens-cardapio/restaurante/1", "host": ["{{base_url}}"], "path": ["api", "v1", "itens-cardapio", "restaurante", "1"] }
+					}
+				},
+				{
+					"name": "Remover Item",
+					"request": {
+						"method": "DELETE",
+						"url": { "raw": "{{base_url}}/api/v1/itens-cardapio/1", "host": ["{{base_url}}"], "path": ["api", "v1", "itens-cardapio", "1"] }
+					}
 				}
 			]
 		}

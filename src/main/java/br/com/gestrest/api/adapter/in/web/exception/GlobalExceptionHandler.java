@@ -7,11 +7,16 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+
+import br.com.gestrest.api.domain.exception.PermissaoNegadaException;
+import br.com.gestrest.api.domain.exception.RecursoEmUsoException;
+import br.com.gestrest.api.domain.exception.RestauranteNaoEncontradoException;
+import br.com.gestrest.api.domain.exception.TipoUsuarioNaoEncontradoException;
+import br.com.gestrest.api.domain.exception.UsuarioNaoEncontradoException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

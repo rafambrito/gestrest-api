@@ -18,7 +18,7 @@ import br.com.gestrest.api.adapter.in.web.dto.request.AtualizarUsuarioRequest;
 import br.com.gestrest.api.adapter.in.web.dto.request.CriarUsuarioRequest;
 import br.com.gestrest.api.adapter.in.web.dto.response.UsuarioResponse;
 import br.com.gestrest.api.adapter.in.web.mapper.UsuarioWebMapper;
-import br.com.gestrest.api.adapter.in.web.exception.UsuarioNaoEncontradoException;
+import br.com.gestrest.api.domain.exception.UsuarioNaoEncontradoException;
 import br.com.gestrest.api.domain.model.ports.in.usuario.AtualizarUsuarioUseCase;
 import br.com.gestrest.api.domain.model.ports.in.usuario.BuscarUsuarioPorIdUseCase;
 import br.com.gestrest.api.domain.model.ports.in.usuario.CriarUsuarioUseCase;

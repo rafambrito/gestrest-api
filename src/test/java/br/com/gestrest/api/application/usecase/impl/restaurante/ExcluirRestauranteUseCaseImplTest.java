@@ -13,7 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import br.com.gestrest.api.adapter.in.web.exception.RecursoEmUsoException;
+import br.com.gestrest.api.domain.exception.RecursoEmUsoException;
 import br.com.gestrest.api.domain.model.ItemCardapio;
 import br.com.gestrest.api.domain.model.ports.out.ItemCardapioRepositoryPort;
 import br.com.gestrest.api.domain.model.ports.out.RestauranteRepositoryPort;

@@ -2,7 +2,7 @@ package br.com.gestrest.api.application.usecase.impl.restaurante;
 
 import org.springframework.stereotype.Service;
 
-import br.com.gestrest.api.adapter.in.web.exception.RecursoEmUsoException;
+import br.com.gestrest.api.domain.exception.RecursoEmUsoException;
 import br.com.gestrest.api.domain.model.ports.in.restaurante.ExcluirRestauranteUseCase;
 import br.com.gestrest.api.domain.model.ports.out.RestauranteRepositoryPort;
 import br.com.gestrest.api.domain.model.ports.out.ItemCardapioRepositoryPort;

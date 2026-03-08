@@ -2,8 +2,8 @@ package br.com.gestrest.api.application.usecase.impl.restaurante;
 
 import org.springframework.stereotype.Service;
 
-import br.com.gestrest.api.adapter.in.web.exception.PermissaoNegadaException;
-import br.com.gestrest.api.adapter.in.web.exception.UsuarioNaoEncontradoException;
+import br.com.gestrest.api.domain.exception.PermissaoNegadaException;
+import br.com.gestrest.api.domain.exception.UsuarioNaoEncontradoException;
 import br.com.gestrest.api.domain.model.Restaurante;
 import br.com.gestrest.api.domain.model.ports.in.restaurante.CriarRestauranteUseCase;
 import br.com.gestrest.api.domain.model.ports.out.RestauranteRepositoryPort;

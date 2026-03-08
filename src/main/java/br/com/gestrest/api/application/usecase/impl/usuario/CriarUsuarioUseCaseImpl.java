@@ -1,7 +1,7 @@
 package br.com.gestrest.api.application.usecase.impl.usuario;
 
 import br.com.gestrest.api.application.usecase.command.usuario.CriarUsuarioCommand;
-import br.com.gestrest.api.adapter.in.web.exception.RecursoEmUsoException;
+import br.com.gestrest.api.domain.exception.RecursoEmUsoException;
 import br.com.gestrest.api.domain.model.Usuario;
 import br.com.gestrest.api.domain.model.ports.in.usuario.CriarUsuarioUseCase;
 import br.com.gestrest.api.domain.model.ports.out.TipoUsuarioRepositoryPort;

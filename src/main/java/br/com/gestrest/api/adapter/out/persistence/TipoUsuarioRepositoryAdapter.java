@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
-import br.com.gestrest.api.adapter.in.web.exception.TipoUsuarioNaoEncontradoException;
+import br.com.gestrest.api.domain.exception.TipoUsuarioNaoEncontradoException;
 import br.com.gestrest.api.adapter.out.persistence.entity.TipoUsuarioEntity;
 import br.com.gestrest.api.adapter.out.persistence.mapper.TipoUsuarioPersistenceMapper;
 import br.com.gestrest.api.adapter.out.persistence.repository.TipoUsuarioJpaRepository;
