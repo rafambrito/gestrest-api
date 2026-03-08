@@ -55,6 +55,16 @@ public class UsuarioRepositoryAdapter implements UsuarioRepositoryPort {
     }
 
     @Override
+    public Optional<Usuario> buscarPorEmail(String email) {
+        return repository.findByEmail(email).map(mapper::toDomain);
+    }
+
+    @Override
+    public Optional<Usuario> buscarPorLogin(String login) {
+        return repository.findByLogin(login).map(mapper::toDomain);
+    }
+
+    @Override
     public List<Usuario> listar() {
         return repository.findAll().stream()
                 .map(mapper::toDomain)

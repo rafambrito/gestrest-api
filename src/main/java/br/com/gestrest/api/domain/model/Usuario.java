@@ -104,4 +104,8 @@ public class Usuario {
 	public void setTipoUsuario(TipoUsuario tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
 	}
+
+	public boolean isDono() {
+		return this.tipoUsuario != null && "DONO_RESTAURANTE".equals(this.tipoUsuario.getNome());
+	}
 }

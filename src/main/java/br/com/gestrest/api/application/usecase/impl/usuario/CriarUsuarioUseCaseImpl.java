@@ -1,6 +1,7 @@
 package br.com.gestrest.api.application.usecase.impl.usuario;
 
 import br.com.gestrest.api.application.usecase.command.usuario.CriarUsuarioCommand;
+import br.com.gestrest.api.adapter.in.web.exception.RecursoEmUsoException;
 import br.com.gestrest.api.domain.model.Usuario;
 import br.com.gestrest.api.domain.model.ports.in.usuario.CriarUsuarioUseCase;
 import br.com.gestrest.api.domain.model.ports.out.TipoUsuarioRepositoryPort;
@@ -26,10 +27,21 @@ public class CriarUsuarioUseCaseImpl implements CriarUsuarioUseCase {
                 .orElseThrow(() ->
                         new RuntimeException("TipoUsuario não encontrado"));
 
+        var email = command.email();
+        var login = command.login();
+
+        if (email != null && usuarioRepository.buscarPorEmail(email).isPresent()) {
+            throw new RecursoEmUsoException("Email já cadastrado");
+        }
+
+        if (login != null && usuarioRepository.buscarPorLogin(login).isPresent()) {
+            throw new RecursoEmUsoException("Login já cadastrado");
+        }
+
         var usuario = Usuario.criar(
                 command.nome(),
-                command.email(),
-                command.login(),
+                email,
+                login,
                 command.senha(),
                 command.endereco(),
                 tipo

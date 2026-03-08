@@ -25,16 +25,19 @@ public class RestauranteEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 150)
     private String nome;
+
+    @Column(nullable = false, length = 250)
     private String endereco;
 
-    @Column(name = "tipo_cozinha")
+    @Column(name = "tipo_cozinha", nullable = false, length = 100)
     private String tipoCozinha;
 
-    @Column(name = "horario_funcionamento")
+    @Column(name = "horario_funcionamento", nullable = false, length = 100)
     private String horarioFuncionamento;
 
-    @Column(name = "dono_id")
+    @Column(name = "dono_id", nullable = false)
     private Long donoId;
 
     private LocalDateTime dataUltimaAlteracao;

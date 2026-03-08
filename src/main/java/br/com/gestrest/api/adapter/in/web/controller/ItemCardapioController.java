@@ -22,7 +22,7 @@ import br.com.gestrest.api.domain.model.ports.in.itemcardapio.BuscarItemCardapio
 import br.com.gestrest.api.domain.model.ports.in.itemcardapio.CriarItemCardapioUseCase;
 import br.com.gestrest.api.domain.model.ports.in.itemcardapio.ExcluirItemCardapioUseCase;
 import br.com.gestrest.api.domain.model.ports.in.itemcardapio.ListarItensPorRestauranteUseCase;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 

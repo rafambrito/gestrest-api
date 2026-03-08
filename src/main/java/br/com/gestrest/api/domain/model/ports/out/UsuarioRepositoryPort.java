@@ -11,6 +11,10 @@ public interface UsuarioRepositoryPort {
 
     Optional<Usuario> buscarPorId(Long id);
 
+    Optional<Usuario> buscarPorEmail(String email);
+
+    Optional<Usuario> buscarPorLogin(String login);
+
     List<Usuario> listar();
 
     void deletar(Long id);

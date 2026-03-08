@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.gestrest.api.application.usecase.command.usuario.CriarUsuarioCommand;
+import br.com.gestrest.api.adapter.in.web.exception.RecursoEmUsoException;
 import br.com.gestrest.api.domain.model.TipoUsuario;
 import br.com.gestrest.api.domain.model.Usuario;
 import br.com.gestrest.api.domain.model.ports.out.TipoUsuarioRepositoryPort;
@@ -85,5 +86,28 @@ class CriarUsuarioUseCaseImplTest {
 
         // Act & Assert
         assertThrows(RuntimeException.class, () -> useCase.criar(command));
+    }
+
+    @Test
+    @DisplayName("Deve falhar quando email já existe")
+    void deveFalharQuandoEmailDuplicado() {
+        // Arrange
+        var tipoUsuario = TipoUsuario.existente(1L, "Admin");
+        var command = new CriarUsuarioCommand(
+            "João Silva",
+            "joao@example.com",
+            "joao.silva",
+            "senha123",
+            "Rua A, 123",
+            1L
+        );
+
+        when(tipoRepository.buscarPorId(1L)).thenReturn(Optional.of(tipoUsuario));
+        when(usuarioRepository.buscarPorEmail("joao@example.com")).thenReturn(Optional.of(
+            Usuario.existente(2L, "Outro", "joao@example.com", "outro", "senha", "end", tipoUsuario)
+        ));
+
+        // Act & Assert
+        assertThrows(RecursoEmUsoException.class, () -> useCase.criar(command));
     }
 }

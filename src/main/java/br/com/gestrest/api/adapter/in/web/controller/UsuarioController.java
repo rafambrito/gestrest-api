@@ -18,6 +18,7 @@ import br.com.gestrest.api.adapter.in.web.dto.request.AtualizarUsuarioRequest;
 import br.com.gestrest.api.adapter.in.web.dto.request.CriarUsuarioRequest;
 import br.com.gestrest.api.adapter.in.web.dto.response.UsuarioResponse;
 import br.com.gestrest.api.adapter.in.web.mapper.UsuarioWebMapper;
+import br.com.gestrest.api.adapter.in.web.exception.UsuarioNaoEncontradoException;
 import br.com.gestrest.api.domain.model.ports.in.usuario.AtualizarUsuarioUseCase;
 import br.com.gestrest.api.domain.model.ports.in.usuario.BuscarUsuarioPorIdUseCase;
 import br.com.gestrest.api.domain.model.ports.in.usuario.CriarUsuarioUseCase;
@@ -65,7 +66,7 @@ public class UsuarioController implements UsuarioControllerDoc {
 	public ResponseEntity<UsuarioResponse> buscar(@PathVariable Long id) {
 
 		var usuario = buscarPorIdUseCase.executar(id)
-			.orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+			.orElseThrow(() -> new UsuarioNaoEncontradoException(id));
 
 		return ResponseEntity.ok(mapper.toResponse(usuario));
 	}

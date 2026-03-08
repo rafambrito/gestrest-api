@@ -2,6 +2,7 @@ package br.com.gestrest.api.adapter.out.persistence.entity;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,9 +29,15 @@ public class UsuarioEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 100, nullable = false)
     private String nome;
+
+    @Column(length = 150, nullable = false, unique = true)
     private String email;
+
+    @Column(length = 50, nullable = false, unique = true)
     private String login;
+
     private String senha;
     private String endereco;
 
@@ -38,6 +45,6 @@ public class UsuarioEntity {
     private LocalDateTime dataUltimaAlteracao;
 
     @ManyToOne
-    @JoinColumn(name = "tipo_usuario_id")
+    @JoinColumn(name = "tipo_usuario_id", nullable = false)
     private TipoUsuarioEntity tipoUsuario;
 }

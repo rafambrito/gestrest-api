@@ -169,6 +169,22 @@ mvn clean install
 ```
 
 
+### 📄 Documentação da API (Swagger)
+
+Após iniciar a aplicação, a documentação interativa Swagger está disponível em:
+
+http://localhost:8080/swagger-ui/index.html
+
+
+### 📬 Coleção Postman
+
+A coleção do Postman com exemplos de requisições está em:
+
+postman/gestrest_api_collection.json
+
+A coleção inclui cenários positivos e negativos (ex.: tentativa de cadastro com email duplicado -> 409, criação de item para restaurante inexistente -> 404, tentativa de exclusão de restaurante com itens -> 409).
+
+
 ### 🗄️ **Banco de Dados**
 
 * 🐘 **PostgreSQL**
@@ -189,8 +205,6 @@ mvn clean install
 
 **Projeto desenvolvido como parte do Tech Challenge – Fase 02** 🎓 **Curso de Pós-Graduação – FIAP**
 
-### 👥 **Autor**
+### 👤 **Autor**
 
 * Rafael Mendonça de Brito (RM369933)
-
-

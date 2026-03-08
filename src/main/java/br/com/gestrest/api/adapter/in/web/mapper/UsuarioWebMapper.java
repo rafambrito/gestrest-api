@@ -18,13 +18,19 @@ public class UsuarioWebMapper {
         if (request == null) {
             return null;
         }
-        
+
+        String nome = request.nome() != null ? request.nome().trim() : null;
+        String email = request.email() != null ? request.email().trim().toLowerCase() : null;
+        String login = request.login() != null ? request.login().trim().toLowerCase() : null;
+        String senha = request.senha();
+        String endereco = request.endereco() != null ? request.endereco().trim() : null;
+
         return new CriarUsuarioCommand(
-            request.nome(),
-            request.email(),
-            request.login(),
-            request.senha(),
-            request.endereco(),
+            nome,
+            email,
+            login,
+            senha,
+            endereco,
             request.tipoUsuarioId()
         );
     }
@@ -33,12 +39,16 @@ public class UsuarioWebMapper {
         if (request == null) {
             return null;
         }
-        
+
+        String nome = request.nome() != null ? request.nome().trim() : null;
+        String email = request.email() != null ? request.email().trim().toLowerCase() : null;
+        String endereco = request.endereco() != null ? request.endereco().trim() : null;
+
         return new AtualizarUsuarioCommand(
             id,
-            request.nome(),
-            request.email(),
-            request.endereco(),
+            nome,
+            email,
+            endereco,
             request.tipoUsuarioId()
         );
     }
@@ -47,12 +57,12 @@ public class UsuarioWebMapper {
         if (domain == null) {
             return null;
         }
-        
+
         TipoUsuarioResponse tipoResponse = new TipoUsuarioResponse(
             domain.getTipoUsuario().getId(),
             domain.getTipoUsuario().getNome()
         );
-        
+
         return new UsuarioResponse(
             domain.getId(),
             domain.getNome(),

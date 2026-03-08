@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,7 +15,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.gestrest.api.domain.model.Restaurante;
+import br.com.gestrest.api.domain.model.TipoUsuario;
+import br.com.gestrest.api.domain.model.Usuario;
 import br.com.gestrest.api.domain.model.ports.out.RestauranteRepositoryPort;
+import br.com.gestrest.api.domain.model.ports.out.UsuarioRepositoryPort;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Criar Restaurante UseCase Test")
@@ -21,6 +26,9 @@ class CriarRestauranteUseCaseImplTest {
 
     @Mock
     private RestauranteRepositoryPort repository;
+
+    @Mock
+    private UsuarioRepositoryPort usuarioRepository;
 
     @InjectMocks
     private CriarRestauranteUseCaseImpl useCase;
@@ -51,6 +59,9 @@ class CriarRestauranteUseCaseImplTest {
                 restaurante.getDonoId()
         );
         when(repository.salvar(any(Restaurante.class))).thenReturn(restauranteSalvo);
+
+        var usuario = Usuario.existente(1L, "Dono", "dono@ex.com", "dono", "senha", "endereco", TipoUsuario.existente(1L, "DONO_RESTAURANTE"));
+        when(usuarioRepository.buscarPorId(restaurante.getDonoId())).thenReturn(Optional.of(usuario));
 
         // Act
         Restaurante resultado = useCase.criar(restaurante);
