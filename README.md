@@ -208,3 +208,52 @@ A coleção inclui cenários positivos e negativos (ex.: tentativa de cadastro c
 ### 👤 **Autor**
 
 * Rafael Mendonça de Brito (RM369933)
+
+---
+
+## Quickstart (cenário end-to-end)
+
+1) Inicie a aplicação:
+
+```bash
+# Em desenvolvimento
+./mvnw spring-boot:run
+
+# via Docker Compose
+docker compose up --build
+```
+
+2) Fluxo rápido via curl (criar tipo, criar usuário, criar restaurante, criar item):
+
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{"nome":"Dono de Restaurante"}' http://localhost:8080/api/v1/tipos-usuarios
+
+curl -X POST -H "Content-Type: application/json" -d '{"nome":"Rafael","email":"rafael@example.com","login":"rafael","senha":"senha123","tipoUsuarioId":1}' http://localhost:8080/api/v1/usuarios
+
+curl -X POST -H "Content-Type: application/json" -d '{"nome":"Pizza House","endereco":"Av. Paulista","tipoCozinha":"Italiana","horarioFuncionamento":"11:00 - 23:00","donoId":1}' http://localhost:8080/api/v1/restaurantes
+
+curl -X POST -H "Content-Type: application/json" -d '{"nome":"Pizza Margherita","descricao":"Molho de tomate","preco":45.50,"restauranteId":1}' http://localhost:8080/api/v1/itens-cardapio
+```
+
+## Formato padrão de erro (ErrorResponse)
+
+Para todas as respostas de erro a API retorna um JSON padronizado com o seguinte formato:
+
+```json
+{
+  "timestamp": "2026-03-07T00:00:00Z",
+  "status": 400,
+  "error": "Bad Request",
+  "message": "Validation failed",
+  "path": "/api/v1/usuarios",
+  "errors": [
+    { "campo": "email", "mensagem": "Email deve ser válido" }
+  ]
+}
+```
+
+Códigos esperados:
+- 400 Bad Request -> erros de validação DTO
+- 404 Not Found -> recurso não encontrado
+- 409 Conflict -> conflito de negócio (ex.: email duplicado, recurso em uso)
+- 500 Internal Server Error -> erro genérico

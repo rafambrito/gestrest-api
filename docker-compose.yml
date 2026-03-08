@@ -14,7 +14,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - gestrest-network
+      - fiap
 
   app:
     build: .
@@ -31,10 +31,10 @@ services:
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_DATASOURCE_PASSWORD: admin
     networks:
-      - gestrest-network
+      - fiap
 
 networks:
-  gestrest-network:
+  fiap:
 
 volumes:
   postgres_data:
