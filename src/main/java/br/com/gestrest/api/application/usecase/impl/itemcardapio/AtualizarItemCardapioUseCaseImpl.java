@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import br.com.gestrest.api.domain.model.ItemCardapio;
 import br.com.gestrest.api.domain.model.ports.in.itemcardapio.AtualizarItemCardapioUseCase;
 import br.com.gestrest.api.domain.model.ports.out.ItemCardapioRepositoryPort;
+import br.com.gestrest.api.domain.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -17,7 +18,7 @@ public class AtualizarItemCardapioUseCaseImpl implements AtualizarItemCardapioUs
 	public ItemCardapio atualizar(ItemCardapio item) {
 
 		var existente = repository.buscarPorId(item.getId())
-				.orElseThrow(() -> new RuntimeException("Item não encontrado"));
+				.orElseThrow(() -> new EntityNotFoundException(item.getId(), "Item"));
 
 		existente.atualizar(item.getNome(), item.getDescricao(), item.getPreco());
 

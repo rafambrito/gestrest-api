@@ -1,4 +1,4 @@
-package br.com.gestrest.api.gestrest_api;
+package br.com.gestrest.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

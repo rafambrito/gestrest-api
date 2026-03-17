@@ -169,6 +169,41 @@ mvn clean install
 ```
 
 
+**Ferramentas de teste utilizadas:**
+
+- **JUnit 5** (Jupiter) — framework de execução e escrita de testes.
+- **Mockito** — biblioteca de mocking para testes unitários (já disponível via `spring-boot-starter-test`).
+- **JaCoCo** — plugin de cobertura configurado no `pom.xml` para gerar relatórios HTML durante a fase `test`.
+
+**Comandos úteis relacionados a testes e cobertura:**
+
+- Rodar todos os testes e gerar relatório JaCoCo:
+
+```sh
+./mvnw test
+```
+
+- Rodar apenas uma classe de teste:
+
+```sh
+./mvnw -Dtest=br.com.gestrest.api.application.usecase.impl.restaurante.CriarRestauranteUseCaseTest test
+```
+
+- Rodar apenas um método de teste:
+
+```sh
+./mvnw -Dtest=NomeDaClasseDeTeste#nomeDoMetodo test
+```
+
+**Local dos relatórios**
+
+- Relatórios do Surefire (resultados dos testes): `target/surefire-reports/`
+- Relatório JaCoCo (HTML): `target/site/jacoco/index.html`
+- Arquivo binário de cobertura: `target/jacoco.exec`
+
+**Nota sobre Mockito/ByteBuddy:** você pode ver avisos sobre agente dinâmico em alguns ambientes; se preferir, adicione `org.mockito:mockito-inline` como dependência de teste para habilitar o inline mock maker sem avisos.
+
+
 ### 📄 Documentação da API (Swagger)
 
 Após iniciar a aplicação, a documentação interativa Swagger está disponível em:
@@ -192,26 +227,10 @@ A coleção inclui cenários positivos e negativos (ex.: tentativa de cadastro c
 * 💾 Persistência de dados garantida através de **volumes Docker**
 * 📊 Integração via Spring Data JPA e Hibernate
 
-### 📝 **Observações Finais**
-
-* 💡 Projeto estruturado com Clean Architecture
-
-* 📂 Código organizado e preparado para crescimento
-
-* 🧪 Base pronta para cobertura mínima de 80% de testes
-
-* 🛡️ Estrutura preparada para futuras fases (segurança, pedidos, avaliações)
 
 
-**Projeto desenvolvido como parte do Tech Challenge – Fase 02** 🎓 **Curso de Pós-Graduação – FIAP**
 
-### 👤 **Autor**
-
-* Rafael Mendonça de Brito (RM369933)
-
----
-
-## Quickstart (cenário end-to-end)
+## 🚀 Quickstart (cenário end-to-end)
 
 1) Inicie a aplicação:
 
@@ -235,7 +254,7 @@ curl -X POST -H "Content-Type: application/json" -d '{"nome":"Pizza House","ende
 curl -X POST -H "Content-Type: application/json" -d '{"nome":"Pizza Margherita","descricao":"Molho de tomate","preco":45.50,"restauranteId":1}' http://localhost:8080/api/v1/itens-cardapio
 ```
 
-## Formato padrão de erro (ErrorResponse)
+## ⚠️ Formato padrão de erro (ErrorResponse)
 
 Para todas as respostas de erro a API retorna um JSON padronizado com o seguinte formato:
 
@@ -257,3 +276,22 @@ Códigos esperados:
 - 404 Not Found -> recurso não encontrado
 - 409 Conflict -> conflito de negócio (ex.: email duplicado, recurso em uso)
 - 500 Internal Server Error -> erro genérico
+
+
+
+### 📝 **Observações Finais**
+
+* 💡 Projeto estruturado com Clean Architecture
+
+* 📂 Código organizado e preparado para crescimento
+
+* 🧪 Base pronta para cobertura mínima de 80% de testes
+
+* 🛡️ Estrutura preparada para futuras fases (segurança, pedidos, avaliações)
+
+
+**Projeto desenvolvido como parte do Tech Challenge – Fase 02** 🎓 **Curso de Pós-Graduação – FIAP**
+
+### 👤 **Autor**
+
+* Rafael Mendonça de Brito (RM369933)

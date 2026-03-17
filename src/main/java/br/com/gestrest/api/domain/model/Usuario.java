@@ -17,7 +17,7 @@ public class Usuario {
     private LocalDateTime dataUltimaAlteracao;
 
 	private Usuario(Long id, String nome, String email, String login, String senha, String endereco,
-			TipoUsuario tipoUsuario) {
+					TipoUsuario tipoUsuario) {
 
 		this.id = id;
 		this.nome = nome;
@@ -29,13 +29,13 @@ public class Usuario {
 	}
 
 	public static Usuario criar(String nome, String email, String login, String senha, String endereco,
-			TipoUsuario tipoUsuario) {
+						 TipoUsuario tipoUsuario) {
 
 		return new Usuario(null, nome, email, login, senha, endereco, tipoUsuario);
 	}
 
 	public static Usuario existente(Long id, String nome, String email, String login, String senha, String endereco,
-			TipoUsuario tipoUsuario) {
+						 TipoUsuario tipoUsuario) {
 
 		return new Usuario(id, nome, email, login, senha, endereco, tipoUsuario);
 	}
@@ -46,6 +46,25 @@ public class Usuario {
 	
     public void atualizarDados(String nome) {
         this.nome = nome;
+        this.dataUltimaAlteracao = LocalDateTime.now();
+    }
+
+    /**
+     * Atualiza campos do usuário de forma transacional (única operação de domínio).
+     * Preserve invariants and registra a nova data de alteração.
+     */
+    public void atualizar(String nome, String email, String endereco, TipoUsuario tipoUsuario) {
+        if (nome != null && !nome.isBlank()) {
+            this.nome = nome;
+        }
+
+        this.email = (email != null) ? email : this.email;
+        this.endereco = (endereco != null) ? endereco : this.endereco;
+
+        if (tipoUsuario != null) {
+            this.tipoUsuario = tipoUsuario;
+        }
+
         this.dataUltimaAlteracao = LocalDateTime.now();
     }
 
@@ -61,51 +80,27 @@ public class Usuario {
 		return nome;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
 	public String getEmail() {
 		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public String getLogin() {
 		return login;
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
 	public String getSenha() {
 		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
 	}
 
 	public String getEndereco() {
 		return endereco;
 	}
 
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public void setTipoUsuario(TipoUsuario tipoUsuario) {
-		this.tipoUsuario = tipoUsuario;
-	}
-
 	public boolean isDono() {
 		return this.tipoUsuario != null && "DONO_RESTAURANTE".equals(this.tipoUsuario.getNome());
+	}
+
+	public boolean isCliente() {
+		return this.tipoUsuario != null && "CLIENTE".equals(this.tipoUsuario.getNome());
 	}
 }

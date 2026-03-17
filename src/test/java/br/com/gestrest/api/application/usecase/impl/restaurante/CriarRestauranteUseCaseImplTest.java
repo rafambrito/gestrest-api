@@ -14,6 +14,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import br.com.gestrest.api.domain.exception.BusinessException;
+import br.com.gestrest.api.domain.exception.UsuarioNaoEncontradoException;
 import br.com.gestrest.api.domain.model.Restaurante;
 import br.com.gestrest.api.domain.model.TipoUsuario;
 import br.com.gestrest.api.domain.model.Usuario;
@@ -128,5 +130,28 @@ class CriarRestauranteUseCaseImplTest {
         assertThrows(IllegalArgumentException.class, () ->
                 Restaurante.criar("Pizza House", "Rua", "Italiana", "11:00", null)
         );
+    }
+
+    @Test
+    @DisplayName("Deve falhar quando dono nao encontrado")
+    void deveFalharQuandoDonoNaoEncontrado() {
+        when(usuarioRepository.buscarPorId(99L)).thenReturn(Optional.empty());
+
+        var r = Restaurante.criar("R1", "End", "Italiana", "10:00-22:00", 99L);
+
+        assertThrows(UsuarioNaoEncontradoException.class, () -> useCase.criar(r));
+    }
+
+    @Test
+    @DisplayName("Deve falhar quando usuario nao for dono")
+    void deveFalharQuandoUsuarioNaoForDono() {
+        var tipoCliente = TipoUsuario.existente(2L, "CLIENTE");
+        var cliente = Usuario.existente(11L, "Cli", "cli@example.com", "cli", "senha", "end", tipoCliente);
+
+        var r = Restaurante.criar("R1", "End", "Italiana", "10:00-22:00", 11L);
+
+        when(usuarioRepository.buscarPorId(11L)).thenReturn(Optional.of(cliente));
+
+        assertThrows(BusinessException.class, () -> useCase.criar(r));
     }
 }

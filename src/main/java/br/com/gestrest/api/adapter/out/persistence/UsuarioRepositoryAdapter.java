@@ -9,6 +9,7 @@ import br.com.gestrest.api.adapter.out.persistence.entity.UsuarioEntity;
 import br.com.gestrest.api.adapter.out.persistence.mapper.UsuarioPersistenceMapper;
 import br.com.gestrest.api.adapter.out.persistence.repository.TipoUsuarioJpaRepository;
 import br.com.gestrest.api.adapter.out.persistence.repository.UsuarioJpaRepository;
+import br.com.gestrest.api.domain.exception.TipoUsuarioNaoEncontradoException;
 import br.com.gestrest.api.domain.model.Usuario;
 import br.com.gestrest.api.domain.model.ports.out.UsuarioRepositoryPort;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +41,7 @@ public class UsuarioRepositoryAdapter implements UsuarioRepositoryPort {
 
         var tipoEntity = tipoRepository.findById(
                 usuario.getTipoUsuario().getId()
-        ).orElseThrow();
+        ).orElseThrow(() -> new TipoUsuarioNaoEncontradoException(usuario.getTipoUsuario().getId()));
 
         entity.setTipoUsuario(tipoEntity);
 

@@ -2,7 +2,7 @@ package br.com.gestrest.api.application.usecase.impl.restaurante;
 
 import org.springframework.stereotype.Service;
 
-import br.com.gestrest.api.domain.exception.PermissaoNegadaException;
+import br.com.gestrest.api.domain.exception.BusinessException;
 import br.com.gestrest.api.domain.exception.UsuarioNaoEncontradoException;
 import br.com.gestrest.api.domain.model.Restaurante;
 import br.com.gestrest.api.domain.model.ports.in.restaurante.CriarRestauranteUseCase;
@@ -24,7 +24,7 @@ public class CriarRestauranteUseCaseImpl implements CriarRestauranteUseCase {
                 .orElseThrow(() -> new UsuarioNaoEncontradoException(donoId));
 
         if (!usuario.isDono()) {
-            throw new PermissaoNegadaException("Apenas donos de restaurante podem criar restaurantes");
+            throw new BusinessException("Apenas donos de restaurante podem criar restaurantes");
         }
 
         return repository.salvar(restaurante);

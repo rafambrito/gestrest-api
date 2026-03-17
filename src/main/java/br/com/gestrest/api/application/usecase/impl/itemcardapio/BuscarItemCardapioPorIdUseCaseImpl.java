@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import br.com.gestrest.api.domain.model.ItemCardapio;
 import br.com.gestrest.api.domain.model.ports.in.itemcardapio.BuscarItemCardapioPorIdUseCase;
 import br.com.gestrest.api.domain.model.ports.out.ItemCardapioRepositoryPort;
+import br.com.gestrest.api.domain.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -15,6 +16,6 @@ public class BuscarItemCardapioPorIdUseCaseImpl implements BuscarItemCardapioPor
 
 	@Override
 	public ItemCardapio buscarPorId(Long id) {
-		return repository.buscarPorId(id).orElseThrow(() -> new RuntimeException("Item não encontrado"));
+		return repository.buscarPorId(id).orElseThrow(() -> new EntityNotFoundException(id, "Item"));
 	}
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import br.com.gestrest.api.domain.model.Restaurante;
 import br.com.gestrest.api.domain.model.ports.in.restaurante.AtualizarRestauranteUseCase;
 import br.com.gestrest.api.domain.model.ports.out.RestauranteRepositoryPort;
+import br.com.gestrest.api.domain.exception.RestauranteNaoEncontradoException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -17,7 +18,7 @@ public class AtualizarRestauranteUseCaseImpl implements AtualizarRestauranteUseC
     public Restaurante atualizar(Restaurante restaurante) {
 
         var existente = repository.buscarPorId(restaurante.getId())
-                .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
+                .orElseThrow(() -> new RestauranteNaoEncontradoException(restaurante.getId()));
 
         existente.atualizar(
                 restaurante.getNome(),

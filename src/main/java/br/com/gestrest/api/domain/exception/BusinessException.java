@@ -1,9 +1,9 @@
 package br.com.gestrest.api.domain.exception;
 
-public class RecursoEmUsoException extends DuplicateResourceException {
+public class BusinessException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
-    public RecursoEmUsoException(String message) {
+    public BusinessException(String message) {
         super(message);
     }
 }
