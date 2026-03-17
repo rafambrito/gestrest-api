@@ -123,9 +123,11 @@ A aplicação utiliza **profiles do Spring** para separar configurações por am
 
 | Profile | Descrição |
 |------|----------|
-| `default` | Execução local via IDE |
-| `docker` | Execução via Docker Compose |
-| `test` | Execução de testes automatizados com H2 |
+| `default` | Execução local via IDE (usa `src/main/resources/application.yaml`) |
+| `docker` | Execução via Docker Compose (configurações específicas para ambiente docker; ativado no `docker-compose.yml` através da variável `SPRING_PROFILES_ACTIVE`) |
+| `test` | Execução de testes automatizados com H2 (arquivo `application-test.yml`) |
+
+Observação: o arquivo `application-docker.yml` está incluído no artefato construído e aparece em `target/classes/application-docker.yml` quando o projeto é empacotado; é esse arquivo que o profile `docker` utilizará dentro da imagem Docker.
 
 ---
 
@@ -144,11 +146,20 @@ Na raiz do projeto, execute:
 docker compose up --build
 ```
 
+O `docker-compose.yml` define o serviço de banco de dados (Postgres) e do aplicativo. Nota importante: o Compose ativa o profile `docker` para a aplicação (variável de ambiente `SPRING_PROFILES_ACTIVE: docker`) e também injeta as configurações de conexão com o banco via variáveis de ambiente (`SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD`).
+
 ### 🚀 Após a inicialização
 
 🌐 API disponível em: http://localhost:8080
 
 🐘 PostgreSQL rodando em container dedicado
+
+**Credenciais usadas via Docker Compose:**
+
+- Usuário: `admin`
+- Senha: `admin`
+
+(O `docker-compose.yml` configura o banco com `POSTGRES_USER=admin` e `POSTGRES_PASSWORD=admin` e a aplicação usa as mesmas credenciais quando executada via Docker.)
 
 ### 🧪 Testes Automatizados
 
@@ -227,6 +238,12 @@ A coleção inclui cenários positivos e negativos (ex.: tentativa de cadastro c
 * 💾 Persistência de dados garantida através de **volumes Docker**
 * 📊 Integração via Spring Data JPA e Hibernate
 
+
+**Atenção às credenciais (diferença local vs docker):**
+
+- Execução local (IDE / profile `default`): as configurações em `src/main/resources/application.yaml` apontam por padrão para um Postgres local com usuário `postgres` e senha `postgres` (URL: `jdbc:postgresql://localhost:5432/gestrest`).
+
+- Execução via Docker Compose (profile `docker`): o Compose cria o banco com usuário `admin`/senha `admin` e injeta essas credenciais na aplicação. Verifique `docker-compose.yml` se quiser alterar esse comportamento.
 
 
 

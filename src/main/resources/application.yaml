@@ -15,6 +15,13 @@ spring:
     properties:
       hibernate:
         format_sql: true
+    # Adiar inicialização do datasource até que o JPA esteja pronto ( necessário para Spring Boot >= 2.5 )
+    defer-datasource-initialization: true
+
+  # Garantir execução de scripts SQL (data.sql) na inicialização
+  sql:
+    init:
+      mode: always
 
 server:
   port: 8080
