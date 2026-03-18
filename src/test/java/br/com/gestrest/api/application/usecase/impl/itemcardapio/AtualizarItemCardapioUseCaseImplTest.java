@@ -31,21 +31,24 @@ class AtualizarItemCardapioUseCaseImplTest {
 
     @Test
     void atualizarSucesso() {
-        var existente = ItemCardapio.existente(5L, "Old", "OldDesc", new BigDecimal("5.00"), 2L);
-        var atualizado = ItemCardapio.existente(5L, "New", "NewDesc", new BigDecimal("7.50"), 2L);
+        var existente = ItemCardapio.existente(5L, "Sanduiche Natural", "Pao integral com frango desfiado e salada", new BigDecimal("18.00"), 2L,
+            true, "/itens/sanduiche-natural.jpg");
+        var atualizado = ItemCardapio.existente(5L, "Sanduiche Natural Premium", "Pao integral, frango desfiado, ricota e folhas", new BigDecimal("22.50"),
+            2L, false, "/itens/sanduiche-natural-premium.jpg");
 
         when(repository.buscarPorId(5L)).thenReturn(Optional.of(existente));
         when(repository.salvar(any(ItemCardapio.class))).thenReturn(atualizado);
 
         var result = useCase.atualizar(atualizado);
 
-        assertEquals("New", result.getNome());
-        assertEquals(0, result.getPreco().compareTo(new BigDecimal("7.50")));
+        assertEquals("Sanduiche Natural Premium", result.getNome());
+        assertEquals(0, result.getPreco().compareTo(new BigDecimal("22.50")));
     }
 
     @Test
     void atualizarNaoEncontrado() {
-        var atualizado = ItemCardapio.existente(55L, "New", "NewDesc", new BigDecimal("7.50"), 2L);
+        var atualizado = ItemCardapio.existente(55L, "Sanduiche Natural Premium", "Pao integral, frango desfiado, ricota e folhas", new BigDecimal("22.50"),
+                2L, false, "/itens/sanduiche-natural-premium.jpg");
         when(repository.buscarPorId(55L)).thenReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class, () -> useCase.atualizar(atualizado));
     }

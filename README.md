@@ -35,23 +35,67 @@ A aplicação foi estruturada seguindo os princípios da **Clean Architecture**,
 
 ### Camadas do sistema:
 
-- **Domain**
+- **Domain** (`br.com.gestrest.api.domain`)
   - Entidades de negócio
-  - Interfaces de repositórios
-  - Regras de domínio
+  - Exceções de domínio
+  - Contratos de entrada/saída (`ports.in` e `ports.out`)
 
-- **Application**
-  - Casos de uso
-  - DTOs
+- **Application** (`br.com.gestrest.api.application`)
+  - Casos de uso (implementações em `usecase.impl`)
+  - Commands de entrada para casos de uso (`usecase.command`)
   - Orquestração das regras de negócio
 
-- **Infrastructure**
-  - Controllers REST
-  - Implementações de repositórios (JPA)
-  - Configurações
-  - Persistência
+- **Adapters/Infrastructure** (`br.com.gestrest.api.adapter` e `br.com.gestrest.api.config`)
+  - Adapter In (Web): controllers, DTOs, mapper web, tratamento de exceções
+  - Adapter Out (Persistence): entidades JPA, repositories Spring Data, mappers de persistência, adapters de repositório
+  - Configurações de beans e wiring
 
 Essa abordagem reduz o acoplamento entre as camadas e prepara o sistema para evolução futura.
+
+---
+
+## 🗂️ Estrutura de Pacotes da Aplicação
+
+Abaixo está a estrutura principal de pacotes de produção em `src/main/java`:
+
+```text
+br.com.gestrest.api
+├── adapter
+│   ├── in
+│   │   └── web
+│   │       ├── controller
+│   │       │   └── doc
+│   │       ├── dto
+│   │       │   ├── request
+│   │       │   └── response
+│   │       ├── exception
+│   │       └── mapper
+│   └── out
+│       └── persistence
+│           ├── entity
+│           ├── mapper
+│           └── repository
+├── application
+│   └── usecase
+│       ├── command
+│       │   └── usuario
+│       └── impl
+│           ├── itemcardapio
+│           ├── restaurante
+│           ├── tipousuario
+│           └── usuario
+├── config
+└── domain
+  ├── exception
+  └── model
+    └── ports
+      ├── in
+      │   ├── itemcardapio
+      │   ├── restaurante
+      │   ├── tipousuario
+      │   └── usuario
+      └── out
+```
 
 ---
 
@@ -82,11 +126,12 @@ Campos obrigatórios do cadastro de restaurante:
 
 Campos obrigatórios dos itens do cardápio:
 
-- 📌 Nome
-- 📝 Descrição
-- 💰 Preço
-- 🏠 Disponibilidade apenas para consumo no local
-- 🖼️ Caminho da imagem do prato
+- 📌 Nome (string)
+- 📝 Descrição (string)
+- 💰 Preço (decimal com 2 casas)
+- 🏠 Disponível apenas no local (boolean)
+- 🖼️ Caminho da foto (string com máx. 255 caracteres)
+- 🔗 Restaurante (ID do restaurante - obrigatório)
 
 ---
 
@@ -103,7 +148,17 @@ Campos obrigatórios dos itens do cardápio:
 
 ---
 
-## 🛠️ Stack Tecnológica
+## � Regras de Negócio Implementadas
+
+- **Tipo de Usuário:** Bloqueio de exclusão se houver usuários associados (409 Conflict)
+- **Restaurante:** Apenas usuários com tipo DONO podem criar (403 Forbidden)
+- **Restaurante:** Bloqueio de exclusão se houver itens no cardápio (409 Conflict)
+- **Usuário:** E-mail e login únicos no sistema (409 Conflict em duplicidade)
+- **Item de Cardápio:** Todos os campos (nome, descrição, preço, disponibilidade, foto, restaurante) são obrigatórios
+
+---
+
+## �🛠️ Stack Tecnológica
 
 - ☕ Java 21
 - 🍃 Spring Boot 3.4.1
@@ -226,7 +281,7 @@ http://localhost:8080/swagger-ui/index.html
 
 A coleção do Postman com exemplos de requisições está em:
 
-postman/gestrest_api_collection.json
+docs/postman/gestrest_api_collection.json
 
 A coleção inclui cenários positivos e negativos (ex.: tentativa de cadastro com email duplicado -> 409, criação de item para restaurante inexistente -> 404, tentativa de exclusão de restaurante com itens -> 409).
 
@@ -268,7 +323,7 @@ curl -X POST -H "Content-Type: application/json" -d '{"nome":"Rafael","email":"r
 
 curl -X POST -H "Content-Type: application/json" -d '{"nome":"Pizza House","endereco":"Av. Paulista","tipoCozinha":"Italiana","horarioFuncionamento":"11:00 - 23:00","donoId":1}' http://localhost:8080/api/v1/restaurantes
 
-curl -X POST -H "Content-Type: application/json" -d '{"nome":"Pizza Margherita","descricao":"Molho de tomate","preco":45.50,"restauranteId":1}' http://localhost:8080/api/v1/itens-cardapio
+curl -X POST -H "Content-Type: application/json" -d '{"nome":"Pizza Margherita","descricao":"Molho de tomate","preco":45.50,"disponivelSomenteNoLocal":true,"fotoPath":"/imagens/itens/pizza-margherita.jpg","restauranteId":1}' http://localhost:8080/api/v1/itens-cardapio
 ```
 
 ## ⚠️ Formato padrão de erro (ErrorResponse)
@@ -283,13 +338,14 @@ Para todas as respostas de erro a API retorna um JSON padronizado com o seguinte
   "message": "Validation failed",
   "path": "/api/v1/usuarios",
   "errors": [
-    { "campo": "email", "mensagem": "Email deve ser válido" }
+    { "field": "email", "message": "Email deve ser válido" }
   ]
 }
 ```
 
 Códigos esperados:
 - 400 Bad Request -> erros de validação DTO
+- 403 Forbidden -> operação não permitida pela regra de negócio (ex: apenas DONO pode criar restaurante)
 - 404 Not Found -> recurso não encontrado
 - 409 Conflict -> conflito de negócio (ex.: email duplicado, recurso em uso)
 - 500 Internal Server Error -> erro genérico

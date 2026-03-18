@@ -20,7 +20,12 @@ public class AtualizarItemCardapioUseCaseImpl implements AtualizarItemCardapioUs
 		var existente = repository.buscarPorId(item.getId())
 				.orElseThrow(() -> new EntityNotFoundException(item.getId(), "Item"));
 
-		existente.atualizar(item.getNome(), item.getDescricao(), item.getPreco());
+		existente.atualizar(
+				item.getNome(),
+				item.getDescricao(),
+				item.getPreco(),
+				item.isDisponivelSomenteNoLocal(),
+				item.getFotoPath());
 
 		return repository.salvar(existente);
 	}

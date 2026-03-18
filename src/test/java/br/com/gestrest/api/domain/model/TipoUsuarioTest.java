@@ -17,17 +17,17 @@ class TipoUsuarioTest {
 
     @Test
     void existenteIdNuloDeveFalhar() {
-        assertThrows(IllegalArgumentException.class, () -> TipoUsuario.existente(null, "n"));
+        assertThrows(IllegalArgumentException.class, () -> TipoUsuario.existente(null, "GERENTE_RESTAURANTE"));
     }
 
     @Test
     void atualizarDadosEIgualdade() {
-        var t = TipoUsuario.existente(2L, "OLD");
-        t.atualizarDados("NEW");
-        assertEquals("NEW", t.getNome());
+        var t = TipoUsuario.existente(2L, "ATENDENTE");
+        t.atualizarDados("COORDENADOR_ATENDIMENTO");
+        assertEquals("COORDENADOR_ATENDIMENTO", t.getNome());
 
-        var a = TipoUsuario.existente(1L, "X");
-        var b = TipoUsuario.existente(1L, "Y");
+        var a = TipoUsuario.existente(1L, "CLIENTE");
+        var b = TipoUsuario.existente(1L, "DONO_RESTAURANTE");
         assertEquals(a, b);
         assertEquals(a.hashCode(), b.hashCode());
     }

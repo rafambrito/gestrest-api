@@ -38,12 +38,10 @@ class CriarRestauranteUseCaseTest {
 
     @Test
     void criar_sucesso() {
-        var restaurante = Restaurante.criar("N", "E", "T", "H", 5L);
-        var dono = Usuario.existente(5L, "D", "d@x.com", "dlog", "s", "end", null);
-        // make as dono
-        dono.alterarTipoUsuario(null);
-        // but isDono checks tipoUsuario name; create tipo that makes it dono
-        var tipo = br.com.gestrest.api.domain.model.TipoUsuario.existente(9L, "DONO_RESTAURANTE");
+        var restaurante = Restaurante.criar("Rafael Brito", "Rua das Rosas, São Paulo/SP", "Brasileira", "Seg-Sab 11:00-22:00", 5L);
+        var dono = Usuario.existente(5L, "Rafael Brito", "rafael.brito@gestrest.com", "rafael.brito", "Senha@123", "Rua das Rosas, São Paulo/SP", null);
+        // isDono no dominio valida pelo ID do enum DONO_RESTAURANTE (id=1)
+        var tipo = br.com.gestrest.api.domain.model.TipoUsuario.existente(1L, "DONO_RESTAURANTE");
         dono.alterarTipoUsuario(tipo);
 
         when(usuarioRepository.buscarPorId(5L)).thenReturn(Optional.of(dono));
@@ -55,15 +53,15 @@ class CriarRestauranteUseCaseTest {
 
     @Test
     void criar_dono_inexistente() {
-        var restaurante = Restaurante.criar("N", "E", "T", "H", 7L);
+        var restaurante = Restaurante.criar("João da Silva", "Rua das Rosas, São Paulo/SP", "Mediterranea", "Ter-Dom 12:00-23:00", 7L);
         when(usuarioRepository.buscarPorId(7L)).thenReturn(Optional.empty());
         assertThrows(UsuarioNaoEncontradoException.class, () -> useCase.criar(restaurante));
     }
 
     @Test
     void criar_usuario_nao_e_dono() {
-        var restaurante = Restaurante.criar("N", "E", "T", "H", 8L);
-        var usuario = Usuario.existente(8L, "U", "u@x.com", "ulog", "s", "end", null);
+        var restaurante = Restaurante.criar("José Pereira", "Rua das Rosas, São Paulo/SP", "Italiana", "Seg-Dom 11:30-23:30", 8L);
+        var usuario = Usuario.existente(8L, "José Pereira", "jose.pereira@gestrest.com", "jose.pereira", "Senha@456", "Rua das Rosas, São Paulo/SP", null);
         // set tipo different from DONO_RESTAURANTE
         var tipo = br.com.gestrest.api.domain.model.TipoUsuario.existente(2L, "CLIENTE");
         usuario.alterarTipoUsuario(tipo);

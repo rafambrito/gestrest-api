@@ -11,19 +11,24 @@ class ItemCardapioDomainTest {
 
     @Test
     void criarValido() {
-        var i = ItemCardapio.criar("Nome", "Desc", BigDecimal.TEN, 2L);
-        assertEquals("Nome", i.getNome());
+        var i = ItemCardapio.criar("José Pereira", "Massa fresca recheada com ricota e espinafre", BigDecimal.TEN, 2L,
+                false, "/itens/jose-pereira.jpg");
+        assertEquals("José Pereira", i.getNome());
     }
 
     @Test
     void criarInvalidoPreco() {
-        assertThrows(IllegalArgumentException.class, () -> ItemCardapio.criar("N", "D", BigDecimal.ZERO, 2L));
+        assertThrows(IllegalArgumentException.class,
+            () -> ItemCardapio.criar("José Pereira", "Massa fresca recheada com ricota e espinafre", BigDecimal.ZERO, 2L, false,
+                "/itens/jose-pereira.jpg"));
     }
 
     @Test
     void atualizarValido() {
-        var i = ItemCardapio.existente(1L, "N", "D", BigDecimal.TEN, 2L);
-        i.atualizar("NN", "DD", BigDecimal.valueOf(5));
-        assertEquals("NN", i.getNome());
+        var i = ItemCardapio.existente(1L, "José Pereira", "Massa fresca recheada com ricota e espinafre", BigDecimal.TEN, 2L,
+            true, "/itens/jose-pereira.jpg");
+        i.atualizar("Rafael Brito", "Massa fresca recheada com ricota, espinafre e nozes", BigDecimal.valueOf(45), false,
+            "/itens/rafael-brito.jpg");
+        assertEquals("Rafael Brito", i.getNome());
     }
 }

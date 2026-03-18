@@ -40,10 +40,10 @@ class CriarRestauranteUseCaseImplTest {
     @BeforeEach
     void setUp() {
         restaurante = Restaurante.criar(
-                "Pizza House",
-                "Rua das Flores 123",
+                "João da Silva",
+                "Avenida Beija Flor, São Paulo/SP",
                 "Italiana",
-                "11:00 - 22:00",
+                "Seg-Dom 11:00-22:30",
                 1L
         );
     }
@@ -62,7 +62,7 @@ class CriarRestauranteUseCaseImplTest {
         );
         when(repository.salvar(any(Restaurante.class))).thenReturn(restauranteSalvo);
 
-        var usuario = Usuario.existente(1L, "Dono", "dono@ex.com", "dono", "senha", "endereco", TipoUsuario.existente(1L, "DONO_RESTAURANTE"));
+        var usuario = Usuario.existente(1L, "Rafael Brito", "rafael.brito@gestrest.com", "rafael.brito", "Senha@123", "Rua das Rosas, São Paulo/SP", TipoUsuario.existente(1L, "DONO_RESTAURANTE"));
         when(usuarioRepository.buscarPorId(restaurante.getDonoId())).thenReturn(Optional.of(usuario));
 
         // Act
@@ -71,10 +71,10 @@ class CriarRestauranteUseCaseImplTest {
         // Assert
         assertNotNull(resultado);
         assertEquals(1L, resultado.getId());
-        assertEquals("Pizza House", resultado.getNome());
-        assertEquals("Rua das Flores 123", resultado.getEndereco());
+        assertEquals("João da Silva", resultado.getNome());
+        assertEquals("Avenida Beija Flor, São Paulo/SP", resultado.getEndereco());
         assertEquals("Italiana", resultado.getTipoCozinha());
-        assertEquals("11:00 - 22:00", resultado.getHorarioFuncionamento());
+        assertEquals("Seg-Dom 11:00-22:30", resultado.getHorarioFuncionamento());
         verify(repository, times(1)).salvar(any(Restaurante.class));
     }
 
@@ -101,7 +101,7 @@ class CriarRestauranteUseCaseImplTest {
     void devefalharAoCriarComEnderecoNull() {
         // Assert
         assertThrows(IllegalArgumentException.class, () ->
-                Restaurante.criar("Pizza House", null, "Italiana", "11:00", 1L)
+                Restaurante.criar("João da Silva", null, "Italiana", "11:00", 1L)
         );
     }
 
@@ -110,7 +110,7 @@ class CriarRestauranteUseCaseImplTest {
     void devefalharAoCriarComTipoCozinhaNUll() {
         // Assert
         assertThrows(IllegalArgumentException.class, () ->
-                Restaurante.criar("Pizza House", "Rua", null, "11:00", 1L)
+                Restaurante.criar("João da Silva", "Rua", null, "11:00", 1L)
         );
     }
 
@@ -119,7 +119,7 @@ class CriarRestauranteUseCaseImplTest {
     void devefalharAoCriarComHorarioNull() {
         // Assert
         assertThrows(IllegalArgumentException.class, () ->
-                Restaurante.criar("Pizza House", "Rua", "Italiana", null, 1L)
+                Restaurante.criar("João da Silva", "Rua", "Italiana", null, 1L)
         );
     }
 
@@ -128,7 +128,7 @@ class CriarRestauranteUseCaseImplTest {
     void devefalharAoCriarComDonoNull() {
         // Assert
         assertThrows(IllegalArgumentException.class, () ->
-                Restaurante.criar("Pizza House", "Rua", "Italiana", "11:00", null)
+                Restaurante.criar("João da Silva", "Rua", "Italiana", "11:00", null)
         );
     }
 
@@ -137,7 +137,7 @@ class CriarRestauranteUseCaseImplTest {
     void deveFalharQuandoDonoNaoEncontrado() {
         when(usuarioRepository.buscarPorId(99L)).thenReturn(Optional.empty());
 
-        var r = Restaurante.criar("R1", "End", "Italiana", "10:00-22:00", 99L);
+        var r = Restaurante.criar("José Pereira", "Rua das Rosas, São Paulo/SP", "Italiana", "10:00-22:00", 99L);
 
         assertThrows(UsuarioNaoEncontradoException.class, () -> useCase.criar(r));
     }
@@ -146,9 +146,9 @@ class CriarRestauranteUseCaseImplTest {
     @DisplayName("Deve falhar quando usuario nao for dono")
     void deveFalharQuandoUsuarioNaoForDono() {
         var tipoCliente = TipoUsuario.existente(2L, "CLIENTE");
-        var cliente = Usuario.existente(11L, "Cli", "cli@example.com", "cli", "senha", "end", tipoCliente);
+        var cliente = Usuario.existente(11L, "José Pereira", "jose.pereira@gestrest.com", "jose.pereira", "Senha@234", "Rua das Rosas, São Paulo/SP", tipoCliente);
 
-        var r = Restaurante.criar("R1", "End", "Italiana", "10:00-22:00", 11L);
+        var r = Restaurante.criar("José Pereira", "Rua das Rosas, São Paulo/SP", "Italiana", "10:00-22:00", 11L);
 
         when(usuarioRepository.buscarPorId(11L)).thenReturn(Optional.of(cliente));
 

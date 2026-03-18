@@ -30,13 +30,14 @@ class BuscarItemCardapioPorIdUseCaseImplTest {
 
     @Test
     void buscarSucesso() {
-        var item = ItemCardapio.existente(10L, "Nome", "Desc", new BigDecimal("5.00"), 2L);
+        var item = ItemCardapio.existente(10L, "João da Silva", "Massa fresca, molho bolonhesa e queijo gratinado", new BigDecimal("45.00"),
+            2L, true, "/itens/joao-da-silva.jpg");
         when(repository.buscarPorId(10L)).thenReturn(Optional.of(item));
 
         var resultado = useCase.buscarPorId(10L);
 
         assertEquals(10L, resultado.getId());
-        assertEquals("Nome", resultado.getNome());
+        assertEquals("João da Silva", resultado.getNome());
     }
 
     @Test

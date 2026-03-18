@@ -38,22 +38,22 @@ class AtualizarRestauranteUseCaseImplTest {
     @Test
     void atualizarSucesso() {
         var donoTipo = TipoUsuario.existente(1L, "DONO_RESTAURANTE");
-        var dono = Usuario.existente(2L, "Dono", "d@d.com", "d", "s", "e", donoTipo);
-        var existente = Restaurante.existente(5L, "OldName", "E", "T", "H", 2L);
+        var dono = Usuario.existente(2L, "Rafael Brito", "rafael.brito@gestrest.com", "rafael.brito", "Senha@123", "Rua das Rosas, São Paulo/SP", donoTipo);
+        var existente = Restaurante.existente(5L, "João da Silva", "Rua das Rosas, São Paulo/SP", "Churrascaria", "11:00-23:00", 2L);
 
         when(restauranteRepository.buscarPorId(5L)).thenReturn(Optional.of(existente));
         when(restauranteRepository.salvar(any(Restaurante.class))).thenAnswer(inv -> inv.getArgument(0));
 
-        var domain = Restaurante.existente(5L, "NewName", "NE", "NT", "NH", 2L);
+        var domain = Restaurante.existente(5L, "Rafael Brito", "Rua das Rosas, São Paulo/SP", "Churrascaria Premium", "11:00-23:30", 2L);
         var result = useCase.atualizar(domain);
 
-        assertEquals("NewName", result.getNome());
+        assertEquals("Rafael Brito", result.getNome());
     }
 
     @Test
     void restauranteNaoEncontrado() {
         when(restauranteRepository.buscarPorId(99L)).thenReturn(Optional.empty());
-        var domain = Restaurante.existente(99L, "N", "E", "T", "H", 1L);
+        var domain = Restaurante.existente(99L, "José Pereira", "Rua das Rosas, São Paulo/SP", "Italiana", "12:00-23:00", 1L);
         assertThrows(RestauranteNaoEncontradoException.class, () -> useCase.atualizar(domain));
     }
 }

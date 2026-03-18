@@ -31,7 +31,7 @@ class BuscarRestaurantePorIdUseCaseTest {
 
     @Test
     void buscar_sucesso() {
-        var r = Restaurante.existente(2L, "N", "E", "T", "H", 1L);
+        var r = Restaurante.existente(2L, "José Pereira", "Rua Treze de Maio, 902 - Bela Vista, Sao Paulo/SP", "Italiana", "Ter-Dom 12:00-23:30", 1L);
         when(repository.buscarPorId(2L)).thenReturn(Optional.of(r));
 
         Restaurante res = useCase.executar(2L);

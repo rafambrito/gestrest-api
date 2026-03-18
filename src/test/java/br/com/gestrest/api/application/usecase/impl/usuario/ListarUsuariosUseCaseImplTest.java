@@ -32,9 +32,9 @@ class ListarUsuariosUseCaseImplTest {
     @DisplayName("Deve listar usuarios com sucesso")
     void deveListarUsuariosComSucesso() {
         // Arrange
-        var tipoUsuario = TipoUsuario.existente(1L, "Admin");
-        var usuario1 = Usuario.existente(1L, "João", "joao@test.com", "joao", "senha", "Rua A", tipoUsuario);
-        var usuario2 = Usuario.existente(2L, "Maria", "maria@test.com", "maria", "senha", "Rua B", tipoUsuario);
+        var tipoUsuario = TipoUsuario.existente(1L, "GERENTE_RESTAURANTE");
+        var usuario1 = Usuario.existente(1L, "João da Silva", "joao.silva@gestrest.com", "joao.silva", "Senha@123", "Rua das Rosas, São Paulo/SP", tipoUsuario);
+        var usuario2 = Usuario.existente(2L, "José Pereira", "jose.pereira@gestrest.com", "jose.pereira", "Senha@456", "Avenida Beija Flor, São Paulo/SP", tipoUsuario);
 
         List<Usuario> usuarios = Arrays.asList(usuario1, usuario2);
         when(repository.listar()).thenReturn(usuarios);
@@ -44,8 +44,8 @@ class ListarUsuariosUseCaseImplTest {
 
         // Assert
         assertEquals(2, resultado.size());
-        assertEquals("João", resultado.get(0).getNome());
-        assertEquals("Maria", resultado.get(1).getNome());
+        assertEquals("João da Silva", resultado.get(0).getNome());
+        assertEquals("José Pereira", resultado.get(1).getNome());
     }
 
     @Test

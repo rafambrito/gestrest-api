@@ -30,14 +30,14 @@ class BuscarRestaurantePorIdUseCaseImplTest {
     @Test
     @DisplayName("Deve retornar restaurante quando existir")
     void deveRetornarRestaurante() {
-        var r = Restaurante.existente(1L, "R1", "End", "Tipo", "10:00-22:00", 1L);
+        var r = Restaurante.existente(1L, "João da Silva", "Avenida Beija Flor, São Paulo/SP", "Contemporanea", "10:00-22:00", 1L);
 
         when(repository.buscarPorId(1L)).thenReturn(Optional.of(r));
 
         var resultado = useCase.executar(1L);
 
         assertEquals(1L, resultado.getId());
-        assertEquals("R1", resultado.getNome());
+        assertEquals("João da Silva", resultado.getNome());
     }
 
     @Test

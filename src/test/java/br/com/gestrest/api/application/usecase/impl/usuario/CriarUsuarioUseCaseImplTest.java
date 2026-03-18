@@ -1,10 +1,12 @@
 package br.com.gestrest.api.application.usecase.impl.usuario;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
@@ -40,26 +42,29 @@ class CriarUsuarioUseCaseImplTest {
     @DisplayName("Deve criar usuario com sucesso")
     void deveCriarUsuarioComSucesso() {
         // Arrange
-        var tipoUsuario = TipoUsuario.existente(1L, "Admin");
+        var tipoUsuario = TipoUsuario.existente(1L, "GERENTE_RESTAURANTE");
         var command = new CriarUsuarioCommand(
-            "João Silva",
-            "joao@example.com",
+            "João da Silva",
+            "joao.silva@gestrest.com",
             "joao.silva",
-            "senha123",
-            "Rua A, 123",
+            "Senha@123",
+            "Rua das Rosas, São Paulo/SP",
             1L
         );
 
         when(tipoRepository.buscarPorId(1L)).thenReturn(Optional.of(tipoUsuario));
         
+        var dataCriacao = LocalDateTime.now();
         var usuarioEsperado = Usuario.existente(
             1L,
-            "João Silva",
-            "joao@example.com",
+            "João da Silva",
+            "joao.silva@gestrest.com",
             "joao.silva",
-            "senha123",
-            "Rua A, 123",
-            tipoUsuario
+            "Senha@123",
+            "Rua das Rosas, São Paulo/SP",
+            tipoUsuario,
+            dataCriacao,
+            null
         );
         when(usuarioRepository.salvar(any(Usuario.class))).thenReturn(usuarioEsperado);
 
@@ -67,8 +72,10 @@ class CriarUsuarioUseCaseImplTest {
         var resultado = useCase.criar(command);
 
         // Assert
-        assertEquals("João Silva", resultado.getNome());
-        assertEquals("joao@example.com", resultado.getEmail());
+        assertEquals("João da Silva", resultado.getNome());
+        assertEquals("joao.silva@gestrest.com", resultado.getEmail());
+        assertNotNull(resultado.getDataCriacao());
+        assertEquals(dataCriacao, resultado.getDataCriacao());
     }
 
     @Test
@@ -76,11 +83,11 @@ class CriarUsuarioUseCaseImplTest {
     void deveLancarExcecaoQuandoTipoUsuarioNaoEncontrado() {
         // Arrange
         var command = new CriarUsuarioCommand(
-            "João Silva",
-            "joao@example.com",
+            "João da Silva",
+            "joao.silva@gestrest.com",
             "joao.silva",
-            "senha123",
-            "Rua A, 123",
+            "Senha@123",
+            "Rua das Rosas, São Paulo/SP",
             999L
         );
 
@@ -94,19 +101,19 @@ class CriarUsuarioUseCaseImplTest {
     @DisplayName("Deve falhar quando email já existe")
     void deveFalharQuandoEmailDuplicado() {
         // Arrange
-        var tipoUsuario = TipoUsuario.existente(1L, "Admin");
+        var tipoUsuario = TipoUsuario.existente(1L, "GERENTE_RESTAURANTE");
         var command = new CriarUsuarioCommand(
-            "João Silva",
-            "joao@example.com",
+            "João da Silva",
+            "joao.silva@gestrest.com",
             "joao.silva",
-            "senha123",
-            "Rua A, 123",
+            "Senha@123",
+            "Rua das Rosas, São Paulo/SP",
             1L
         );
 
         when(tipoRepository.buscarPorId(1L)).thenReturn(Optional.of(tipoUsuario));
-        when(usuarioRepository.buscarPorEmail("joao@example.com")).thenReturn(Optional.of(
-            Usuario.existente(2L, "Outro", "joao@example.com", "outro", "senha", "end", tipoUsuario)
+        when(usuarioRepository.buscarPorEmail("joao.silva@gestrest.com")).thenReturn(Optional.of(
+            Usuario.existente(2L, "João da Silva", "joao.silva@gestrest.com", "joao.silva", "Senha@987", "Rua das Rosas, São Paulo/SP", tipoUsuario)
         ));
 
         // Act & Assert
@@ -117,20 +124,20 @@ class CriarUsuarioUseCaseImplTest {
     @DisplayName("Deve falhar quando login já existe")
     void deveFalharQuandoLoginDuplicado() {
         // Arrange
-        var tipoUsuario = TipoUsuario.existente(1L, "Admin");
+        var tipoUsuario = TipoUsuario.existente(1L, "GERENTE_RESTAURANTE");
         var command = new CriarUsuarioCommand(
-            "João Silva",
-            "joao@example.com",
+            "João da Silva",
+            "joao.silva@gestrest.com",
             "joao.silva",
-            "senha123",
-            "Rua A, 123",
+            "Senha@123",
+            "Rua das Rosas, São Paulo/SP",
             1L
         );
 
         when(tipoRepository.buscarPorId(1L)).thenReturn(Optional.of(tipoUsuario));
-        when(usuarioRepository.buscarPorEmail("joao@example.com")).thenReturn(Optional.empty());
+        when(usuarioRepository.buscarPorEmail("joao.silva@gestrest.com")).thenReturn(Optional.empty());
         when(usuarioRepository.buscarPorLogin("joao.silva")).thenReturn(Optional.of(
-            Usuario.existente(3L, "Outro", "outro@example.com", "joao.silva", "senha", "end", tipoUsuario)
+            Usuario.existente(3L, "João da Silva", "joao.silva@gestrest.com", "joao.silva", "Senha@456", "Rua das Rosas, São Paulo/SP", tipoUsuario)
         ));
 
         // Act & Assert

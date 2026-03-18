@@ -48,7 +48,7 @@ public class TipoUsuarioController implements TipoUsuarioControllerDoc {
 
 		var response = mapper.toResponse(criado);
 
-		return ResponseEntity.created(URI.create("/api/v1/tipos-usuario/" + response.id())).body(response);
+		return ResponseEntity.created(URI.create("/api/v1/tipos-usuarios/" + response.id())).body(response);
 	}
 
 	@Override

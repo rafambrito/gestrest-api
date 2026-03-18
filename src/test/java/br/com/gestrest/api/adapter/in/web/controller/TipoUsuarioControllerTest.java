@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -39,30 +39,30 @@ class TipoUsuarioControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @MockBean
+    @MockitoBean
     private CriarTipoUsuarioUseCase criarUseCase;
 
-    @MockBean
+    @MockitoBean
     private AtualizarTipoUsuarioUseCase atualizarUseCase;
 
-    @MockBean
+    @MockitoBean
     private BuscarTipoUsuarioPorIdUseCase buscarPorIdUseCase;
 
-    @MockBean
+    @MockitoBean
     private ListarTipoUsuarioUseCase listarUseCase;
 
-    @MockBean
+    @MockitoBean
     private ExcluirTipoUsuarioUseCase excluirUseCase;
 
-    @MockBean
+    @MockitoBean
     private TipoUsuarioWebMapper mapper;
 
     @Test
     void criar_sucesso() throws Exception {
-        var req = new CriarTipoUsuarioRequest("Nome", "Desc");
-        var domain = TipoUsuario.criar("Nome");
-        var criado = TipoUsuario.existente(3L, "Nome");
-        var response = new TipoUsuarioResponse(3L, "Nome");
+        var req = new CriarTipoUsuarioRequest("GERENTE_RESTAURANTE", "Responsavel pela operacao diaria do restaurante");
+        var domain = TipoUsuario.criar("GERENTE_RESTAURANTE");
+        var criado = TipoUsuario.existente(3L, "GERENTE_RESTAURANTE");
+        var response = new TipoUsuarioResponse(3L, "GERENTE_RESTAURANTE");
 
         when(mapper.toDomain(any(CriarTipoUsuarioRequest.class))).thenReturn(domain);
         when(criarUseCase.criar(any())).thenReturn(criado);
@@ -72,15 +72,15 @@ class TipoUsuarioControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", "/api/v1/tipos-usuario/3"))
+            .andExpect(header().string("Location", "/api/v1/tipos-usuarios/3"))
                 .andExpect(jsonPath("$.id").value(3))
-                .andExpect(jsonPath("$.nome").value("Nome"));
+            .andExpect(jsonPath("$.nome").value("GERENTE_RESTAURANTE"));
     }
 
     @Test
     void buscar_sucesso() throws Exception {
-        var domain = TipoUsuario.existente(2L, "N");
-        var response = new TipoUsuarioResponse(2L, "N");
+        var domain = TipoUsuario.existente(2L, "DONO_RESTAURANTE");
+        var response = new TipoUsuarioResponse(2L, "DONO_RESTAURANTE");
 
         when(buscarPorIdUseCase.buscarPorId(2L)).thenReturn(domain);
         when(mapper.toResponse(domain)).thenReturn(response);
@@ -88,6 +88,6 @@ class TipoUsuarioControllerTest {
         mvc.perform(get("/api/v1/tipos-usuarios/2").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(2))
-                .andExpect(jsonPath("$.nome").value("N"));
+            .andExpect(jsonPath("$.nome").value("DONO_RESTAURANTE"));
     }
 }

@@ -40,34 +40,36 @@ class CriarUsuarioUseCaseTest {
     @Test
     void criar_sucesso() {
         var tipo = TipoUsuario.existente(1L, "CLIENTE");
-        var cmd = new CriarUsuarioCommand("Nome", "e@x.com", "login", "senha", "end", 1L);
+        var cmd = new CriarUsuarioCommand("Rafael Brito", "rafael.brito@gestrest.com", "rafael.brito", "Senha@123", "Rua das Rosas, São Paulo/SP", 1L);
 
         when(tipoRepository.buscarPorId(1L)).thenReturn(Optional.of(tipo));
-        when(usuarioRepository.buscarPorEmail("e@x.com")).thenReturn(Optional.empty());
-        when(usuarioRepository.buscarPorLogin("login")).thenReturn(Optional.empty());
+        when(usuarioRepository.buscarPorEmail("rafael.brito@gestrest.com")).thenReturn(Optional.empty());
+        when(usuarioRepository.buscarPorLogin("rafael.brito")).thenReturn(Optional.empty());
         when(usuarioRepository.salvar(any())).thenAnswer(i -> i.getArgument(0));
 
         Usuario u = useCase.criar(cmd);
-        assertEquals("Nome", u.getNome());
-        assertEquals("e@x.com", u.getEmail());
-        assertEquals("login", u.getLogin());
+        assertEquals("Rafael Brito", u.getNome());
+        assertEquals("rafael.brito@gestrest.com", u.getEmail());
+        assertEquals("rafael.brito", u.getLogin());
         assertEquals(tipo, u.getTipoUsuario());
     }
 
     @Test
     void criar_email_duplicado() {
         var tipo = TipoUsuario.existente(1L, "CLIENTE");
-        var cmd = new CriarUsuarioCommand("Nome", "e@x.com", "login", "senha", "end", 1L);
+        var cmd = new CriarUsuarioCommand("Rafael Brito", "rafael.brito@gestrest.com", "rafael.brito", "Senha@123", "Rua das Rosas, São Paulo/SP", 1L);
 
         when(tipoRepository.buscarPorId(1L)).thenReturn(Optional.of(tipo));
-        when(usuarioRepository.buscarPorEmail("e@x.com")).thenReturn(Optional.of(Usuario.criar("x", "e@x.com", null, "s", "e", tipo)));
+        when(usuarioRepository.buscarPorEmail("rafael.brito@gestrest.com")).thenReturn(Optional.of(
+            Usuario.criar("Rafael Brito", "rafael.brito@gestrest.com", null, "Senha@987", "Rua das Rosas, São Paulo/SP", tipo)
+        ));
 
         assertThrows(EmailJaCadastradoException.class, () -> useCase.criar(cmd));
     }
 
     @Test
     void criar_tipo_inexistente() {
-        var cmd = new CriarUsuarioCommand("Nome", "e@x.com", "login", "senha", "end", 99L);
+        var cmd = new CriarUsuarioCommand("Rafael Brito", "rafael.brito@gestrest.com", "rafael.brito", "Senha@123", "Rua das Rosas, São Paulo/SP", 99L);
         when(tipoRepository.buscarPorId(99L)).thenReturn(Optional.empty());
         assertThrows(TipoUsuarioNaoEncontradoException.class, () -> useCase.criar(cmd));
     }

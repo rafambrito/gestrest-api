@@ -9,6 +9,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,10 +43,23 @@ public class UsuarioEntity {
     private String senha;
     private String endereco;
 
+    @Column(name = "data_criacao", updatable = false)
     private LocalDateTime dataCriacao;
+
+    @Column(name = "data_ultima_alteracao")
     private LocalDateTime dataUltimaAlteracao;
 
     @ManyToOne
     @JoinColumn(name = "tipo_usuario_id", nullable = false)
     private TipoUsuarioEntity tipoUsuario;
+
+    @PrePersist
+    private void prePersist() {
+        this.dataCriacao = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    private void preUpdate() {
+        this.dataUltimaAlteracao = LocalDateTime.now();
+    }
 }

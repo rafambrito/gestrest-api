@@ -32,7 +32,7 @@ public interface ItemCardapioControllerDoc {
 
     @Operation(
         summary = "Criar novo item do cardápio",
-        description = "Cria um novo item no cardápio de um restaurante. Cada item contém nome, descrição, preço e informações do restaurante",
+        description = "Cria um novo item no cardápio de um restaurante. Cada item contém nome, descrição, preço, disponibilidade apenas no local, caminho da foto e informações do restaurante",
         tags = {"Itens do Cardápio"}
     )
     @ApiResponses(value = {
@@ -44,13 +44,13 @@ public interface ItemCardapioControllerDoc {
                 schema = @Schema(implementation = ItemCardapioResponse.class),
                 examples = @ExampleObject(
                     name = "Exemplo de Item Criado",
-                    value = "{\"id\": 1, \"nome\": \"Pizza Margherita\", \"descricao\": \"Pizza clássica com mozzarela e tomate\", \"preco\": 45.50, \"restauranteId\": 1}"
+                    value = "{\"id\": 1, \"nome\": \"Pizza Margherita\", \"descricao\": \"Pizza clássica com mozzarela e tomate\", \"preco\": 45.50, \"disponivelSomenteNoLocal\": true, \"fotoPath\": \"/imagens/itens/pizza-margherita.jpg\", \"restauranteId\": 1}"
                 )
             )
         ),
         @ApiResponse(
             responseCode = "400",
-            description = "Validação falhou - campos obrigatórios: nome, descricao, preco > 0, restauranteId"
+            description = "Validação falhou - campos obrigatórios: nome, descricao, preco > 0, disponivelSomenteNoLocal, fotoPath, restauranteId"
         ),
         @ApiResponse(
             responseCode = "409",
@@ -66,7 +66,7 @@ public interface ItemCardapioControllerDoc {
                 schema = @Schema(implementation = CriarItemCardapioRequest.class),
                 examples = @ExampleObject(
                     name = "Criar Item do Cardápio",
-                    value = "{\"nome\": \"Pizza Margherita\", \"descricao\": \"Pizza clássica com mozzarela e tomate\", \"preco\": 45.50, \"restauranteId\": 1}"
+                    value = "{\"nome\": \"Pizza Margherita\", \"descricao\": \"Pizza clássica com mozzarela e tomate\", \"preco\": 45.50, \"disponivelSomenteNoLocal\": true, \"fotoPath\": \"/imagens/itens/pizza-margherita.jpg\", \"restauranteId\": 1}"
                 )
             )
         ) CriarItemCardapioRequest request
@@ -74,7 +74,7 @@ public interface ItemCardapioControllerDoc {
 
     @Operation(
         summary = "Buscar item do cardápio por ID",
-        description = "Retorna os detalhes de um item específico do cardápio incluindo nome, descrição, preço e qual restaurante pertence",
+        description = "Retorna os detalhes de um item específico do cardápio incluindo nome, descrição, preço, disponibilidade no local, caminho da foto e qual restaurante pertence",
         tags = {"Itens do Cardápio"}
     )
     @ApiResponses(value = {
@@ -132,7 +132,7 @@ public interface ItemCardapioControllerDoc {
 
     @Operation(
         summary = "Atualizar item do cardápio",
-        description = "Atualiza os dados de um item existente como nome, descrição e preço",
+        description = "Atualiza os dados de um item existente como nome, descrição, preço, disponibilidade no local e caminho da foto",
         tags = {"Itens do Cardápio"}
     )
     @ApiResponses(value = {
@@ -146,7 +146,7 @@ public interface ItemCardapioControllerDoc {
         ),
         @ApiResponse(
             responseCode = "400",
-            description = "Validação falhou - campos obrigatórios"
+            description = "Validação falhou - campos obrigatórios: nome, descricao, preco > 0, disponivelSomenteNoLocal, fotoPath, restauranteId"
         ),
         @ApiResponse(
             responseCode = "404",
@@ -168,7 +168,7 @@ public interface ItemCardapioControllerDoc {
                 mediaType = "application/json",
                 examples = @ExampleObject(
                     name = "Atualizar Item",
-                    value = "{\"nome\": \"Pizza Margherita Premium\", \"descricao\": \"Pizza clássica com mozzarela di bufala e tomate\", \"preco\": 55.50}"
+                    value = "{\"nome\": \"Pizza Margherita Premium\", \"descricao\": \"Pizza clássica com mozzarela di bufala e tomate\", \"preco\": 55.50, \"disponivelSomenteNoLocal\": false, \"fotoPath\": \"/imagens/itens/pizza-margherita-premium.jpg\", \"restauranteId\": 1}"
                 )
             )
         ) AtualizarItemCardapioRequest request

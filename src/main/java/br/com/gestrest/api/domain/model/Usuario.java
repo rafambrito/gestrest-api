@@ -17,7 +17,7 @@ public class Usuario {
     private LocalDateTime dataUltimaAlteracao;
 
 	private Usuario(Long id, String nome, String email, String login, String senha, String endereco,
-					TipoUsuario tipoUsuario) {
+				TipoUsuario tipoUsuario, LocalDateTime dataCriacao, LocalDateTime dataUltimaAlteracao) {
 
 		this.id = id;
 		this.nome = nome;
@@ -26,18 +26,26 @@ public class Usuario {
 		this.senha = senha;
 		this.endereco = endereco;
 		this.tipoUsuario = tipoUsuario;
+		this.dataCriacao = dataCriacao;
+		this.dataUltimaAlteracao = dataUltimaAlteracao;
 	}
 
 	public static Usuario criar(String nome, String email, String login, String senha, String endereco,
-						 TipoUsuario tipoUsuario) {
+				 TipoUsuario tipoUsuario) {
 
-		return new Usuario(null, nome, email, login, senha, endereco, tipoUsuario);
+		return new Usuario(null, nome, email, login, senha, endereco, tipoUsuario, LocalDateTime.now(), null);
 	}
 
 	public static Usuario existente(Long id, String nome, String email, String login, String senha, String endereco,
-						 TipoUsuario tipoUsuario) {
+			 TipoUsuario tipoUsuario) {
 
-		return new Usuario(id, nome, email, login, senha, endereco, tipoUsuario);
+		return new Usuario(id, nome, email, login, senha, endereco, tipoUsuario, null, null);
+	}
+
+	public static Usuario existente(Long id, String nome, String email, String login, String senha, String endereco,
+			 TipoUsuario tipoUsuario, LocalDateTime dataCriacao, LocalDateTime dataUltimaAlteracao) {
+
+		return new Usuario(id, nome, email, login, senha, endereco, tipoUsuario, dataCriacao, dataUltimaAlteracao);
 	}
     
 	public void alterarTipoUsuario(TipoUsuario tipoUsuario) {
@@ -49,10 +57,6 @@ public class Usuario {
         this.dataUltimaAlteracao = LocalDateTime.now();
     }
 
-    /**
-     * Atualiza campos do usuário de forma transacional (única operação de domínio).
-     * Preserve invariants and registra a nova data de alteração.
-     */
     public void atualizar(String nome, String email, String endereco, TipoUsuario tipoUsuario) {
         if (nome != null && !nome.isBlank()) {
             this.nome = nome;
@@ -96,11 +100,21 @@ public class Usuario {
 		return endereco;
 	}
 
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public LocalDateTime getDataUltimaAlteracao() {
+        return dataUltimaAlteracao;
+    }
+
 	public boolean isDono() {
-		return this.tipoUsuario != null && "DONO_RESTAURANTE".equals(this.tipoUsuario.getNome());
+		return this.tipoUsuario != null
+				&& TipoUsuarioEnum.DONO_RESTAURANTE.getId().equals(this.tipoUsuario.getId());
 	}
 
 	public boolean isCliente() {
-		return this.tipoUsuario != null && "CLIENTE".equals(this.tipoUsuario.getNome());
+		return this.tipoUsuario != null
+				&& TipoUsuarioEnum.CLIENTE.getId().equals(this.tipoUsuario.getId());
 	}
 }

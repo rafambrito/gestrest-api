@@ -10,11 +10,11 @@ class RestauranteTest {
 
     @Test
     void criarSucesso() {
-        var r = Restaurante.criar("R", "End", "Tipo", "10:00-22:00", 1L);
+        var r = Restaurante.criar("João da Silva", "Rua das Rosas, São Paulo/SP", "Brasileira", "10:00-22:00", 1L);
         assertNull(r.getId());
-        assertEquals("R", r.getNome());
-        assertEquals("End", r.getEndereco());
-        assertEquals("Tipo", r.getTipoCozinha());
+        assertEquals("João da Silva", r.getNome());
+        assertEquals("Rua das Rosas, São Paulo/SP", r.getEndereco());
+        assertEquals("Brasileira", r.getTipoCozinha());
         assertEquals("10:00-22:00", r.getHorarioFuncionamento());
         assertEquals(1L, r.getDonoId());
         assertNotNull(r.getDataUltimaAlteracao());
@@ -22,29 +22,29 @@ class RestauranteTest {
 
     @Test
     void validarCamposObrigatorios() {
-        assertThrows(IllegalArgumentException.class, () -> Restaurante.criar(null, "e", "t", "h", 1L));
-        assertThrows(IllegalArgumentException.class, () -> Restaurante.criar("n", "", "t", "h", 1L));
-        assertThrows(IllegalArgumentException.class, () -> Restaurante.criar("n", "e", null, "h", 1L));
-        assertThrows(IllegalArgumentException.class, () -> Restaurante.criar("n", "e", "t", "  ", 1L));
-        assertThrows(IllegalArgumentException.class, () -> Restaurante.criar("n", "e", "t", "h", null));
+        assertThrows(IllegalArgumentException.class, () -> Restaurante.criar(null, "Rua das Rosas, São Paulo/SP", "Brasileira", "10:00-22:00", 1L));
+        assertThrows(IllegalArgumentException.class, () -> Restaurante.criar("João da Silva", "", "Brasileira", "10:00-22:00", 1L));
+        assertThrows(IllegalArgumentException.class, () -> Restaurante.criar("João da Silva", "Rua das Rosas, São Paulo/SP", null, "10:00-22:00", 1L));
+        assertThrows(IllegalArgumentException.class, () -> Restaurante.criar("João da Silva", "Rua das Rosas, São Paulo/SP", "Brasileira", "  ", 1L));
+        assertThrows(IllegalArgumentException.class, () -> Restaurante.criar("João da Silva", "Rua das Rosas, São Paulo/SP", "Brasileira", "10:00-22:00", null));
     }
 
     @Test
     void atualizarSucesso() {
-        var r = Restaurante.existente(3L, "Old", "E", "T", "H", 2L);
-        r.atualizar("New", "NE", "NT", "NH");
-        assertEquals("New", r.getNome());
-        assertEquals("NE", r.getEndereco());
-        assertEquals("NT", r.getTipoCozinha());
-        assertEquals("NH", r.getHorarioFuncionamento());
+        var r = Restaurante.existente(3L, "José Pereira", "Rua das Rosas, São Paulo/SP", "Italiana", "11:30-22:00", 2L);
+        r.atualizar("Rafael Brito", "Rua das Rosas, São Paulo/SP", "Italiana Contemporanea", "11:30-23:00");
+        assertEquals("Rafael Brito", r.getNome());
+        assertEquals("Rua das Rosas, São Paulo/SP", r.getEndereco());
+        assertEquals("Italiana Contemporanea", r.getTipoCozinha());
+        assertEquals("11:30-23:00", r.getHorarioFuncionamento());
         assertNotNull(r.getDataUltimaAlteracao());
     }
 
     @Test
     void equalsHashCode() {
-        var a = Restaurante.existente(1L, "n", "e", "t", "h", 1L);
-        var b = Restaurante.existente(1L, "x", "y", "z", "w", 2L);
-        var c = Restaurante.existente(2L, "n", "e", "t", "h", 1L);
+        var a = Restaurante.existente(1L, "João da Silva", "Avenida Beija Flor, São Paulo/SP", "Brasileira", "11:00-22:00", 1L);
+        var b = Restaurante.existente(1L, "Rafael Brito", "Rua das Rosas, São Paulo/SP", "Contemporanea", "12:00-23:00", 2L);
+        var c = Restaurante.existente(2L, "João da Silva", "Avenida Beija Flor, São Paulo/SP", "Brasileira", "11:00-22:00", 1L);
 
         assertEquals(a, b);
         assertEquals(a.hashCode(), b.hashCode());

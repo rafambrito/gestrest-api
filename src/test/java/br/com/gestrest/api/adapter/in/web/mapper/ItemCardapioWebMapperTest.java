@@ -1,7 +1,6 @@
 package br.com.gestrest.api.adapter.in.web.mapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
 
@@ -18,25 +17,32 @@ class ItemCardapioWebMapperTest {
 
     @Test
     void toDomainFromCreate() {
-        var req = new CriarItemCardapioRequest("N", "D", BigDecimal.TEN, 4L);
+        var req = new CriarItemCardapioRequest("Camarão na Moranga", "Camarao refogado servido na moranga", BigDecimal.TEN,
+                true, "/imagens/itens/camarao-moranga.jpg", 4L);
         var domain = mapper.toDomain(req);
-        assertEquals("N", domain.getNome());
+        assertEquals("Camarão na Moranga", domain.getNome());
         assertEquals(4L, domain.getRestauranteId().longValue());
+        assertEquals(true, domain.isDisponivelSomenteNoLocal());
     }
 
     @Test
-    void toDomainFromUpdate_shouldThrow() {
-        var req = new AtualizarItemCardapioRequest("NU", "DU", BigDecimal.valueOf(5));
-        // mapper sets restauranteId to null which domain validation forbids: expect exception
-        assertThrows(IllegalArgumentException.class, () -> mapper.toDomain(3L, req));
+    void toDomainFromUpdate() {
+        var req = new AtualizarItemCardapioRequest("NU", "DU", BigDecimal.valueOf(5), false, "/itens/nu.jpg", 8L);
+        var domain = mapper.toDomain(3L, req);
+
+        assertEquals(3L, domain.getId());
+        assertEquals("NU", domain.getNome());
+        assertEquals(8L, domain.getRestauranteId());
     }
 
     @Test
     void toResponse() {
-        var domain = ItemCardapio.existente(7L, "R", "E", BigDecimal.valueOf(3.5), 6L);
+        var domain = ItemCardapio.existente(7L, "Bruschetta de Tomate", "Pao italiano, tomate confit e manjericao", BigDecimal.valueOf(23.5),
+                6L, false, "/itens/bruschetta.jpg");
         ItemCardapioResponse resp = mapper.toResponse(domain);
 
         assertEquals(7L, resp.id().longValue());
-        assertEquals("R", resp.nome());
+        assertEquals("Bruschetta de Tomate", resp.nome());
+        assertEquals("/itens/bruschetta.jpg", resp.fotoPath());
     }
 }

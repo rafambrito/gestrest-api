@@ -38,6 +38,7 @@ public class UsuarioRepositoryAdapter implements UsuarioRepositoryPort {
         entity.setLogin(usuario.getLogin());
         entity.setSenha(usuario.getSenha());
         entity.setEndereco(usuario.getEndereco());
+        entity.setDataUltimaAlteracao(usuario.getDataUltimaAlteracao());
 
         var tipoEntity = tipoRepository.findById(
                 usuario.getTipoUsuario().getId()

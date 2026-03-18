@@ -1,4 +1,4 @@
-package br.com.gestrest.api.adapter.in.web.mapper;
+package br.com.gestrest.api.adapter.out.persistence.mapper;
 
 import org.springframework.stereotype.Component;
 
@@ -15,6 +15,8 @@ public class ItemCardapioPersistenceMapper {
                 domain.getDescricao(),
                 domain.getPreco(),
                 domain.getRestauranteId(),
+                domain.isDisponivelSomenteNoLocal(),
+                domain.getFotoPath(),
                 domain.getDataUltimaAlteracao()
         );
     }
@@ -25,8 +27,9 @@ public class ItemCardapioPersistenceMapper {
                 entity.getNome(),
                 entity.getDescricao(),
                 entity.getPreco(),
-                entity.getRestauranteId()
+                entity.getRestauranteId(),
+                Boolean.TRUE.equals(entity.getDisponivelSomenteNoLocal()),
+                entity.getFotoPath()
         );
     }
 }
-

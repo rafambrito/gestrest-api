@@ -35,7 +35,8 @@ class ExcluirRestauranteUseCaseImplTest {
     @DisplayName("Deve falhar ao excluir restaurante que possui itens")
     void deveFalharAoExcluirQuandoPossuiItens() {
         // Arrange
-        var itens = List.of(ItemCardapio.existente(1L, "Pizza", "Desc", new BigDecimal("10.00"), 1L));
+        var itens = List.of(ItemCardapio.existente(1L, "Pizza Margherita", "Molho de tomate, mussarela e manjericao fresco", new BigDecimal("42.00"),
+            1L, true, "/itens/pizza-margherita.jpg"));
         when(itemRepository.listarPorRestauranteId(1L)).thenReturn(itens);
 
         // Act & Assert

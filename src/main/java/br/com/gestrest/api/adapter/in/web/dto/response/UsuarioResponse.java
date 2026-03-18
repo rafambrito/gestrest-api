@@ -1,6 +1,6 @@
 package br.com.gestrest.api.adapter.in.web.dto.response;
 
-import br.com.gestrest.api.adapter.in.web.dto.response.TipoUsuarioResponse;
+import java.time.LocalDateTime;
 
 public record UsuarioResponse(
     Long id,
@@ -8,5 +8,7 @@ public record UsuarioResponse(
     String email,
     String login,
     String endereco,
-    TipoUsuarioResponse tipoUsuario
+    TipoUsuarioResponse tipoUsuario,
+    LocalDateTime dataCriacao,
+    LocalDateTime dataUltimaAlteracao
 ) {}

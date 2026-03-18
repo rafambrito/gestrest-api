@@ -37,8 +37,9 @@ class CriarItemCardapioUseCaseTest {
 
     @Test
     void criar_sucesso() {
-        var item = ItemCardapio.criar("N", "D", BigDecimal.TEN, 3L);
-        when(restauranteRepository.buscarPorId(3L)).thenReturn(Optional.of(br.com.gestrest.api.domain.model.Restaurante.existente(3L, "R", "E", "T", "H", 1L)));
+        var item = ItemCardapio.criar("José Pereira", "Nhoque artesanal com molho de tomate e parmesao", BigDecimal.TEN, 3L,
+            false, "/itens/nhoque.jpg");
+        when(restauranteRepository.buscarPorId(3L)).thenReturn(Optional.of(br.com.gestrest.api.domain.model.Restaurante.existente(3L, "José Pereira", "Rua das Rosas, São Paulo/SP", "Italiana", "Seg-Dom 11:30-23:30", 1L)));
         when(repository.salvar(any())).thenAnswer(i -> i.getArgument(0));
 
         ItemCardapio res = useCase.criar(item);
@@ -47,7 +48,8 @@ class CriarItemCardapioUseCaseTest {
 
     @Test
     void criar_restaurante_inexistente() {
-        var item = ItemCardapio.criar("N", "D", BigDecimal.TEN, 44L);
+        var item = ItemCardapio.criar("José Pereira", "Nhoque artesanal com molho de tomate e parmesao", BigDecimal.TEN, 44L,
+                true, "/itens/nhoque.jpg");
         when(restauranteRepository.buscarPorId(44L)).thenReturn(Optional.empty());
         assertThrows(RestauranteNaoEncontradoException.class, () -> useCase.criar(item));
     }

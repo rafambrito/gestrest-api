@@ -13,7 +13,7 @@ class RestaurantePersistenceMapperTest {
 
     @Test
     void toEntityAndBack() {
-        var domain = Restaurante.existente(3L, "N", "E", "T", "H", 4L);
+        var domain = Restaurante.existente(3L, "João da Silva", "Rua das Rosas, São Paulo/SP", "Francesa", "Ter-Dom 12:00-23:00", 4L);
         RestauranteEntity entity = mapper.toEntity(domain);
 
         assertEquals(domain.getId(), entity.getId());

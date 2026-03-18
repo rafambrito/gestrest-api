@@ -11,4 +11,5 @@ import br.com.gestrest.api.adapter.out.persistence.entity.UsuarioEntity;
 public interface UsuarioJpaRepository extends JpaRepository<UsuarioEntity, Long>{
     Optional<UsuarioEntity> findByEmail(String email);
     Optional<UsuarioEntity> findByLogin(String login);
+    boolean existsByTipoUsuarioId(Long tipoUsuarioId);
 }

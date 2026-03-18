@@ -32,7 +32,7 @@ class RestauranteRepositoryAdapterTest {
 
     @Test
     void salvar() {
-        var domain = Restaurante.existente(1L, "N", "E", "T", "H", 2L);
+        var domain = Restaurante.existente(1L, "João da Silva", "Rua das Rosas, São Paulo/SP", "Contemporanea", "Seg-Sab 11:30-23:00", 2L);
         var entity = new RestauranteEntity();
         when(mapper.toEntity(any(Restaurante.class))).thenReturn(entity);
         when(repository.save(entity)).thenReturn(entity);
@@ -44,24 +44,24 @@ class RestauranteRepositoryAdapterTest {
 
     @Test
     void buscarPorId() {
-        var domain = Restaurante.existente(2L, "N2", "E2", "T2", "H2", 3L);
+        var domain = Restaurante.existente(2L, "José Pereira", "Rua das Rosas, São Paulo/SP", "Italiana", "Ter-Dom 12:00-23:00", 3L);
         var entity = new RestauranteEntity();
         when(repository.findById(2L)).thenReturn(Optional.of(entity));
         when(mapper.toDomain(entity)).thenReturn(domain);
 
         var res = adapter.buscarPorId(2L);
-        assertEquals("N2", res.get().getNome());
+        assertEquals("José Pereira", res.get().getNome());
     }
 
     @Test
     void listar() {
-        var domain = Restaurante.existente(3L, "N3", "E3", "T3", "H3", 4L);
+        var domain = Restaurante.existente(3L, "Rafael Brito", "Avenida Beija Flor, São Paulo/SP", "Brasileira", "Seg-Dom 11:00-22:30", 4L);
         var entity = new RestauranteEntity();
         when(repository.findAll()).thenReturn(List.of(entity));
         when(mapper.toDomain(entity)).thenReturn(domain);
 
         var res = adapter.listar();
         assertEquals(1, res.size());
-        assertEquals("N3", res.get(0).getNome());
+        assertEquals("Rafael Brito", res.get(0).getNome());
     }
 }

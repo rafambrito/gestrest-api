@@ -1,16 +1,16 @@
 {
 	"info": {
-		"_postman_id": "gestrest-api-fase2-completa",
-		"name": "GestRest API - Fase 2 (Completa)",
-		"description": "Collection completa cobrindo CRUD e Regras de Negócio para o Tech Challenge.",
+		"_postman_id": "gestrest-api-fase2",
+		"name": "GestRest API - Fase 2",
+		"description": "Collection completa cobrindo CRUD e Regras de Negócio para o Tech Challenge Fase 2.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "1. Setup Inicial (Tipos de Usuário)",
+			"name": "1. Tipos de Usuário",
 			"item": [
 				{
-					"name": "Criar Tipo DONO",
+					"name": "Criar Tipo FORNECEDOR",
 					"event": [
 						{
 							"listen": "test",
@@ -29,23 +29,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nome\": \"DONO\"\n}",
-							"options": { "raw": { "language": "json" } }
-						},
-						"url": { "raw": "{{base_url}}/api/v1/tipos-usuarios", "host": ["{{base_url}}"], "path": ["api", "v1", "tipos-usuarios"] }
-					}
-				},
-				{
-					"name": "Criar Tipo CLIENTE",
-					"event": [
-						{ "listen": "test", "script": { "exec": ["pm.test(\"Status code is 201\", function () { pm.response.to.have.status(201); });"] } }
-					],
-					"request": {
-						"method": "POST",
-						"header": [ { "key": "Content-Type", "value": "application/json" } ],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"nome\": \"CLIENTE\"\n}",
+							"raw": "{\n    \"nome\": \"FORNECEDOR\"\n}",
 							"options": { "raw": { "language": "json" } }
 						},
 						"url": { "raw": "{{base_url}}/api/v1/tipos-usuarios", "host": ["{{base_url}}"], "path": ["api", "v1", "tipos-usuarios"] }
@@ -67,14 +51,14 @@
 					"request": {
 						"method": "PUT",
 						"header": [ { "key": "Content-Type", "value": "application/json" } ],
-						"body": { "mode": "raw", "raw": "{\n  \"nome\": \"CLIENTE_ATUALIZADO\"\n}", "options": { "raw": { "language": "json" } } },
-						"url": { "raw": "{{base_url}}/api/v1/tipos-usuarios/1", "host": ["{{base_url}}"], "path": ["api", "v1", "tipos-usuarios", "1"] }
+						"body": { "mode": "raw", "raw": "{\n  \"nome\": \"FORNECEDOR_ATUALIZADO\"\n}", "options": { "raw": { "language": "json" } } },
+						"url": { "raw": "{{base_url}}/api/v1/tipos-usuarios/3", "host": ["{{base_url}}"], "path": ["api", "v1", "tipos-usuarios", "3"] }
 					}
 				},
 				{
 					"name": "Deletar Tipo",
 					"event": [ { "listen": "test", "script": { "exec": ["pm.test(\"Status code is 204 or 200\", function () { pm.expect([200,204]).to.include(pm.response.code); });"] } } ],
-					"request": { "method": "DELETE", "url": { "raw": "{{base_url}}/api/v1/tipos-usuarios/1", "host": ["{{base_url}}"], "path": ["api", "v1", "tipos-usuarios", "1"] } }
+					"request": { "method": "DELETE", "url": { "raw": "{{base_url}}/api/v1/tipos-usuarios/3", "host": ["{{base_url}}"], "path": ["api", "v1", "tipos-usuarios", "3"] } }
 				}
 			]
 		},
@@ -117,7 +101,7 @@
 					"request": {
 						"method": "PUT",
 						"header": [ { "key": "Content-Type", "value": "application/json" } ],
-						"body": { "mode": "raw", "raw": "{\n    \"nome\": \"Rafael Mendonça de Brito\"\n}", "options": { "raw": { "language": "json" } } },
+						"body": { "mode": "raw", "raw": "{\n    \"nome\": \"Rafael Mendonça de Brito\",\n    \"email\": \"rafael.m.brito@email.com\",\n    \"endereco\": \"Rua da FIAP, 1000 - Apto 12\",\n    \"tipoUsuarioId\": 1\n}", "options": { "raw": { "language": "json" } } },
 						"url": { "raw": "{{base_url}}/api/v1/usuarios/1", "host": ["{{base_url}}"], "path": ["api", "v1", "usuarios", "1"] }
 					}
 				},
@@ -165,7 +149,13 @@
 				{
 					"name": "Atualizar Restaurante",
 					"event": [ { "listen": "test", "script": { "exec": ["pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });"] } } ],
-					"request": { "method": "PUT", "header": [ { "key": "Content-Type", "value": "application/json" } ], "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Fiap Gourmet Atualizado\",\n  \"endereco\": \"Av. Paulista, 1100\",\n  \"tipoCozinha\": \"Italiana\",\n  \"horarioFuncionamento\": \"11:00 - 23:00\"\n}", "options": { "raw": { "language": "json" } } }, "url": { "raw": "{{base_url}}/api/v1/restaurantes/1", "host": ["{{base_url}}"], "path": ["api", "v1", "restaurantes", "1"] } }
+					"request": { "method": "PUT", "header": [ { "key": "Content-Type", "value": "application/json" } ], "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Fiap Gourmet Atualizado\",\n  \"endereco\": \"Av. Paulista, 1100\",\n  \"tipoCozinha\": \"Italiana\",\n  \"horarioFuncionamento\": \"11:00 - 23:00\",\n  \"donoId\": 1\n}", "options": { "raw": { "language": "json" } } }, "url": { "raw": "{{base_url}}/api/v1/restaurantes/1", "host": ["{{base_url}}"], "path": ["api", "v1", "restaurantes", "1"] } }
+				},
+				{
+					"name": "Atualizar Restaurante (ERRO - Sem donoId)",
+					"event": [ { "listen": "test", "script": { "exec": ["pm.test(\"Status code is 400\", function () { pm.response.to.have.status(400); });"] } } ],
+					"request": { "method": "PUT", "header": [ { "key": "Content-Type", "value": "application/json" } ], "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Fiap Gourmet Atualizado\",\n  \"endereco\": \"Av. Paulista, 1100\",\n  \"tipoCozinha\": \"Italiana\",\n  \"horarioFuncionamento\": \"11:00 - 23:00\"\n}", "options": { "raw": { "language": "json" } } }, "url": { "raw": "{{base_url}}/api/v1/restaurantes/1", "host": ["{{base_url}}"], "path": ["api", "v1", "restaurantes", "1"] } },
+					"description": "Valida o retorno 400 quando o campo donoId não é enviado na atualização do restaurante."
 				},
 				{
 					"name": "Deletar Restaurante",
@@ -183,7 +173,7 @@
 					"request": {
 						"method": "POST",
 						"header": [ { "key": "Content-Type", "value": "application/json" } ],
-						"body": { "mode": "raw", "raw": "{\n    \"nome\": \"Lasanha à Bolonhesa\",\n    \"descricao\": \"Massa artesanal com molho rústico\",\n    \"preco\": 55.90,\n    \"restauranteId\": 1\n}", "options": { "raw": { "language": "json" } } },
+						"body": { "mode": "raw", "raw": "{\n    \"nome\": \"Lasanha à Bolonhesa\",\n    \"descricao\": \"Massa artesanal com molho rústico\",\n    \"preco\": 55.90,\n    \"disponivelSomenteNoLocal\": false,\n    \"fotoPath\": \"/imagens/itens/lasanha-bolonhesa.jpg\",\n    \"restauranteId\": 1\n}", "options": { "raw": { "language": "json" } } },
 						"url": { "raw": "{{base_url}}/api/v1/itens-cardapio", "host": ["{{base_url}}"], "path": ["api", "v1", "itens-cardapio"] }
 					}
 				},
@@ -200,7 +190,13 @@
 				{
 					"name": "Atualizar Item",
 					"event": [ { "listen": "test", "script": { "exec": ["pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });"] } } ],
-					"request": { "method": "PUT", "header": [ { "key": "Content-Type", "value": "application/json" } ], "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Lasanha Premium\",\n  \"descricao\": \"Massa artesanal com molho rústico e queijo especial\",\n  \"preco\": 65.00\n}", "options": { "raw": { "language": "json" } } }, "url": { "raw": "{{base_url}}/api/v1/itens-cardapio/1", "host": ["{{base_url}}"], "path": ["api", "v1", "itens-cardapio", "1"] } }
+					"request": { "method": "PUT", "header": [ { "key": "Content-Type", "value": "application/json" } ], "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Lasanha Premium\",\n  \"descricao\": \"Massa artesanal com molho rústico e queijo especial\",\n  \"preco\": 65.00,\n  \"disponivelSomenteNoLocal\": true,\n  \"fotoPath\": \"/imagens/itens/lasanha-premium.jpg\",\n  \"restauranteId\": 1\n}", "options": { "raw": { "language": "json" } } }, "url": { "raw": "{{base_url}}/api/v1/itens-cardapio/1", "host": ["{{base_url}}"], "path": ["api", "v1", "itens-cardapio", "1"] } }
+				},
+				{
+					"name": "Atualizar Item (ERRO - Sem restauranteId)",
+					"event": [ { "listen": "test", "script": { "exec": ["pm.test(\"Status code is 400\", function () { pm.response.to.have.status(400); });"] } } ],
+					"request": { "method": "PUT", "header": [ { "key": "Content-Type", "value": "application/json" } ], "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Lasanha Premium\",\n  \"descricao\": \"Massa artesanal com molho rústico e queijo especial\",\n  \"preco\": 65.00,\n  \"disponivelSomenteNoLocal\": true,\n  \"fotoPath\": \"/imagens/itens/lasanha-premium.jpg\"\n}", "options": { "raw": { "language": "json" } } }, "url": { "raw": "{{base_url}}/api/v1/itens-cardapio/1", "host": ["{{base_url}}"], "path": ["api", "v1", "itens-cardapio", "1"] } },
+					"description": "Valida o retorno 400 quando o campo restauranteId não é enviado na atualização do item."
 				},
 				{
 					"name": "Remover Item",

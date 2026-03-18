@@ -45,7 +45,7 @@ class GlobalExceptionIntegrationTest {
     @Test
     @DisplayName("Criar item para restaurante inexistente retorna 404 com ErrorResponse")
     void createItemForNonexistentRestaurantReturns404() throws Exception {
-        String body = "{\n  \"nome\": \"Fantasma\",\n  \"descricao\": \"Nao existe\",\n  \"preco\": 10.00,\n  \"restauranteId\": 99999\n}";
+                String body = "{\n  \"nome\": \"Fantasma\",\n  \"descricao\": \"Nao existe\",\n  \"preco\": 10.00,\n  \"disponivelSomenteNoLocal\": true,\n  \"fotoPath\": \"/itens/fantasma.jpg\",\n  \"restauranteId\": 99999\n}";
 
         mockMvc.perform(post("/api/v1/itens-cardapio")
                 .contentType(MediaType.APPLICATION_JSON)
