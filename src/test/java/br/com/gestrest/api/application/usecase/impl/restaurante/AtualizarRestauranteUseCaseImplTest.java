@@ -23,7 +23,7 @@ import br.com.gestrest.api.domain.model.ports.out.RestauranteRepositoryPort;
 import br.com.gestrest.api.domain.model.ports.out.UsuarioRepositoryPort;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("AtualizarRestauranteUseCaseImpl Tests")
+@DisplayName("AtualizarRestauranteUseCaseImpl Testes")
 class AtualizarRestauranteUseCaseImplTest {
 
     @Mock

@@ -23,7 +23,7 @@ import br.com.gestrest.api.domain.model.ports.out.RestauranteRepositoryPort;
 import br.com.gestrest.api.domain.model.ports.out.UsuarioRepositoryPort;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Criar Restaurante UseCase Test")
+@DisplayName("Criar Restaurante Caso de Uso")
 class CriarRestauranteUseCaseImplTest {
 
     @Mock
@@ -51,7 +51,6 @@ class CriarRestauranteUseCaseImplTest {
     @Test
     @DisplayName("Deve criar restaurante com sucesso")
     void devecriarRestauranteComSucesso() {
-        // Arrange
         Restaurante restauranteSalvo = Restaurante.existente(
                 1L,
                 restaurante.getNome(),
@@ -65,10 +64,8 @@ class CriarRestauranteUseCaseImplTest {
         var usuario = Usuario.existente(1L, "Rafael Brito", "rafael.brito@gestrest.com", "rafael.brito", "Senha@123", "Rua das Rosas, São Paulo/SP", TipoUsuario.existente(1L, "DONO_RESTAURANTE"));
         when(usuarioRepository.buscarPorId(restaurante.getDonoId())).thenReturn(Optional.of(usuario));
 
-        // Act
         Restaurante resultado = useCase.criar(restaurante);
 
-        // Assert
         assertNotNull(resultado);
         assertEquals(1L, resultado.getId());
         assertEquals("João da Silva", resultado.getNome());
@@ -81,7 +78,6 @@ class CriarRestauranteUseCaseImplTest {
     @Test
     @DisplayName("Deve falhar ao criar restaurante com nome null")
     void devefalharAoCriarComNomeNull() {
-        // Assert
         assertThrows(IllegalArgumentException.class, () ->
                 Restaurante.criar(null, "Rua", "Italiana", "11:00", 1L)
         );
@@ -90,7 +86,6 @@ class CriarRestauranteUseCaseImplTest {
     @Test
     @DisplayName("Deve falhar ao criar restaurante com nome vazio")
     void devefalharAoCriarComNomeVazio() {
-        // Assert
         assertThrows(IllegalArgumentException.class, () ->
                 Restaurante.criar("", "Rua", "Italiana", "11:00", 1L)
         );
@@ -99,7 +94,6 @@ class CriarRestauranteUseCaseImplTest {
     @Test
     @DisplayName("Deve falhar ao criar restaurante com endereco null")
     void devefalharAoCriarComEnderecoNull() {
-        // Assert
         assertThrows(IllegalArgumentException.class, () ->
                 Restaurante.criar("João da Silva", null, "Italiana", "11:00", 1L)
         );
@@ -108,7 +102,6 @@ class CriarRestauranteUseCaseImplTest {
     @Test
     @DisplayName("Deve falhar ao criar restaurante com tipo cozinha null")
     void devefalharAoCriarComTipoCozinhaNUll() {
-        // Assert
         assertThrows(IllegalArgumentException.class, () ->
                 Restaurante.criar("João da Silva", "Rua", null, "11:00", 1L)
         );
@@ -117,7 +110,6 @@ class CriarRestauranteUseCaseImplTest {
     @Test
     @DisplayName("Deve falhar ao criar restaurante com horario funcionamento null")
     void devefalharAoCriarComHorarioNull() {
-        // Assert
         assertThrows(IllegalArgumentException.class, () ->
                 Restaurante.criar("João da Silva", "Rua", "Italiana", null, 1L)
         );
@@ -126,7 +118,6 @@ class CriarRestauranteUseCaseImplTest {
     @Test
     @DisplayName("Deve falhar ao criar restaurante com dono null")
     void devefalharAoCriarComDonoNull() {
-        // Assert
         assertThrows(IllegalArgumentException.class, () ->
                 Restaurante.criar("João da Silva", "Rua", "Italiana", "11:00", null)
         );

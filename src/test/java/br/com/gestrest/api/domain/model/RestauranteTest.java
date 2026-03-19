@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("Restaurante domain tests")
+@DisplayName("Restaurante testes de dominio")
 class RestauranteTest {
 
     @Test

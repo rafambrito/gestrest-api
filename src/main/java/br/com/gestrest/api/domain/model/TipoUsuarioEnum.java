@@ -24,12 +24,6 @@ public enum TipoUsuarioEnum {
         return descricao;
     }
 
-    /**
-     * Converte um ID do banco no respectivo {@link TipoUsuarioEnum}.
-     *
-     * @param id identificador persistido
-     * @return {@link Optional} com o enum correspondente, ou vazio se não reconhecido
-     */
     public static Optional<TipoUsuarioEnum> fromId(Long id) {
         if (id == null) {
             return Optional.empty();

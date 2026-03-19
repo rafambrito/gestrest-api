@@ -29,7 +29,6 @@ import br.com.gestrest.api.domain.model.ports.out.UsuarioRepositoryPort;
 @Configuration
 public class UseCaseConfig {
 
-	// TipoUsuario Use Cases
 	@Bean
 	public CriarTipoUsuarioUseCase criarTipoUsuarioUseCase(TipoUsuarioRepositoryPort repository) {
 		return new CriarTipoUsuarioUseCaseImpl(repository);
@@ -55,7 +54,6 @@ public class UseCaseConfig {
 		return new ExcluirTipoUsuarioUseCaseImpl(repository);
 	}
 
-	// Usuario Use Cases
 	@Bean
 	public CriarUsuarioUseCase criarUsuarioUseCase(
 			UsuarioRepositoryPort usuarioRepository,

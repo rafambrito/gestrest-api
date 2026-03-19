@@ -18,7 +18,7 @@ import br.com.gestrest.api.domain.model.Restaurante;
 import br.com.gestrest.api.domain.model.ports.out.RestauranteRepositoryPort;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("BuscarRestaurantePorIdUseCaseImpl Tests")
+@DisplayName("BuscarRestaurantePorIdUseCaseImpl Testes")
 class BuscarRestaurantePorIdUseCaseImplTest {
 
     @Mock

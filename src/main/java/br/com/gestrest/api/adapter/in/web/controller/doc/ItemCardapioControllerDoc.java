@@ -18,12 +18,6 @@ import br.com.gestrest.api.adapter.in.web.dto.request.CriarItemCardapioRequest;
 import br.com.gestrest.api.adapter.in.web.dto.response.ItemCardapioResponse;
 import java.util.List;
 
-/**
- * Documentação da API de Itens do Cardápio.
- * 
- * Define as especificações técnicas para gerenciamento de itens do cardápio de cada restaurante.
- * Os itens contêm informações como nome, descrição, preço e disponibilidade.
- */
 @Tag(
     name = "Itens do Cardápio",
     description = "API para gerenciamento de itens do cardápio dos restaurantes"

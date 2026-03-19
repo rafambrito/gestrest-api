@@ -19,7 +19,7 @@ import br.com.gestrest.api.domain.model.ports.out.ItemCardapioRepositoryPort;
 import br.com.gestrest.api.domain.model.ports.out.RestauranteRepositoryPort;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("ExcluirRestauranteUseCaseImpl Tests")
+@DisplayName("ExcluirRestauranteUseCaseImpl Testes")
 class ExcluirRestauranteUseCaseImplTest {
 
     @Mock
@@ -34,12 +34,10 @@ class ExcluirRestauranteUseCaseImplTest {
     @Test
     @DisplayName("Deve falhar ao excluir restaurante que possui itens")
     void deveFalharAoExcluirQuandoPossuiItens() {
-        // Arrange
         var itens = List.of(ItemCardapio.existente(1L, "Pizza Margherita", "Molho de tomate, mussarela e manjericao fresco", new BigDecimal("42.00"),
             1L, true, "/itens/pizza-margherita.jpg"));
         when(itemRepository.listarPorRestauranteId(1L)).thenReturn(itens);
 
-        // Act & Assert
         assertThrows(RecursoEmUsoException.class, () -> useCase.deletar(1L));
     }
 }

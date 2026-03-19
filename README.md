@@ -148,7 +148,7 @@ Campos obrigatórios dos itens do cardápio:
 
 ---
 
-## � Regras de Negócio Implementadas
+## Regras de Negócio Implementadas
 
 - **Tipo de Usuário:** Bloqueio de exclusão se houver usuários associados (409 Conflict)
 - **Restaurante:** Apenas usuários com tipo DONO podem criar (403 Forbidden)
@@ -158,7 +158,7 @@ Campos obrigatórios dos itens do cardápio:
 
 ---
 
-## �🛠️ Stack Tecnológica
+## 🛠️ Stack Tecnológica
 
 - ☕ Java 21
 - 🍃 Spring Boot 3.4.1

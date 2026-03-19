@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("Usuario domain tests")
+@DisplayName("Usuario testes de dominio")
 class UsuarioTest {
 
     @Test

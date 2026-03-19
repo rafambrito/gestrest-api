@@ -26,7 +26,7 @@ import br.com.gestrest.api.adapter.out.persistence.repository.TipoUsuarioJpaRepo
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @Transactional
-@DisplayName("UsuarioController Integration Tests")
+@DisplayName("UsuarioController Testes de Integracao")
 class UsuarioControllerIntegrationTest {
 
     @Autowired
@@ -42,7 +42,6 @@ class UsuarioControllerIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        // Criar um tipo de usuário para testes
         var tipoEntity = new TipoUsuarioEntity();
         tipoEntity.setNome("GERENTE_RESTAURANTE");
         var tipo = tipoUsuarioRepository.save(tipoEntity);
@@ -52,7 +51,6 @@ class UsuarioControllerIntegrationTest {
     @Test
     @DisplayName("POST /api/v1/usuarios - Deve criar usuário com sucesso")
     void deveCriarUsuarioComSucesso() throws Exception {
-        // Arrange
         var request = new CriarUsuarioRequest(
             "João da Silva",
             "joao.silva@gestrest.com",
@@ -62,7 +60,6 @@ class UsuarioControllerIntegrationTest {
             tipoUsuarioId
         );
 
-        // Act & Assert
         mockMvc.perform(post("/api/v1/usuarios")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
@@ -78,7 +75,6 @@ class UsuarioControllerIntegrationTest {
     @Test
     @DisplayName("POST /api/v1/usuarios - Deve falhar com email inválido")
     void devefalharComEmailInvalido() throws Exception {
-        // Arrange
         var request = new CriarUsuarioRequest(
             "João da Silva",
             "email-invalido",
@@ -88,7 +84,6 @@ class UsuarioControllerIntegrationTest {
             tipoUsuarioId
         );
 
-        // Act & Assert
         mockMvc.perform(post("/api/v1/usuarios")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
@@ -98,7 +93,6 @@ class UsuarioControllerIntegrationTest {
     @Test
     @DisplayName("GET /api/v1/usuarios - Deve listar usuários")
     void deveListarUsuarios() throws Exception {
-        // Arrange
         var request = new CriarUsuarioRequest(
             "José Pereira",
             "jose.pereira@gestrest.com",
@@ -113,7 +107,6 @@ class UsuarioControllerIntegrationTest {
                 .content(objectMapper.writeValueAsString(request)))
             .andExpect(status().isCreated());
 
-        // Act & Assert
         mockMvc.perform(get("/api/v1/usuarios"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
@@ -123,7 +116,6 @@ class UsuarioControllerIntegrationTest {
     @Test
     @DisplayName("GET /api/v1/usuarios/{id} - Deve buscar usuário por ID")
     void deveBuscarUsuarioPorId() throws Exception {
-        // Arrange
         var request = new CriarUsuarioRequest(
             "Rafael Brito",
             "rafael.brito@gestrest.com",
@@ -143,7 +135,6 @@ class UsuarioControllerIntegrationTest {
         var usuarioResponse = objectMapper.readTree(content);
         long usuarioId = usuarioResponse.get("id").asLong();
 
-        // Act & Assert
         mockMvc.perform(get("/api/v1/usuarios/" + usuarioId))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.id", equalTo((int)usuarioId)))
@@ -155,7 +146,6 @@ class UsuarioControllerIntegrationTest {
     @Test
     @DisplayName("PUT /api/v1/usuarios/{id} - Deve atualizar usuário")
     void deveAtualizarUsuario() throws Exception {
-        // Arrange
         var criarRequest = new CriarUsuarioRequest(
             "João da Silva",
             "joao.silva@gestrest.com",
@@ -182,7 +172,6 @@ class UsuarioControllerIntegrationTest {
             tipoUsuarioId
         );
 
-        // Act & Assert
         mockMvc.perform(put("/api/v1/usuarios/" + usuarioId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(atualizarRequest)))
@@ -196,7 +185,6 @@ class UsuarioControllerIntegrationTest {
     @Test
     @DisplayName("DELETE /api/v1/usuarios/{id} - Deve deletar usuário")
     void deveDeletarUsuario() throws Exception {
-        // Arrange
         var request = new CriarUsuarioRequest(
             "Rafael Brito",
             "rafael.brito@gestrest.com",
@@ -216,11 +204,9 @@ class UsuarioControllerIntegrationTest {
         var usuarioResponse = objectMapper.readTree(content);
         var usuarioId = usuarioResponse.get("id").asLong();
 
-        // Act & Assert
         mockMvc.perform(delete("/api/v1/usuarios/" + usuarioId))
             .andExpect(status().isNoContent());
 
-        // Verificar que foi deletado
         mockMvc.perform(get("/api/v1/usuarios/" + usuarioId))
             .andExpect(status().isNotFound());
     }

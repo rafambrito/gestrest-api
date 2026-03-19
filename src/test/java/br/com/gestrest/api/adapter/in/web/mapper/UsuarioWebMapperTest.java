@@ -14,7 +14,7 @@ import br.com.gestrest.api.adapter.in.web.dto.response.UsuarioResponse;
 import br.com.gestrest.api.domain.model.TipoUsuario;
 import br.com.gestrest.api.domain.model.Usuario;
 
-@DisplayName("UsuarioWebMapper Tests")
+@DisplayName("UsuarioWebMapper Testes")
 class UsuarioWebMapperTest {
 
     private UsuarioWebMapper mapper;
@@ -27,7 +27,6 @@ class UsuarioWebMapperTest {
     @Test
     @DisplayName("Deve mapear Usuario para UsuarioResponse")
     void deveMapearUsuarioParaUsuarioResponse() {
-        // Arrange
         var tipoUsuario = TipoUsuario.existente(1L, "GERENTE_RESTAURANTE");
         var usuario = Usuario.existente(
             1L,
@@ -39,10 +38,8 @@ class UsuarioWebMapperTest {
             tipoUsuario
         );
 
-        // Act
         var response = mapper.toResponse(usuario);
 
-        // Assert
         assertNotNull(response);
         assertEquals(1L, response.id());
         assertEquals("João da Silva", response.nome());
@@ -55,7 +52,6 @@ class UsuarioWebMapperTest {
     @Test
     @DisplayName("Deve mapear dataCriacao e dataUltimaAlteracao para UsuarioResponse")
     void deveMapearCamposDeDataParaUsuarioResponse() {
-        // Arrange
         var dataCriacao = LocalDateTime.of(2025, 1, 10, 12, 0);
         var dataUltimaAlteracao = LocalDateTime.of(2025, 6, 15, 8, 30);
         var tipoUsuario = TipoUsuario.existente(1L, "GERENTE_RESTAURANTE");
@@ -71,10 +67,8 @@ class UsuarioWebMapperTest {
             dataUltimaAlteracao
         );
 
-        // Act
         var response = mapper.toResponse(usuario);
 
-        // Assert
         assertNotNull(response);
         assertEquals(dataCriacao, response.dataCriacao());
         assertEquals(dataUltimaAlteracao, response.dataUltimaAlteracao());
@@ -83,7 +77,6 @@ class UsuarioWebMapperTest {
     @Test
     @DisplayName("Deve expor dataCriacao quando dataUltimaAlteracao é nula")
     void deveExporDataCriacaoComDataUltimaAlteracaoNula() {
-        // Arrange
         var dataCriacao = LocalDateTime.of(2025, 3, 1, 10, 0);
         var tipoUsuario = TipoUsuario.existente(1L, "GERENTE_RESTAURANTE");
         var usuario = Usuario.existente(
@@ -91,10 +84,8 @@ class UsuarioWebMapperTest {
             tipoUsuario, dataCriacao, null
         );
 
-        // Act
         var response = mapper.toResponse(usuario);
 
-        // Assert
         assertEquals(dataCriacao, response.dataCriacao());
         assertNull(response.dataUltimaAlteracao());
     }
@@ -102,17 +93,14 @@ class UsuarioWebMapperTest {
     @Test
     @DisplayName("Deve retornar null ao mapear null")
     void deveRetornarNullAoMapearNull() {
-        // Act
         var response = mapper.toResponse(null);
 
-        // Assert
         assertNull(response);
     }
 
     @Test
     @DisplayName("Deve mapear CriarUsuarioRequest para CriarUsuarioCommand")
     void deveMapearCriarRequestParaCommand() {
-        // Arrange
         var request = new CriarUsuarioRequest(
             "José Pereira",
             "jose.pereira@gestrest.com",
@@ -122,10 +110,8 @@ class UsuarioWebMapperTest {
             1L
         );
 
-        // Act
         var command = mapper.toDomain(request);
 
-        // Assert
         assertNotNull(command);
         assertEquals("José Pereira", command.nome());
         assertEquals("jose.pereira@gestrest.com", command.email());
@@ -138,7 +124,6 @@ class UsuarioWebMapperTest {
     @Test
     @DisplayName("Deve mapear AtualizarUsuarioRequest para AtualizarUsuarioCommand")
     void deveMapearAtualizarRequestParaCommand() {
-        // Arrange
         var request = new AtualizarUsuarioRequest(
             "José Pereira",
             "pedro.santos@gestrest.com",
@@ -146,10 +131,8 @@ class UsuarioWebMapperTest {
             1L
         );
 
-        // Act
         var command = mapper.toDomain(2L, request);
 
-        // Assert
         assertNotNull(command);
         assertEquals(2L, command.id());
         assertEquals("José Pereira", command.nome());
@@ -161,20 +144,16 @@ class UsuarioWebMapperTest {
     @Test
     @DisplayName("Deve retornar null ao mapear CriarRequest null")
     void deveRetornarNullAoMapearCriarRequestNull() {
-        // Act
         var command = mapper.toDomain((CriarUsuarioRequest) null);
 
-        // Assert
         assertNull(command);
     }
 
     @Test
     @DisplayName("Deve retornar null ao mapear AtualizarRequest null")
     void deveRetornarNullAoMapearAtualizarRequestNull() {
-        // Act
         var command = mapper.toDomain(1L, null);
 
-        // Assert
         assertNull(command);
     }
 }

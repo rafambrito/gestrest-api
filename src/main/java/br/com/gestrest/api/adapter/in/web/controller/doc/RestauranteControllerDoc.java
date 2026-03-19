@@ -18,12 +18,6 @@ import br.com.gestrest.api.adapter.in.web.dto.request.CriarRestauranteRequest;
 import br.com.gestrest.api.adapter.in.web.dto.response.RestauranteResponse;
 import java.util.List;
 
-/**
- * Documentação da API de Restaurantes.
- * 
- * Define as especificações técnicas para gerenciamento de restaurantes no sistema.
- * Cada restaurante é gerenciado por um usuário (dono) e possui um cardápio.
- */
 @Tag(
     name = "Restaurantes",
     description = "API para gerenciamento de restaurantes, incluindo tipos de cozinha e horários"

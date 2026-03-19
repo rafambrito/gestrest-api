@@ -19,7 +19,7 @@ import br.com.gestrest.api.domain.model.Usuario;
 import br.com.gestrest.api.domain.model.ports.out.UsuarioRepositoryPort;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("ListarUsuariosUseCaseImpl Tests")
+@DisplayName("ListarUsuariosUseCaseImpl Testes")
 class ListarUsuariosUseCaseImplTest {
 
     @Mock
@@ -31,7 +31,6 @@ class ListarUsuariosUseCaseImplTest {
     @Test
     @DisplayName("Deve listar usuarios com sucesso")
     void deveListarUsuariosComSucesso() {
-        // Arrange
         var tipoUsuario = TipoUsuario.existente(1L, "GERENTE_RESTAURANTE");
         var usuario1 = Usuario.existente(1L, "João da Silva", "joao.silva@gestrest.com", "joao.silva", "Senha@123", "Rua das Rosas, São Paulo/SP", tipoUsuario);
         var usuario2 = Usuario.existente(2L, "José Pereira", "jose.pereira@gestrest.com", "jose.pereira", "Senha@456", "Avenida Beija Flor, São Paulo/SP", tipoUsuario);
@@ -39,10 +38,8 @@ class ListarUsuariosUseCaseImplTest {
         List<Usuario> usuarios = Arrays.asList(usuario1, usuario2);
         when(repository.listar()).thenReturn(usuarios);
 
-        // Act
         var resultado = useCase.executar();
 
-        // Assert
         assertEquals(2, resultado.size());
         assertEquals("João da Silva", resultado.get(0).getNome());
         assertEquals("José Pereira", resultado.get(1).getNome());
@@ -51,13 +48,10 @@ class ListarUsuariosUseCaseImplTest {
     @Test
     @DisplayName("Deve retornar lista vazia quando nao ha usuarios")
     void deveRetornarListaVaziaQuandoNaoHaUsuarios() {
-        // Arrange
         when(repository.listar()).thenReturn(List.of());
 
-        // Act
         var resultado = useCase.executar();
 
-        // Assert
         assertTrue(resultado.isEmpty());
     }
 }

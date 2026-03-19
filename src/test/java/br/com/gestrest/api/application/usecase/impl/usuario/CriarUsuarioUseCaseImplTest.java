@@ -26,7 +26,7 @@ import br.com.gestrest.api.domain.model.ports.out.TipoUsuarioRepositoryPort;
 import br.com.gestrest.api.domain.model.ports.out.UsuarioRepositoryPort;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("CriarUsuarioUseCaseImpl Tests")
+@DisplayName("CriarUsuarioUseCaseImpl Testes")
 class CriarUsuarioUseCaseImplTest {
 
     @Mock
@@ -41,7 +41,6 @@ class CriarUsuarioUseCaseImplTest {
     @Test
     @DisplayName("Deve criar usuario com sucesso")
     void deveCriarUsuarioComSucesso() {
-        // Arrange
         var tipoUsuario = TipoUsuario.existente(1L, "GERENTE_RESTAURANTE");
         var command = new CriarUsuarioCommand(
             "João da Silva",
@@ -68,10 +67,8 @@ class CriarUsuarioUseCaseImplTest {
         );
         when(usuarioRepository.salvar(any(Usuario.class))).thenReturn(usuarioEsperado);
 
-        // Act
         var resultado = useCase.criar(command);
 
-        // Assert
         assertEquals("João da Silva", resultado.getNome());
         assertEquals("joao.silva@gestrest.com", resultado.getEmail());
         assertNotNull(resultado.getDataCriacao());
@@ -81,7 +78,6 @@ class CriarUsuarioUseCaseImplTest {
     @Test
     @DisplayName("Deve lancar excecao quando TipoUsuario nao encontrado")
     void deveLancarExcecaoQuandoTipoUsuarioNaoEncontrado() {
-        // Arrange
         var command = new CriarUsuarioCommand(
             "João da Silva",
             "joao.silva@gestrest.com",
@@ -93,14 +89,12 @@ class CriarUsuarioUseCaseImplTest {
 
         when(tipoRepository.buscarPorId(999L)).thenReturn(Optional.empty());
 
-        // Act & Assert
         assertThrows(TipoUsuarioNaoEncontradoException.class, () -> useCase.criar(command));
     }
 
     @Test
     @DisplayName("Deve falhar quando email já existe")
     void deveFalharQuandoEmailDuplicado() {
-        // Arrange
         var tipoUsuario = TipoUsuario.existente(1L, "GERENTE_RESTAURANTE");
         var command = new CriarUsuarioCommand(
             "João da Silva",
@@ -116,14 +110,12 @@ class CriarUsuarioUseCaseImplTest {
             Usuario.existente(2L, "João da Silva", "joao.silva@gestrest.com", "joao.silva", "Senha@987", "Rua das Rosas, São Paulo/SP", tipoUsuario)
         ));
 
-        // Act & Assert
         assertThrows(EmailJaCadastradoException.class, () -> useCase.criar(command));
     }
 
     @Test
     @DisplayName("Deve falhar quando login já existe")
     void deveFalharQuandoLoginDuplicado() {
-        // Arrange
         var tipoUsuario = TipoUsuario.existente(1L, "GERENTE_RESTAURANTE");
         var command = new CriarUsuarioCommand(
             "João da Silva",
@@ -140,7 +132,6 @@ class CriarUsuarioUseCaseImplTest {
             Usuario.existente(3L, "João da Silva", "joao.silva@gestrest.com", "joao.silva", "Senha@456", "Rua das Rosas, São Paulo/SP", tipoUsuario)
         ));
 
-        // Act & Assert
         assertThrows(LoginJaCadastradoException.class, () -> useCase.criar(command));
     }
 }

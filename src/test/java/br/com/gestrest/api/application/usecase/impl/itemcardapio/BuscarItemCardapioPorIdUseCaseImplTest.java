@@ -19,7 +19,7 @@ import br.com.gestrest.api.domain.model.ItemCardapio;
 import br.com.gestrest.api.domain.model.ports.out.ItemCardapioRepositoryPort;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("BuscarItemCardapioPorIdUseCaseImpl Tests")
+@DisplayName("BuscarItemCardapioPorIdUseCaseImpl Testes")
 class BuscarItemCardapioPorIdUseCaseImplTest {
 
     @Mock

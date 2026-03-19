@@ -18,12 +18,6 @@ import br.com.gestrest.api.adapter.in.web.dto.request.CriarUsuarioRequest;
 import br.com.gestrest.api.adapter.in.web.dto.response.UsuarioResponse;
 import java.util.List;
 
-/**
- * Documentação da API de Usuários.
- * 
- * Define as especificações técnicas para gerenciamento de usuários no sistema.
- * Usuários podem ser clientes ou donos de restaurantes conforme seu tipo.
- */
 @Tag(
     name = "Usuários",
     description = "API para gerenciamento de usuários (Clientes e Donos de Restaurante)"

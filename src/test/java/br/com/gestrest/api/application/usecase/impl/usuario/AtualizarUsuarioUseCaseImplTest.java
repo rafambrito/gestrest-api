@@ -25,7 +25,7 @@ import br.com.gestrest.api.domain.model.ports.out.TipoUsuarioRepositoryPort;
 import br.com.gestrest.api.domain.model.ports.out.UsuarioRepositoryPort;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("AtualizarUsuarioUseCaseImpl Tests")
+@DisplayName("AtualizarUsuarioUseCaseImpl Testes")
 class AtualizarUsuarioUseCaseImplTest {
 
     @Mock

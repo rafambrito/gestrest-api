@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("TipoUsuarioEnum tests")
+@DisplayName("TipoUsuarioEnum Testes")
 class TipoUsuarioEnumTest {
 
     @Test

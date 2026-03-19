@@ -22,7 +22,7 @@ import br.com.gestrest.api.domain.model.ports.out.ItemCardapioRepositoryPort;
 import br.com.gestrest.api.domain.model.ports.out.RestauranteRepositoryPort;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("CriarItemCardapioUseCaseImpl Tests")
+@DisplayName("CriarItemCardapioUseCaseImpl Testes")
 class CriarItemCardapioUseCaseImplTest {
 
     @Mock
@@ -37,19 +37,16 @@ class CriarItemCardapioUseCaseImplTest {
     @Test
     @DisplayName("Deve falhar quando restaurante não existir")
     void deveFalharQuandoRestauranteNaoExistir() {
-        // Arrange
         var item = ItemCardapio.criar("Pizza", "Deliciosa", new BigDecimal("45.50"), 999L, false, "/itens/pizza.jpg");
 
         when(restauranteRepository.buscarPorId(999L)).thenReturn(Optional.empty());
 
-        // Act & Assert
         assertThrows(RestauranteNaoEncontradoException.class, () -> useCase.criar(item));
     }
 
     @Test
     @DisplayName("Deve criar item com sucesso")
     void deveCriarItemComSucesso() {
-        // Arrange
         var restaurante = Restaurante.existente(1L, "Rafael Brito", "Rua das Rosas, São Paulo/SP", "Brasileira", "Seg-Dom 11:00-23:00", 1L);
         var item = ItemCardapio.criar("Rafael Brito", "Acompanha arroz branco e fritas", new BigDecimal("39.90"), 1L, false,
             "/itens/rafael-brito.jpg");
@@ -57,10 +54,8 @@ class CriarItemCardapioUseCaseImplTest {
         when(restauranteRepository.buscarPorId(1L)).thenReturn(Optional.of(restaurante));
         when(repository.salvar(any(ItemCardapio.class))).thenAnswer(inv -> inv.getArgument(0));
 
-        // Act
         var criado = useCase.criar(item);
 
-        // Assert
         assertEquals("Rafael Brito", criado.getNome());
         assertEquals(0, criado.getPreco().compareTo(new BigDecimal("39.90")));
     }

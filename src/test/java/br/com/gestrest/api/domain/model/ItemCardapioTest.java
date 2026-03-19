@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("ItemCardapio domain tests")
+@DisplayName("ItemCardapio testes de dominio")
 class ItemCardapioTest {
 
     @Test
