@@ -13,12 +13,15 @@ import lombok.RequiredArgsConstructor;
 public class AtualizarRestauranteUseCaseImpl implements AtualizarRestauranteUseCase {
 
     private final RestauranteRepositoryPort repository;
+    private final ValidarDonoRestauranteService validarDonoRestauranteService;
 
     @Override
     public Restaurante atualizar(Restaurante restaurante) {
 
         var existente = repository.buscarPorId(restaurante.getId())
                 .orElseThrow(() -> new RestauranteNaoEncontradoException(restaurante.getId()));
+
+        validarDonoRestauranteService.validar(restaurante.getDonoId());
 
         existente.atualizar(
                 restaurante.getNome(),

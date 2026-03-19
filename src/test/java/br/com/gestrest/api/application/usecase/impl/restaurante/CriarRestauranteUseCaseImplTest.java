@@ -2,9 +2,9 @@ package br.com.gestrest.api.application.usecase.impl.restaurante;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.*;
-
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,10 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import br.com.gestrest.api.domain.exception.BusinessException;
 import br.com.gestrest.api.domain.exception.UsuarioNaoEncontradoException;
 import br.com.gestrest.api.domain.model.Restaurante;
-import br.com.gestrest.api.domain.model.TipoUsuario;
-import br.com.gestrest.api.domain.model.Usuario;
 import br.com.gestrest.api.domain.model.ports.out.RestauranteRepositoryPort;
-import br.com.gestrest.api.domain.model.ports.out.UsuarioRepositoryPort;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Criar Restaurante Caso de Uso")
@@ -30,7 +27,7 @@ class CriarRestauranteUseCaseImplTest {
     private RestauranteRepositoryPort repository;
 
     @Mock
-    private UsuarioRepositoryPort usuarioRepository;
+    private ValidarDonoRestauranteService validarDonoRestauranteService;
 
     @InjectMocks
     private CriarRestauranteUseCaseImpl useCase;
@@ -61,9 +58,6 @@ class CriarRestauranteUseCaseImplTest {
         );
         when(repository.salvar(any(Restaurante.class))).thenReturn(restauranteSalvo);
 
-        var usuario = Usuario.existente(1L, "Rafael Brito", "rafael.brito@gestrest.com", "rafael.brito", "Senha@123", "Rua das Rosas, São Paulo/SP", TipoUsuario.existente(1L, "DONO_RESTAURANTE"));
-        when(usuarioRepository.buscarPorId(restaurante.getDonoId())).thenReturn(Optional.of(usuario));
-
         Restaurante resultado = useCase.criar(restaurante);
 
         assertNotNull(resultado);
@@ -72,6 +66,7 @@ class CriarRestauranteUseCaseImplTest {
         assertEquals("Avenida Beija Flor, São Paulo/SP", resultado.getEndereco());
         assertEquals("Italiana", resultado.getTipoCozinha());
         assertEquals("Seg-Dom 11:00-22:30", resultado.getHorarioFuncionamento());
+        verify(validarDonoRestauranteService).validar(eq(restaurante.getDonoId()));
         verify(repository, times(1)).salvar(any(Restaurante.class));
     }
 
@@ -126,9 +121,11 @@ class CriarRestauranteUseCaseImplTest {
     @Test
     @DisplayName("Deve falhar quando dono nao encontrado")
     void deveFalharQuandoDonoNaoEncontrado() {
-        when(usuarioRepository.buscarPorId(99L)).thenReturn(Optional.empty());
-
         var r = Restaurante.criar("José Pereira", "Rua das Rosas, São Paulo/SP", "Italiana", "10:00-22:00", 99L);
+
+        doThrow(new UsuarioNaoEncontradoException(99L))
+                .when(validarDonoRestauranteService)
+                .validar(99L);
 
         assertThrows(UsuarioNaoEncontradoException.class, () -> useCase.criar(r));
     }
@@ -136,12 +133,11 @@ class CriarRestauranteUseCaseImplTest {
     @Test
     @DisplayName("Deve falhar quando usuario nao for dono")
     void deveFalharQuandoUsuarioNaoForDono() {
-        var tipoCliente = TipoUsuario.existente(2L, "CLIENTE");
-        var cliente = Usuario.existente(11L, "José Pereira", "jose.pereira@gestrest.com", "jose.pereira", "Senha@234", "Rua das Rosas, São Paulo/SP", tipoCliente);
-
         var r = Restaurante.criar("José Pereira", "Rua das Rosas, São Paulo/SP", "Italiana", "10:00-22:00", 11L);
 
-        when(usuarioRepository.buscarPorId(11L)).thenReturn(Optional.of(cliente));
+        doThrow(new BusinessException("O dono informado deve ser um usuário do tipo dono de restaurante"))
+                .when(validarDonoRestauranteService)
+                .validar(11L);
 
         assertThrows(BusinessException.class, () -> useCase.criar(r));
     }
