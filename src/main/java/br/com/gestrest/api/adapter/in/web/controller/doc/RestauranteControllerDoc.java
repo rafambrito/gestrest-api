@@ -18,12 +18,6 @@ import br.com.gestrest.api.adapter.in.web.dto.request.CriarRestauranteRequest;
 import br.com.gestrest.api.adapter.in.web.dto.response.RestauranteResponse;
 import java.util.List;
 
-/**
- * Documentação da API de Restaurantes.
- * 
- * Define as especificações técnicas para gerenciamento de restaurantes no sistema.
- * Cada restaurante é gerenciado por um usuário (dono) e possui um cardápio.
- */
 @Tag(
     name = "Restaurantes",
     description = "API para gerenciamento de restaurantes, incluindo tipos de cozinha e horários"
@@ -132,7 +126,7 @@ public interface RestauranteControllerDoc {
         ),
         @ApiResponse(
             responseCode = "400",
-            description = "Validação falhou - campos obrigatórios"
+            description = "Validação falhou - campos obrigatórios: nome, endereco, tipoCozinha, horarioFuncionamento, donoId"
         ),
         @ApiResponse(
             responseCode = "404",
@@ -154,7 +148,7 @@ public interface RestauranteControllerDoc {
                 mediaType = "application/json",
                 examples = @ExampleObject(
                     name = "Atualizar Restaurante",
-                    value = "{\"nome\": \"Pizza House Premium\", \"endereco\": \"Rua das Flores 456\", \"tipoCozinha\": \"Italiana Moderna\", \"horarioFuncionamento\": \"12:00 - 23:00\"}"
+                    value = "{\"nome\": \"Pizza House Premium\", \"endereco\": \"Rua das Flores 456\", \"tipoCozinha\": \"Italiana Moderna\", \"horarioFuncionamento\": \"12:00 - 23:00\", \"donoId\": 1}"
                 )
             )
         ) AtualizarRestauranteRequest request

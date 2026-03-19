@@ -2,7 +2,7 @@ package br.com.gestrest.api.application.usecase.impl.itemcardapio;
 
 import org.springframework.stereotype.Service;
 
-import br.com.gestrest.api.adapter.in.web.exception.RestauranteNaoEncontradoException;
+import br.com.gestrest.api.domain.exception.RestauranteNaoEncontradoException;
 import br.com.gestrest.api.domain.model.ItemCardapio;
 import br.com.gestrest.api.domain.model.ports.in.itemcardapio.CriarItemCardapioUseCase;
 import br.com.gestrest.api.domain.model.ports.out.ItemCardapioRepositoryPort;

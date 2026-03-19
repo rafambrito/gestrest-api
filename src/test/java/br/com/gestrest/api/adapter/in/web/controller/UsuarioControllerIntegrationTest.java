@@ -26,7 +26,7 @@ import br.com.gestrest.api.adapter.out.persistence.repository.TipoUsuarioJpaRepo
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @Transactional
-@DisplayName("UsuarioController Integration Tests")
+@DisplayName("UsuarioController Testes de Integracao")
 class UsuarioControllerIntegrationTest {
 
     @Autowired
@@ -42,9 +42,8 @@ class UsuarioControllerIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        // Criar um tipo de usuário para testes
         var tipoEntity = new TipoUsuarioEntity();
-        tipoEntity.setNome("Admin");
+        tipoEntity.setNome("GERENTE_RESTAURANTE");
         var tipo = tipoUsuarioRepository.save(tipoEntity);
         tipoUsuarioId = tipo.getId();
     }
@@ -52,41 +51,39 @@ class UsuarioControllerIntegrationTest {
     @Test
     @DisplayName("POST /api/v1/usuarios - Deve criar usuário com sucesso")
     void deveCriarUsuarioComSucesso() throws Exception {
-        // Arrange
         var request = new CriarUsuarioRequest(
-            "João Silva",
-            "joao@example.com",
+            "João da Silva",
+            "joao.silva@gestrest.com",
             "joao.silva",
             "senha123",
-            "Rua A, 123",
+            "Rua das Rosas, São Paulo/SP",
             tipoUsuarioId
         );
 
-        // Act & Assert
         mockMvc.perform(post("/api/v1/usuarios")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.id", notNullValue()))
-            .andExpect(jsonPath("$.nome", equalTo("João Silva")))
-            .andExpect(jsonPath("$.email", equalTo("joao@example.com")))
-            .andExpect(jsonPath("$.tipoUsuario.id", equalTo(tipoUsuarioId.intValue())));
+            .andExpect(jsonPath("$.nome", equalTo("João da Silva")))
+            .andExpect(jsonPath("$.email", equalTo("joao.silva@gestrest.com")))
+            .andExpect(jsonPath("$.tipoUsuario.id", equalTo(tipoUsuarioId.intValue())))
+            .andExpect(jsonPath("$.dataCriacao", notNullValue()))
+            .andExpect(jsonPath("$.dataUltimaAlteracao").value(org.hamcrest.Matchers.nullValue()));
     }
 
     @Test
     @DisplayName("POST /api/v1/usuarios - Deve falhar com email inválido")
     void devefalharComEmailInvalido() throws Exception {
-        // Arrange
         var request = new CriarUsuarioRequest(
-            "João Silva",
+            "João da Silva",
             "email-invalido",
             "joao.silva",
             "senha123",
-            "Rua A, 123",
+            "Rua das Rosas, São Paulo/SP",
             tipoUsuarioId
         );
 
-        // Act & Assert
         mockMvc.perform(post("/api/v1/usuarios")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
@@ -96,13 +93,12 @@ class UsuarioControllerIntegrationTest {
     @Test
     @DisplayName("GET /api/v1/usuarios - Deve listar usuários")
     void deveListarUsuarios() throws Exception {
-        // Arrange
         var request = new CriarUsuarioRequest(
-            "Maria Silva",
-            "maria@example.com",
-            "maria.silva",
+            "José Pereira",
+            "jose.pereira@gestrest.com",
+            "jose.pereira",
             "senha456",
-            "Rua B, 456",
+            "Avenida Beija Flor, São Paulo/SP",
             tipoUsuarioId
         );
 
@@ -111,7 +107,6 @@ class UsuarioControllerIntegrationTest {
                 .content(objectMapper.writeValueAsString(request)))
             .andExpect(status().isCreated());
 
-        // Act & Assert
         mockMvc.perform(get("/api/v1/usuarios"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
@@ -121,13 +116,12 @@ class UsuarioControllerIntegrationTest {
     @Test
     @DisplayName("GET /api/v1/usuarios/{id} - Deve buscar usuário por ID")
     void deveBuscarUsuarioPorId() throws Exception {
-        // Arrange
         var request = new CriarUsuarioRequest(
-            "Pedro Silva",
-            "pedro@example.com",
-            "pedro.silva",
+            "Rafael Brito",
+            "rafael.brito@gestrest.com",
+            "rafael.brito",
             "senha789",
-            "Rua C, 789",
+            "Rua das Rosas, São Paulo/SP",
             tipoUsuarioId
         );
 
@@ -141,24 +135,23 @@ class UsuarioControllerIntegrationTest {
         var usuarioResponse = objectMapper.readTree(content);
         long usuarioId = usuarioResponse.get("id").asLong();
 
-        // Act & Assert
         mockMvc.perform(get("/api/v1/usuarios/" + usuarioId))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.id", equalTo((int)usuarioId)))
-            .andExpect(jsonPath("$.nome", equalTo("Pedro Silva")))
-            .andExpect(jsonPath("$.email", equalTo("pedro@example.com")));
+            .andExpect(jsonPath("$.nome", equalTo("Rafael Brito")))
+            .andExpect(jsonPath("$.email", equalTo("rafael.brito@gestrest.com")))
+            .andExpect(jsonPath("$.dataCriacao", notNullValue()));
     }
 
     @Test
     @DisplayName("PUT /api/v1/usuarios/{id} - Deve atualizar usuário")
     void deveAtualizarUsuario() throws Exception {
-        // Arrange
         var criarRequest = new CriarUsuarioRequest(
-            "Ana Silva",
-            "ana@example.com",
-            "ana.silva",
+            "João da Silva",
+            "joao.silva@gestrest.com",
+            "joao.silva",
             "senha321",
-            "Rua D, 321",
+            "Rua dos Lirios, São Paulo/SP",
             tipoUsuarioId
         );
 
@@ -173,31 +166,31 @@ class UsuarioControllerIntegrationTest {
         var usuarioId = usuarioResponse.get("id").asLong();
 
         var atualizarRequest = new AtualizarUsuarioRequest(
-            "Ana Santos",
-            "ana.santos@example.com",
-            "Rua E, 654",
+            "João da Silva",
+            "joao.silva@gestrest.com",
+            "Rua das Rosas, São Paulo/SP",
             tipoUsuarioId
         );
 
-        // Act & Assert
         mockMvc.perform(put("/api/v1/usuarios/" + usuarioId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(atualizarRequest)))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.nome", equalTo("Ana Santos")))
-            .andExpect(jsonPath("$.email", equalTo("ana.santos@example.com")));
+            .andExpect(jsonPath("$.nome", equalTo("João da Silva")))
+            .andExpect(jsonPath("$.email", equalTo("joao.silva@gestrest.com")))
+            .andExpect(jsonPath("$.dataCriacao", notNullValue()))
+            .andExpect(jsonPath("$.dataUltimaAlteracao", notNullValue()));
     }
 
     @Test
     @DisplayName("DELETE /api/v1/usuarios/{id} - Deve deletar usuário")
     void deveDeletarUsuario() throws Exception {
-        // Arrange
         var request = new CriarUsuarioRequest(
-            "Carlos Silva",
-            "carlos@example.com",
-            "carlos.silva",
+            "Rafael Brito",
+            "rafael.brito@gestrest.com",
+            "rafael.brito",
             "senha654",
-            "Rua F, 987",
+            "Rua das Rosas, São Paulo/SP",
             tipoUsuarioId
         );
 
@@ -211,11 +204,9 @@ class UsuarioControllerIntegrationTest {
         var usuarioResponse = objectMapper.readTree(content);
         var usuarioId = usuarioResponse.get("id").asLong();
 
-        // Act & Assert
         mockMvc.perform(delete("/api/v1/usuarios/" + usuarioId))
             .andExpect(status().isNoContent());
 
-        // Verificar que foi deletado
         mockMvc.perform(get("/api/v1/usuarios/" + usuarioId))
             .andExpect(status().isNotFound());
     }

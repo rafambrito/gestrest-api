@@ -38,5 +38,11 @@ public class ItemCardapioEntity {
     @Column(name = "restaurante_id", nullable = false)
     private Long restauranteId;
 
+    @Column(name = "disponivel_somente_no_local", nullable = false)
+    private Boolean disponivelSomenteNoLocal;
+
+    @Column(name = "foto_path", nullable = false, length = 255)
+    private String fotoPath;
+
     private LocalDateTime dataUltimaAlteracao;
 }

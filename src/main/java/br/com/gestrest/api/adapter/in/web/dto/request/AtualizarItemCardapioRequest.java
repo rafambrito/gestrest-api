@@ -9,5 +9,8 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 public record AtualizarItemCardapioRequest(@NotBlank @Size(max = 150) String nome, @NotBlank @Size(max = 500) String descricao,
-        @NotNull @Positive @Digits(integer = 10, fraction = 2) BigDecimal preco) {
+        @NotNull @Positive @Digits(integer = 10, fraction = 2) BigDecimal preco,
+        @NotNull Boolean disponivelSomenteNoLocal,
+        @NotBlank @Size(max = 255) String fotoPath,
+        @NotNull(message = "Restaurante é obrigatório") Long restauranteId) {
 }

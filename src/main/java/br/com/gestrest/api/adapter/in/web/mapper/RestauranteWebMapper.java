@@ -27,7 +27,7 @@ public class RestauranteWebMapper {
                 request.endereco(),
                 request.tipoCozinha(),
                 request.horarioFuncionamento(),
-                null
+                request.donoId()
         );
     }
 

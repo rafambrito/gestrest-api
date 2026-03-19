@@ -15,7 +15,9 @@ public class ItemCardapioWebMapper {
                 request.nome(),
                 request.descricao(),
                 request.preco(),
-                request.restauranteId()
+            request.restauranteId(),
+                request.disponivelSomenteNoLocal(),
+            request.fotoPath()
         );
     }
 
@@ -25,7 +27,9 @@ public class ItemCardapioWebMapper {
                 request.nome(),
                 request.descricao(),
                 request.preco(),
-                null
+            request.restauranteId(),
+            request.disponivelSomenteNoLocal(),
+            request.fotoPath()
         );
     }
 
@@ -35,6 +39,8 @@ public class ItemCardapioWebMapper {
                 domain.getNome(),
                 domain.getDescricao(),
                 domain.getPreco(),
+                domain.isDisponivelSomenteNoLocal(),
+                domain.getFotoPath(),
                 domain.getRestauranteId()
         );
     }

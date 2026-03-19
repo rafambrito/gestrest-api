@@ -21,7 +21,9 @@ public class UsuarioPersistenceMapper {
                 TipoUsuario.existente(
                         entity.getTipoUsuario().getId(),
                         entity.getTipoUsuario().getNome()
-                )
+                ),
+                entity.getDataCriacao(),
+                entity.getDataUltimaAlteracao()
         );
     }
 }

@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
-import br.com.gestrest.api.adapter.in.web.mapper.ItemCardapioPersistenceMapper;
+import br.com.gestrest.api.adapter.out.persistence.mapper.ItemCardapioPersistenceMapper;
 import br.com.gestrest.api.adapter.out.persistence.repository.ItemCardapioJpaRepository;
 import br.com.gestrest.api.domain.model.ItemCardapio;
 import br.com.gestrest.api.domain.model.ports.out.ItemCardapioRepositoryPort;

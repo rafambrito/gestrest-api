@@ -69,7 +69,9 @@ public class UsuarioWebMapper {
             domain.getEmail(),
             domain.getLogin(),
             domain.getEndereco(),
-            tipoResponse
+            tipoResponse,
+            domain.getDataCriacao(),
+            domain.getDataUltimaAlteracao()
         );
     }
 }

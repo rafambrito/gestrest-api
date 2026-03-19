@@ -11,37 +11,47 @@ public class ItemCardapio {
 	private String descricao;
 	private BigDecimal preco;
 	private Long restauranteId;
+	private boolean disponivelSomenteNoLocal;
+	private String fotoPath;
 	private LocalDateTime dataUltimaAlteracao;
 
-	private ItemCardapio(Long id, String nome, String descricao, BigDecimal preco, Long restauranteId) {
+	private ItemCardapio(Long id, String nome, String descricao, BigDecimal preco, Long restauranteId,
+			boolean disponivelSomenteNoLocal, String fotoPath) {
 
-		validar(nome, preco, restauranteId);
+		validar(nome, preco, restauranteId, fotoPath);
 
 		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
 		this.preco = preco;
 		this.restauranteId = restauranteId;
+		this.disponivelSomenteNoLocal = disponivelSomenteNoLocal;
+		this.fotoPath = fotoPath;
 		this.dataUltimaAlteracao = LocalDateTime.now();
 	}
 
-	public static ItemCardapio criar(String nome, String descricao, BigDecimal preco, Long restauranteId) {
-		return new ItemCardapio(null, nome, descricao, preco, restauranteId);
+	public static ItemCardapio criar(String nome, String descricao, BigDecimal preco, Long restauranteId,
+			boolean disponivelSomenteNoLocal, String fotoPath) {
+		return new ItemCardapio(null, nome, descricao, preco, restauranteId, disponivelSomenteNoLocal, fotoPath);
 	}
 
-	public static ItemCardapio existente(Long id, String nome, String descricao, BigDecimal preco, Long restauranteId) {
-		return new ItemCardapio(id, nome, descricao, preco, restauranteId);
+	public static ItemCardapio existente(Long id, String nome, String descricao, BigDecimal preco, Long restauranteId,
+			boolean disponivelSomenteNoLocal, String fotoPath) {
+		return new ItemCardapio(id, nome, descricao, preco, restauranteId, disponivelSomenteNoLocal, fotoPath);
 	}
 
-	public void atualizar(String nome, String descricao, BigDecimal preco) {
-		validar(nome, preco, restauranteId);
+	public void atualizar(String nome, String descricao, BigDecimal preco, boolean disponivelSomenteNoLocal,
+			String fotoPath) {
+		validar(nome, preco, restauranteId, fotoPath);
 		this.nome = nome;
 		this.descricao = descricao;
 		this.preco = preco;
+		this.disponivelSomenteNoLocal = disponivelSomenteNoLocal;
+		this.fotoPath = fotoPath;
 		this.dataUltimaAlteracao = LocalDateTime.now();
 	}
 
-	private void validar(String nome, BigDecimal preco, Long restauranteId) {
+	private void validar(String nome, BigDecimal preco, Long restauranteId, String fotoPath) {
 
 		if (nome == null || nome.isBlank())
 			throw new IllegalArgumentException("Nome é obrigatório");
@@ -51,6 +61,9 @@ public class ItemCardapio {
 
 		if (restauranteId == null)
 			throw new IllegalArgumentException("Restaurante é obrigatório");
+
+		if (fotoPath == null || fotoPath.isBlank())
+			throw new IllegalArgumentException("Caminho da foto é obrigatório");
 	}
 
 	public Long getId() {
@@ -71,6 +84,14 @@ public class ItemCardapio {
 
 	public Long getRestauranteId() {
 		return restauranteId;
+	}
+
+	public boolean isDisponivelSomenteNoLocal() {
+		return disponivelSomenteNoLocal;
+	}
+
+	public String getFotoPath() {
+		return fotoPath;
 	}
 
 	public LocalDateTime getDataUltimaAlteracao() {

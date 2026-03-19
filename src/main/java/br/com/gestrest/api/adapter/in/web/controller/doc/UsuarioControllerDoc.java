@@ -18,12 +18,6 @@ import br.com.gestrest.api.adapter.in.web.dto.request.CriarUsuarioRequest;
 import br.com.gestrest.api.adapter.in.web.dto.response.UsuarioResponse;
 import java.util.List;
 
-/**
- * Documentação da API de Usuários.
- * 
- * Define as especificações técnicas para gerenciamento de usuários no sistema.
- * Usuários podem ser clientes ou donos de restaurantes conforme seu tipo.
- */
 @Tag(
     name = "Usuários",
     description = "API para gerenciamento de usuários (Clientes e Donos de Restaurante)"
@@ -118,7 +112,7 @@ public interface UsuarioControllerDoc {
 
     @Operation(
         summary = "Atualizar usuário",
-        description = "Atualiza os dados de um usuário existente. Apenas o nome pode ser atualizado",
+        description = "Atualiza os dados de um usuário existente (nome, email, endereco e tipoUsuarioId)",
         tags = {"Usuários"}
     )
     @ApiResponses(value = {
@@ -132,7 +126,7 @@ public interface UsuarioControllerDoc {
         ),
         @ApiResponse(
             responseCode = "400",
-            description = "Validação falhou - nome obrigatório"
+            description = "Validação falhou - campos obrigatórios: nome, email válido e tipoUsuarioId"
         ),
         @ApiResponse(
             responseCode = "404",
@@ -152,9 +146,10 @@ public interface UsuarioControllerDoc {
             required = true,
             content = @Content(
                 mediaType = "application/json",
+                schema = @Schema(implementation = AtualizarUsuarioRequest.class),
                 examples = @ExampleObject(
                     name = "Atualizar Usuário",
-                    value = "{\"nome\": \"João Silva Atualizado\"}"
+                    value = "{\"nome\": \"João Silva Atualizado\", \"email\": \"joao.atualizado@email.com\", \"endereco\": \"Rua Nova, 100\", \"tipoUsuarioId\": 1}"
                 )
             )
         ) AtualizarUsuarioRequest request

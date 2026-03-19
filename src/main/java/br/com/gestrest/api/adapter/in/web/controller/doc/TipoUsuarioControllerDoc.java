@@ -18,12 +18,6 @@ import br.com.gestrest.api.adapter.in.web.dto.request.CriarTipoUsuarioRequest;
 import br.com.gestrest.api.adapter.in.web.dto.response.TipoUsuarioResponse;
 import java.util.List;
 
-/**
- * Documentação da API de Tipos de Usuário.
- * 
- * Define as especificações técnicas para gerenciamento de tipos de usuários no sistema.
- * Tipos de usuários categorizam usuários como "Cliente" ou "Dono de Restaurante".
- */
 @Tag(
     name = "Tipos de Usuário",
     description = "API para gerenciamento de tipos de usuários (Cliente, Dono de Restaurante, etc)"

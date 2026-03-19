@@ -5,10 +5,12 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
-import br.com.gestrest.api.adapter.in.web.exception.TipoUsuarioNaoEncontradoException;
+import br.com.gestrest.api.domain.exception.TipoUsuarioNaoEncontradoException;
+import br.com.gestrest.api.domain.exception.RecursoEmUsoException;
 import br.com.gestrest.api.adapter.out.persistence.entity.TipoUsuarioEntity;
 import br.com.gestrest.api.adapter.out.persistence.mapper.TipoUsuarioPersistenceMapper;
 import br.com.gestrest.api.adapter.out.persistence.repository.TipoUsuarioJpaRepository;
+import br.com.gestrest.api.adapter.out.persistence.repository.UsuarioJpaRepository;
 import br.com.gestrest.api.domain.model.TipoUsuario;
 import br.com.gestrest.api.domain.model.ports.out.TipoUsuarioRepositoryPort;
 
@@ -17,12 +19,15 @@ public class TipoUsuarioRepositoryAdapter implements TipoUsuarioRepositoryPort {
 
     private final TipoUsuarioJpaRepository repository;
     private final TipoUsuarioPersistenceMapper mapper;
+    private final UsuarioJpaRepository usuarioRepository;
 
     public TipoUsuarioRepositoryAdapter(
             TipoUsuarioJpaRepository repository,
-            TipoUsuarioPersistenceMapper mapper) {
+            TipoUsuarioPersistenceMapper mapper,
+            UsuarioJpaRepository usuarioRepository) {
         this.repository = repository;
         this.mapper = mapper;
+        this.usuarioRepository = usuarioRepository;
     }
 
     @Override
@@ -66,6 +71,10 @@ public class TipoUsuarioRepositoryAdapter implements TipoUsuarioRepositoryPort {
 	    if (!repository.existsById(id)) {
 	        return;
 	    }
+
+        if (usuarioRepository.existsByTipoUsuarioId(id)) {
+            throw new RecursoEmUsoException("O tipo de usuário possui usuários associados e não pode ser excluído");
+        }
 
 	    repository.deleteById(id);
 	}

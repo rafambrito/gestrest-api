@@ -7,13 +7,17 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
-@RestControllerAdvice
+import br.com.gestrest.api.domain.exception.BusinessException;
+import br.com.gestrest.api.domain.exception.DuplicateResourceException;
+import br.com.gestrest.api.domain.exception.EntityNotFoundException;
+import br.com.gestrest.api.domain.exception.UnauthorizedOperationException;
+
+@ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -31,18 +35,39 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resp);
     }
 
-    @ExceptionHandler({UsuarioNaoEncontradoException.class, TipoUsuarioNaoEncontradoException.class, RestauranteNaoEncontradoException.class})
-    public ResponseEntity<ErrorResponse> handleNotFound(RuntimeException ex, WebRequest request) {
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotFound(EntityNotFoundException ex, WebRequest request) {
         ErrorResponse resp = new ErrorResponse(OffsetDateTime.now(), HttpStatus.NOT_FOUND.value(), "Not Found",
                 ex.getMessage(), request.getDescription(false).replace("uri=", ""));
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resp);
     }
 
-    @ExceptionHandler({PermissaoNegadaException.class, RecursoEmUsoException.class})
-    public ResponseEntity<ErrorResponse> handleConflict(RuntimeException ex, WebRequest request) {
+    @ExceptionHandler(DuplicateResourceException.class)
+    public ResponseEntity<ErrorResponse> handleConflict(DuplicateResourceException ex, WebRequest request) {
         ErrorResponse resp = new ErrorResponse(OffsetDateTime.now(), HttpStatus.CONFLICT.value(), "Conflict",
                 ex.getMessage(), request.getDescription(false).replace("uri=", ""));
         return ResponseEntity.status(HttpStatus.CONFLICT).body(resp);
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ErrorResponse> handleBusiness(BusinessException ex, WebRequest request) {
+        ErrorResponse resp = new ErrorResponse(OffsetDateTime.now(), HttpStatus.BAD_REQUEST.value(), "Bad Request",
+                ex.getMessage(), request.getDescription(false).replace("uri=", ""));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resp);
+    }
+
+    @ExceptionHandler(UnauthorizedOperationException.class)
+    public ResponseEntity<ErrorResponse> handleUnauthorized(UnauthorizedOperationException ex, WebRequest request) {
+        ErrorResponse resp = new ErrorResponse(OffsetDateTime.now(), HttpStatus.FORBIDDEN.value(), "Forbidden",
+                ex.getMessage(), request.getDescription(false).replace("uri=", ""));
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(resp);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex, WebRequest request) {
+        ErrorResponse resp = new ErrorResponse(OffsetDateTime.now(), HttpStatus.BAD_REQUEST.value(), "Bad Request",
+                ex.getMessage(), request.getDescription(false).replace("uri=", ""));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resp);
     }
 
     @ExceptionHandler(RuntimeException.class)
