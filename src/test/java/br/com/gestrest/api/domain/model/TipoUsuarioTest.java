@@ -31,4 +31,9 @@ class TipoUsuarioTest {
         assertEquals(a, b);
         assertEquals(a.hashCode(), b.hashCode());
     }
+
+	@Test
+	void nomeComTamanhoInvalidoDeveFalhar() {
+		assertThrows(IllegalArgumentException.class, () -> TipoUsuario.criar("A".repeat(51)));
+	}
 }

@@ -111,4 +111,35 @@ class UsuarioTest {
         assertNull(usuario.getDataCriacao());
         assertNull(usuario.getDataUltimaAlteracao());
     }
+
+    @Test
+    @DisplayName("criar() deve validar regras obrigatórias e limites")
+    void criarDeveValidarCamposObrigatoriosELimites() {
+        var tipo = TipoUsuario.existente(1L, "CLIENTE");
+
+        assertThrows(IllegalArgumentException.class,
+                () -> Usuario.criar(null, "joao.silva@gestrest.com", "joao.silva", "Senha@123", null, tipo));
+        assertThrows(IllegalArgumentException.class,
+                () -> Usuario.criar("João da Silva", "email-invalido", "joao.silva", "Senha@123", null, tipo));
+        assertThrows(IllegalArgumentException.class,
+                () -> Usuario.criar("João da Silva", "joao.silva@gestrest.com", " ", "Senha@123", null, tipo));
+        assertThrows(IllegalArgumentException.class,
+                () -> Usuario.criar("João da Silva", "joao.silva@gestrest.com", "joao.silva", "123", null, tipo));
+        assertThrows(IllegalArgumentException.class,
+                () -> Usuario.criar("João da Silva", "joao.silva@gestrest.com", "joao.silva", "Senha@123", null, null));
+    }
+
+    @Test
+    @DisplayName("atualizar() deve exigir nome, email e tipo válidos")
+    void atualizarDeveValidarCampos() {
+        var tipo = TipoUsuario.existente(1L, "CLIENTE");
+        var usuario = Usuario.criar("João da Silva", "joao.silva@gestrest.com", "joao.silva", "Senha@123", "Rua das Rosas, São Paulo/SP", tipo);
+
+        assertThrows(IllegalArgumentException.class,
+                () -> usuario.atualizar(" ", "joao.silva@gestrest.com", "Rua das Rosas, São Paulo/SP", tipo));
+        assertThrows(IllegalArgumentException.class,
+                () -> usuario.atualizar("João da Silva", "invalido", "Rua das Rosas, São Paulo/SP", tipo));
+        assertThrows(IllegalArgumentException.class,
+                () -> usuario.atualizar("João da Silva", "joao.silva@gestrest.com", "Rua das Rosas, São Paulo/SP", null));
+    }
 }

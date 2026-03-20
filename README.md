@@ -6,7 +6,7 @@
 
 ## 📌 Sobre o Projeto
 
-O **GestRest API** é uma aplicação **RESTful** desenvolvida em **Spring Boot** para gestão de usuários de um sistema compartilhado entre restaurantes. O sistema permite o cadastro e gerenciamento de clientes e donos de restaurante, conforme os requisitos do Tech Challenge da Fase 02.
+O **GestRest API** é uma aplicação desenvolvida em **Spring Boot** para gestão de restaurantes. O sistema permite o cadastro e gerenciamento de clientes e donos de restaurante, assim como cadastro de restaurantes e itens do cardápio, conforme os requisitos do Tech Challenge da Fase 02.
 
 Nesta etapa, o foco está na **gestão de tipos de usuários, restaurantes e itens de cardápio**, além do fortalecimento da arquitetura, testes automatizados e infraestrutura com Docker.
 

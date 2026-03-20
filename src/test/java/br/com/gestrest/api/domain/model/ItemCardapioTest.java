@@ -89,4 +89,22 @@ class ItemCardapioTest {
         assertEquals(a.hashCode(), b.hashCode());
         assertNotEquals(a, c);
     }
+
+    @Test
+    @DisplayName("Falha quando descricao excede limite")
+    void descricaoInvalidaPorTamanho() {
+        assertThrows(IllegalArgumentException.class,
+                () -> ItemCardapio.criar("Penne ao Pomodoro", "A".repeat(501), new BigDecimal("29.90"), 1L, false, "/itens/teste.jpg"));
+    }
+
+    @Test
+    @DisplayName("Falha quando preco excede limite de digitos")
+    void precoInvalidoPorQuantidadeDeDigitos() {
+        assertThrows(IllegalArgumentException.class,
+                () -> ItemCardapio.criar("Penne ao Pomodoro", "Massa artesanal", new BigDecimal("12345678901.00"), 1L, false,
+                        "/itens/teste.jpg"));
+        assertThrows(IllegalArgumentException.class,
+                () -> ItemCardapio.criar("Penne ao Pomodoro", "Massa artesanal", new BigDecimal("10.999"), 1L, false,
+                        "/itens/teste.jpg"));
+    }
 }

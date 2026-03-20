@@ -61,7 +61,7 @@ class CriarUsuarioUseCaseTest {
 
         when(tipoRepository.buscarPorId(1L)).thenReturn(Optional.of(tipo));
         when(usuarioRepository.buscarPorEmail("rafael.brito@gestrest.com")).thenReturn(Optional.of(
-            Usuario.criar("Rafael Brito", "rafael.brito@gestrest.com", null, "Senha@987", "Rua das Rosas, São Paulo/SP", tipo)
+            Usuario.criar("Rafael Brito", "rafael.brito@gestrest.com", "rafael.brito.dup", "Senha@987", "Rua das Rosas, São Paulo/SP", tipo)
         ));
 
         assertThrows(EmailJaCadastradoException.class, () -> useCase.criar(cmd));

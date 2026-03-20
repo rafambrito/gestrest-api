@@ -50,4 +50,16 @@ class RestauranteTest {
         assertEquals(a.hashCode(), b.hashCode());
         assertNotEquals(a, c);
     }
+
+    @Test
+    void validarTamanhoMaximoDosCampos() {
+        assertThrows(IllegalArgumentException.class,
+                () -> Restaurante.criar("A".repeat(151), "Rua das Rosas, São Paulo/SP", "Brasileira", "10:00-22:00", 1L));
+        assertThrows(IllegalArgumentException.class,
+                () -> Restaurante.criar("João da Silva", "A".repeat(251), "Brasileira", "10:00-22:00", 1L));
+        assertThrows(IllegalArgumentException.class,
+                () -> Restaurante.criar("João da Silva", "Rua das Rosas, São Paulo/SP", "A".repeat(101), "10:00-22:00", 1L));
+        assertThrows(IllegalArgumentException.class,
+                () -> Restaurante.criar("João da Silva", "Rua das Rosas, São Paulo/SP", "Brasileira", "A".repeat(101), 1L));
+    }
 }

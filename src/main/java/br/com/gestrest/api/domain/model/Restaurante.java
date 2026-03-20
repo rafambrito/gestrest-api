@@ -5,6 +5,11 @@ import java.util.Objects;
 
 public class Restaurante {
 
+	private static final int NOME_MAX_LENGTH = 150;
+	private static final int ENDERECO_MAX_LENGTH = 250;
+	private static final int TIPO_COZINHA_MAX_LENGTH = 100;
+	private static final int HORARIO_FUNCIONAMENTO_MAX_LENGTH = 100;
+
 	private Long id;
 	private String nome;
 	private String endereco;
@@ -44,15 +49,23 @@ public class Restaurante {
 	private void validar(String nome, String endereco, String tipoCozinha, String horarioFuncionamento, Long donoId) {
 		if (nome == null || nome.isBlank())
 			throw new IllegalArgumentException("Nome é obrigatório");
+		if (nome.length() > NOME_MAX_LENGTH)
+			throw new IllegalArgumentException("Nome deve ter no máximo 150 caracteres");
 
 		if (endereco == null || endereco.isBlank())
 			throw new IllegalArgumentException("Endereço é obrigatório");
+		if (endereco.length() > ENDERECO_MAX_LENGTH)
+			throw new IllegalArgumentException("Endereço deve ter no máximo 250 caracteres");
 
 		if (tipoCozinha == null || tipoCozinha.isBlank())
 			throw new IllegalArgumentException("Tipo de cozinha é obrigatório");
+		if (tipoCozinha.length() > TIPO_COZINHA_MAX_LENGTH)
+			throw new IllegalArgumentException("Tipo de cozinha deve ter no máximo 100 caracteres");
 
 		if (horarioFuncionamento == null || horarioFuncionamento.isBlank())
 			throw new IllegalArgumentException("Horário de funcionamento é obrigatório");
+		if (horarioFuncionamento.length() > HORARIO_FUNCIONAMENTO_MAX_LENGTH)
+			throw new IllegalArgumentException("Horário de funcionamento deve ter no máximo 100 caracteres");
 
 		if (donoId == null)
 			throw new IllegalArgumentException("Dono é obrigatório");

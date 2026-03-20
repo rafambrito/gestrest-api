@@ -3,6 +3,8 @@ package br.com.gestrest.api.domain.model;
 import java.util.Objects;
 
 public class TipoUsuario {
+    private static final int NOME_MAX_LENGTH = 50;
+
 	private Long id;
     private String nome;
 
@@ -32,6 +34,10 @@ public class TipoUsuario {
         if (nome == null || nome.isBlank()) {
             throw new IllegalArgumentException("Nome do tipo de usuário é obrigatório");
         }
+
+		if (nome.length() > NOME_MAX_LENGTH) {
+			throw new IllegalArgumentException("Nome deve ter no máximo 50 caracteres");
+		}
     }
 
     public Long getId() {
